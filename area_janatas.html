@@ -32,8 +32,8 @@
     .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.2rem;}
     .card-hdr{padding:.9rem 1.5rem;display:flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--white);}
     .card-hdr.teal{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
-    .card-hdr.gold{background:linear-gradient(135deg,#8a5e00,var(--gold-dark));}
-    .card-hdr.purple{background:linear-gradient(135deg,#4a2080,#7b4fc4);}
+    .card-hdr.gold{background:linear-gradient(135deg,var(--teal-dark),var(--teal));;}
+    .card-hdr.purple{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
     .card-body{padding:1.2rem 1.5rem;}
     .field{margin-bottom:1rem;}
     .field:last-child{margin-bottom:0;}
@@ -116,9 +116,9 @@
     <div class="card-hdr purple"> Janatãs do Dia</div>
     <div class="card-body">
       <div class="janata-grid">
-        <div class="field"><label>1º Janatã</label><input type="text" id="janata_1" placeholder="Nome..." class="janata"/></div>
-        <div class="field"><label>2º Janatã</label><input type="text" id="janata_2" placeholder="Nome..." class="janata"/></div>
-        <div class="field"><label>3º Janatã</label><input type="text" id="janata_3" placeholder="Nome..." class="janata"/></div>
+        <div class="field"><label>1º Janatã</label><input type="text" id="janata_1" placeholder="Digite o nome:" class="janata"/></div>
+        <div class="field"><label>2º Janatã</label><input type="text" id="janata_2" placeholder="Digite o nome:" class="janata"/></div>
+        <div class="field"><label>3º Janatã</label><input type="text" id="janata_3" placeholder="Digite o nome:" class="janata"/></div>
       </div>
     </div>
   </div>
@@ -129,23 +129,23 @@
       <div class="regentes-grid">
         <div class="regente-pair">
           <div class="par-title">☀️ Par 1</div>
-          <div class="field"><label>Regente Sol</label><input type="text" id="reg_sol" placeholder="Nome..." class="sol"/></div>
-          <div class="field"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_1" placeholder="Nome..." class="lua"/></div>
+          <div class="field"><label>Regente Sol</label><input type="text" id="reg_sol" placeholder="Digite o nome:" class="sol"/></div>
+          <div class="field"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_1" placeholder="Digite o nome:" class="lua"/></div>
         </div>
         <div class="regente-pair">
           <div class="par-title">✨ Par 2</div>
-          <div class="field"><label>Regente Luz</label><input type="text" id="reg_luz" placeholder="Nome..." class="sol"/></div>
-          <div class="field"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_2" placeholder="Nome..." class="lua"/></div>
+          <div class="field"><label>Regente Luz</label><input type="text" id="reg_luz" placeholder="Digite o nome:" class="sol"/></div>
+          <div class="field"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_2" placeholder="Digite o nome:" class="lua"/></div>
         </div>
         <div class="regente-pair">
           <div class="par-title">🌙 Par 3</div>
-          <div class="field"><label>Regente Lua</label><input type="text" id="reg_lua" placeholder="Nome..." class="lua"/></div>
-          <div class="field"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_1" placeholder="Nome..." class="sol"/></div>
+          <div class="field"><label>Regente Lua</label><input type="text" id="reg_lua" placeholder="Digite o nome:" class="lua"/></div>
+          <div class="field"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_1" placeholder="Digite o nome:" class="sol"/></div>
         </div>
         <div class="regente-pair">
           <div class="par-title">🌙 Par 4</div>
-          <div class="field"><label>Regente Lua Sub.</label><input type="text" id="reg_lua_sub" placeholder="Nome..." class="lua"/></div>
-          <div class="field"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_2" placeholder="Nome..." class="sol"/></div>
+          <div class="field"><label>Regente Lua Sub.</label><input type="text" id="reg_lua_sub" placeholder="Digite o nome:" class="lua"/></div>
+          <div class="field"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_2" placeholder="Digite o nome:" class="sol"/></div>
         </div>
       </div>
     </div>
