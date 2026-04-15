@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Escala de Regentes – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:#009B8D; --teal-dark:#007A6E; --teal-light:#E6F5F4; --teal-mid:#C8ECEA;
+      --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
+      --sol:#F5C400; --lua:#4A90D9;
+      --red:#C0392B; --red-light:#FDECEA;
+      --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
+      --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
+      --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.08);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;}
+    .header{background:linear-gradient(135deg,var(--teal-dark),var(--teal));padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,155,141,.2);}
+    .header-left{display:flex;align-items:center;gap:.8rem;}
+    .header-title{font-size:1rem;font-weight:800;color:var(--white);}
+    .header-sub{font-size:.7rem;color:rgba(255,255,255,.7);font-style:italic;}
+    .header-user{display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:rgba(255,255,255,.85);font-weight:600;}
+    .header-avatar{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:var(--white);border:2px solid rgba(255,255,255,.3);}
+    .logout-btn{background:rgba(255,255,255,.15);border:none;color:var(--white);font-size:.65rem;font-weight:700;padding:.3rem .8rem;border-radius:20px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:background .2s;}
+    .logout-btn:hover{background:rgba(255,255,255,.25);}
+    .main{max-width:760px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+    .page-label{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;}
+    .page-label::before{content:'';width:16px;height:2px;background:var(--teal);}
+    .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.2rem;}
+    .card-hdr{padding:.9rem 1.5rem;display:flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--white);}
+    .card-hdr.teal{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
+    .card-hdr.gold{background:linear-gradient(135deg,#8a5e00,var(--gold-dark));}
+    .card-hdr.purple{background:linear-gradient(135deg,#4a2080,#7b4fc4);}
+    .card-body{padding:1.2rem 1.5rem;}
+    .field{margin-bottom:1rem;}
+    .field:last-child{margin-bottom:0;}
+    .field label{display:block;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+    .field input{width:100%;padding:.7rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.88rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
+    .field input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,155,141,.08);}
+    .field input.sol{border-left:3px solid var(--sol);}
+    .field input.lua{border-left:3px solid var(--lua);}
+    .field input.janata{border-left:3px solid #7b4fc4;}
+    .regentes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .regente-pair{background:var(--bg);border-radius:8px;padding:1rem;border:1px solid var(--border);display:flex;flex-direction:column;gap:.6rem;}
+    .par-title{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-dark);padding-bottom:.5rem;border-bottom:1px solid var(--teal-mid);}
+    .janata-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+    .submit-btn{width:100%;padding:.9rem;background:var(--teal);color:var(--white);border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,155,141,.3);display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.5rem;}
+    .submit-btn:hover:not(:disabled){background:var(--teal-dark);transform:translateY(-1px);}
+    .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+    .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+    .submit-btn.loading .spinner{display:block;}
+    .submit-btn.loading .btn-txt{display:none;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .toast{margin-top:1rem;padding:.8rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;text-align:center;display:none;}
+    .toast.ok{background:#e6f9f0;border:1px solid #34c77b;color:#1a7a4a;display:block;}
+    .toast.err{background:var(--red-light);border:1px solid var(--red);color:var(--red);display:block;}
+    .aprov-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1rem;border:1px solid var(--border);}
+    .aprov-header{padding:.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--border);background:var(--bg);}
+    .aprov-nome{font-size:.95rem;font-weight:800;color:var(--dark);}
+    .aprov-data{font-size:.72rem;color:var(--muted);font-style:italic;margin-top:.1rem;}
+    .aprov-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:700;padding:.25rem .7rem;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
+    .aprov-badge.sol{background:var(--gold-light);color:var(--gold-dark);border:1px solid rgba(212,168,67,.3);}
+    .aprov-badge.lua{background:var(--teal-light);color:var(--teal-dark);border:1px solid var(--teal-mid);}
+    .aprov-body{padding:.9rem 1.2rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+    .aprov-lbl{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem;}
+    .aprov-val{font-size:.82rem;font-weight:600;color:var(--dark);}
+    .aprov-actions{padding:.7rem 1.2rem;display:flex;gap:.7rem;border-top:1px solid var(--border);background:var(--bg);}
+    .btn-aprov{flex:1;padding:.65rem;background:#27ae60;color:#fff;border:none;border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .btn-aprov:hover{background:#219a52;}
+    .btn-reprov{flex:1;padding:.65rem;background:var(--white);color:var(--red);border:1.5px solid rgba(192,57,43,.3);border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .btn-reprov:hover{background:var(--red-light);border-color:var(--red);}
+    @media(max-width:600px){.regentes-grid{grid-template-columns:1fr;}.janata-grid{grid-template-columns:1fr;}.header{padding:0 1rem;}.aprov-body{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div>
+      <div class="header-title">Escala Estrela Candente</div>
+      <div class="header-sub">Gamúrio do Amanhecer · Fortaleza, CE</div>
+    </div>
+  </div>
+  <div class="header-user">
+    <div class="header-avatar" id="headerAvatar">?</div>
+    <span id="headerNome">—</span>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </div>
+</header>
+
+<main class="main">
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">
+    <div>
+      <div class="page-label">Estrela Candente</div>
+      <h1 style="font-size:1.5rem;font-weight:800;color:var(--dark)">Preencher Escala de Regentes</h1>
+    </div>
+    <a href="escala_completa_interna.html" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;background:var(--teal-light);border:1.5px solid var(--teal-mid);color:var(--teal-dark);border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;white-space:nowrap;"
+       onmouseover="this.style.background='var(--teal)';this.style.color='#fff';this.style.borderColor='var(--teal)'"
+       onmouseout="this.style.background='var(--teal-light)';this.style.color='var(--teal-dark)';this.style.borderColor='var(--teal-mid)'">
+      👁 Ver Escala Completa
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr teal">📅 Data da Escala</div>
+    <div class="card-body">
+      <div class="field"><label>Data</label><input type="date" id="data_escala"/></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr purple">🕊️ Janatãs do Dia</div>
+    <div class="card-body">
+      <div class="janata-grid">
+        <div class="field"><label>1º Janatã</label><input type="text" id="janata_1" placeholder="Nome..." class="janata"/></div>
+        <div class="field"><label>2º Janatã</label><input type="text" id="janata_2" placeholder="Nome..." class="janata"/></div>
+        <div class="field"><label>3º Janatã</label><input type="text" id="janata_3" placeholder="Nome..." class="janata"/></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr gold">👑 Regentes</div>
+    <div class="card-body">
+      <div class="regentes-grid">
+        <div class="regente-pair">
+          <div class="par-title">☀️ Par 1</div>
+          <div class="field"><label>Regente Sol</label><input type="text" id="reg_sol" placeholder="Nome..." class="sol"/></div>
+          <div class="field"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_1" placeholder="Nome..." class="lua"/></div>
+        </div>
+        <div class="regente-pair">
+          <div class="par-title">✨ Par 2</div>
+          <div class="field"><label>Regente Luz</label><input type="text" id="reg_luz" placeholder="Nome..." class="sol"/></div>
+          <div class="field"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_2" placeholder="Nome..." class="lua"/></div>
+        </div>
+        <div class="regente-pair">
+          <div class="par-title">🌙 Par 3</div>
+          <div class="field"><label>Regente Lua</label><input type="text" id="reg_lua" placeholder="Nome..." class="lua"/></div>
+          <div class="field"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_1" placeholder="Nome..." class="sol"/></div>
+        </div>
+        <div class="regente-pair">
+          <div class="par-title">🌙 Par 4</div>
+          <div class="field"><label>Regente Lua Sub.</label><input type="text" id="reg_lua_sub" placeholder="Nome..." class="lua"/></div>
+          <div class="field"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_2" placeholder="Nome..." class="sol"/></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="submit-btn" id="submitBtn" onclick="enviar()">
+    <span class="btn-txt">✨ Publicar Escala</span>
+    <div class="spinner"></div>
+  </button>
+  <div class="toast" id="toast"></div>
+
+  <div style="margin-top:2.5rem;padding-top:2rem;border-top:2px solid var(--border)">
+    <div class="page-label">Aprovações</div>
+    <h2 style="font-size:1.2rem;font-weight:800;color:var(--dark);margin-bottom:.3rem">Inscrições Pendentes</h2>
+    <p id="aprovSubtitulo" style="font-size:.82rem;color:var(--muted);margin-bottom:1.2rem;font-style:italic">Carregando...</p>
+    <div id="aprovContainer">
+      <div style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;font-style:italic">
+        <div style="width:28px;height:28px;border:3px solid var(--teal-mid);border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto .8rem"></div>
+        Buscando inscrições...
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5TwDq5RbcNkimvltCBc11GGJf3JE2fm0y4QnuydvjasYg_A-kOajoLXstaQGx9rFl/exec';
+const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
+
+const usuario = sessionStorage.getItem('regente_usuario');
+const auth    = sessionStorage.getItem('regente_auth');
+if (!auth || auth !== 'true') window.location.href = 'login.html';
+
+document.getElementById('headerNome').textContent   = usuario || '—';
+document.getElementById('headerAvatar').textContent = (usuario||'?')[0].toUpperCase();
+
+document.getElementById('data_escala').value = new Date().toISOString().split('T')[0];
+
+const CAMPOS_REG = ['reg_sol','ninfa_lua_1','reg_luz','ninfa_lua_2','reg_lua','ninfa_sol_1','reg_lua_sub','ninfa_sol_2'];
+const CAMPOS_JAN = ['janata_1','janata_2','janata_3'];
+const TODOS = [...CAMPOS_REG, ...CAMPOS_JAN];
+
+document.getElementById('data_escala').addEventListener('change', async function() {
+  const data = this.value;
+  if (!data) return;
+  try {
+    const url  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Regentes&t=${Date.now()}`;
+    const res  = await fetch(url);
+    const text = await res.text();
+    const linhas = splitCSVRows(text).slice(1)
+      .map(l => splitCSV(l))
+      .filter(c => clean(c[2]) === data);
+    if (linhas.length === 0) return;
+    TODOS.forEach((id, idx) => {
+      const col = idx + 3;
+      const val = [...linhas].reverse().find(r => r[col] && clean(r[col]));
+      if (val) document.getElementById(id).value = clean(val[col]);
+    });
+    showToast('ok', '📋 Dados anteriores carregados.');
+    setTimeout(() => { document.getElementById('toast').className = 'toast'; }, 3000);
+  } catch(e) { console.log('Sem dados anteriores.'); }
+});
+
+function logout() {
+  sessionStorage.clear();
+  window.location.href = 'login.html';
+}
+
+async function enviar() {
+  const btn  = document.getElementById('submitBtn');
+  const data = document.getElementById('data_escala').value;
+  if (!data) { showToast('err', '⚠️ Selecione a data da escala.'); return; }
+  btn.classList.add('loading'); btn.disabled = true;
+  document.getElementById('toast').className = 'toast';
+
+  const payload = {
+    aba:'Regentes', timestamp:new Date().toLocaleString('pt-BR'),
+    login:usuario||'', data_escala:data,
+    reg_sol:     document.getElementById('reg_sol').value.trim(),
+    ninfa_lua_1: document.getElementById('ninfa_lua_1').value.trim(),
+    reg_luz:     document.getElementById('reg_luz').value.trim(),
+    ninfa_lua_2: document.getElementById('ninfa_lua_2').value.trim(),
+    reg_lua:     document.getElementById('reg_lua').value.trim(),
+    ninfa_sol_1: document.getElementById('ninfa_sol_1').value.trim(),
+    reg_lua_sub: document.getElementById('reg_lua_sub').value.trim(),
+    ninfa_sol_2: document.getElementById('ninfa_sol_2').value.trim(),
+    janata_1:    document.getElementById('janata_1').value.trim(),
+    janata_2:    document.getElementById('janata_2').value.trim(),
+    janata_3:    document.getElementById('janata_3').value.trim()
+  };
+
+  const iframeName = 'reg_'+Date.now();
+  const iframe = document.createElement('iframe');
+  iframe.name=iframeName; iframe.style.display='none';
+  document.body.appendChild(iframe);
+  const form = document.createElement('form');
+  form.method='POST'; form.action=SCRIPT_URL;
+  form.target=iframeName; form.style.display='none';
+  Object.keys(payload).forEach(key => {
+    const input=document.createElement('input');
+    input.type='hidden'; input.name=key; input.value=payload[key];
+    form.appendChild(input);
+  });
+  document.body.appendChild(form);
+  form.submit();
+
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.disabled=false;
+    document.body.removeChild(form); document.body.removeChild(iframe);
+    showToast('ok','✅ Escala publicada com sucesso!');
+    TODOS.forEach(id => document.getElementById(id).value='');
+  },2000);
+}
+
+function showToast(tipo, msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${tipo}`;
+  t.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ── APROVAÇÕES ──
+let diasJanata = [], pendentes = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await carregarDiasJanata();
+  await carregarPendentes();
+});
+
+async function carregarDiasJanata() {
+  try {
+    const url  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Janatas&t=${Date.now()}`;
+    const res  = await fetch(url);
+    const text = await res.text();
+    diasJanata = splitCSVRows(text).slice(1)
+      .map(l => splitCSV(l).map(c => clean(c)))
+      .filter(c => c[1].toLowerCase() === (usuario||'').toLowerCase())
+      .map(c => parseInt(c[0]));
+    document.getElementById('aprovSubtitulo').textContent = diasJanata.length > 0
+      ? `Você é Janatã nos dias: ${diasJanata.join(', ')} de cada mês`
+      : 'Você não é Janatã de nenhum dia cadastrado.';
+  } catch(e) { console.error(e); }
+}
+
+async function carregarPendentes() {
+  try {
+    const url  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=P%C3%A1gina1&t=${Date.now()}`;
+    const res  = await fetch(url);
+    const text = await res.text();
+    pendentes = splitCSVRows(text).slice(1).map(l => {
+      const c = splitCSV(l);
+      return {
+        nome:clean(c[1]), contato:clean(c[2]), data_escala:clean(c[3]),
+        mediunidade:clean(c[4]), classificacao:clean(c[5]),
+        tipo_escala:clean(c[6]), outra_escala:clean(c[7])||'',
+        acompanhante:clean(c[8])||'', acomp_med:clean(c[9])||'',
+        acomp_class:clean(c[10])||'', status:clean(c[11])||'Pendente'
+      };
+    }).filter(r => {
+      if (!r.nome||!r.data_escala) return false;
+      const dia = parseInt((r.data_escala.split('-')[2])||'0');
+      return diasJanata.includes(dia) && r.status === 'Pendente';
+    });
+    renderPendentes();
+  } catch(e) { console.error(e); }
+}
+
+function renderPendentes() {
+  const container = document.getElementById('aprovContainer');
+  if (pendentes.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;font-style:italic">✅ Nenhuma inscrição pendente para os seus dias.</div>';
+    return;
+  }
+  container.innerHTML = pendentes.map((p, idx) => {
+    const [yyyy,mm,dd] = (p.data_escala||'').split('-');
+    const isSol = p.mediunidade === 'Doutrinador(a)';
+    return `
+      <div class="aprov-card">
+        <div class="aprov-header">
+          <div>
+            <div class="aprov-nome">${p.nome}</div>
+            <div class="aprov-data">📅 ${dd}/${mm}/${yyyy}</div>
+          </div>
+          <span class="aprov-badge ${isSol?'sol':'lua'}">${isSol?'☀️ Sol':'🌙 Lua'}</span>
+        </div>
+        <div class="aprov-body">
+          <div><div class="aprov-lbl">Classificação</div><div class="aprov-val">${p.classificacao||'—'}</div></div>
+          <div><div class="aprov-lbl">Consagração</div><div class="aprov-val">${p.outra_escala||p.tipo_escala||'—'}</div></div>
+          ${p.acompanhante?`<div><div class="aprov-lbl">Par</div><div class="aprov-val">${p.acompanhante} · ${p.acomp_med==='Sol'?'☀️':'🌙'} ${p.acomp_class||''}</div></div>`:''}
+          <div><div class="aprov-lbl">Contato</div><div class="aprov-val">${p.contato||'—'}</div></div>
+        </div>
+        <div class="aprov-actions">
+          <button class="btn-reprov" onclick="aprovar(${idx},'Reprovado')">✕ Reprovar</button>
+          <button class="btn-aprov"  onclick="aprovar(${idx},'Aprovado')">✓ Aprovar</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function aprovar(idx, status) {
+  const p = pendentes[idx];
+  const params = new URLSearchParams({
+    aba: 'aprovacao', nome: p.nome,
+    data_escala: p.data_escala, status: status, aprovador: usuario||''
+  });
+
+  // Usar fetch no-cors — dispara o GET sem bloquear por CORS
+  fetch(`${SCRIPT_URL}?${params.toString()}`, {mode:'no-cors'})
+    .catch(() => {})
+    .finally(() => {
+      pendentes.splice(idx, 1);
+      renderPendentes();
+      showToast(
+        status==='Aprovado'?'ok':'err',
+        status==='Aprovado'?`✅ ${p.nome} aprovado(a)!`:`✕ ${p.nome} reprovado(a).`
+      );
+    });
+}
+
+function splitCSV(line) {
+  const res=[]; let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){inQ=!inQ;}
+    else if(ch===','&&!inQ){res.push(cur);cur='';}
+    else{cur+=ch;}
+  }
+  res.push(cur); return res;
+}
+function splitCSVRows(text) {
+  const rows=[]; let cur='',inQ=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(ch==='"'){inQ=!inQ;cur+=ch;}
+    else if((ch==='\n'||ch==='\r')&&!inQ){
+      if(ch==='\r'&&text[i+1]==='\n')i++;
+      if(cur.trim())rows.push(cur);
+      cur='';
+    }else{cur+=ch;}
+  }
+  if(cur.trim())rows.push(cur);
+  return rows;
+}
+function clean(s=''){return s.replace(/^"|"$/g,'').trim();}
+</script>
+</body>
+</html>

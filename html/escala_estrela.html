@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estrela Candente – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/escalas.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <h1>✨ Estrela Candente</h1>
+    <p>Gamúrio do Amanhecer · Fortaleza, CE</p>
+  </div>
+</header>
+
+<!-- SELETOR DE DATA -->
+<section class="date-section">
+  <div class="container">
+    <input type="date" id="datePicker"/>
+    <button onclick="loadScale()">Ver escala</button>
+    <button onclick="loadToday()">Hoje</button>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<section class="summary-section">
+  <div class="container">
+    <div class="card summary-card">
+      <div class="summary-date" id="dataTitulo">Carregando...</div>
+      <div class="summary-sub" id="observacao"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TABELA DE PARES -->
+<section class="escalados-section hidden" id="escaladosSection">
+  <div class="container">
+    <div class="card">
+
+      <!-- Header PARES -->
+      <div class="pares-header">PARES</div>
+
+      <!-- Subheader SOL / LUA -->
+      <table class="pares-table">
+        <thead>
+          <tr>
+            <th class="th-num"></th>
+            <th class="th-sol">☀️ SOL — Doutrinador(a) <span id="totalSol" class="th-badge">0</span></th>
+            <th class="th-status-sol">Disponibilidade</th>
+            <th class="th-lua">🌙 LUA — Apará <span id="totalLua" class="th-badge">0</span></th>
+            <th class="th-status-lua">Disponibilidade</th>
+          </tr>
+        </thead>
+        <tbody id="paresContainer">
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</section>
+
+<!-- SEM DADOS -->
+<section class="no-data hidden" id="noData">
+  <div class="container">
+    <div class="card no-data-card">
+      <span class="nd-icon">📭</span>
+      <p class="nd-title">Nenhum médium inscrito</p>
+      <p class="nd-sub">Não há inscrições para a data selecionada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <div class="container">
+    Gamúrio do Amanhecer · Fortaleza, CE &nbsp;·&nbsp;
+    <a href="escala.html" style="color:var(--teal);font-weight:600">Inscrever-se na escala →</a>
+  </div>
+</footer>
+
+<script src="js/escalas.js"></script>
+</body>
+</html>

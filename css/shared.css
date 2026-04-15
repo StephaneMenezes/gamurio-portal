@@ -1,0 +1,162 @@
+/* ═══════════════════════════════════════════════════
+   shared.css
+   Variáveis de marca, reset e utilitários globais
+   Usado por: index.html e portal.html
+═══════════════════════════════════════════════════ */
+
+/* ── BRAND TOKENS ── */
+:root {
+  /* Paleta principal (Manual de Redes Sociais) */
+  --teal:        #009B8D;
+  --teal-dark:   #007A6E;
+  --teal-light:  #E6F5F4;
+  --teal-mid:    #C8ECEA;
+
+  --red:         #C0392B;
+  --red-dark:    #A93226;
+  --red-light:   #FDECEA;
+
+  --gold:        #D4A843;
+  --gold-dark:   #a07a1e;
+  --gold-light:  #FDF3DC;
+
+  --dark:        #1B2B3A;
+  --mid:         #3D5166;
+  --muted:       #7A92A3;
+
+  --white:       #FFFFFF;
+  --bg:          #F5F9F8;
+  --border:      rgba(0, 155, 141, 0.15);
+
+  /* Portal role colors */
+  --c-admin:     #C9A84C;
+  --c-coord:     #4ECFDB;
+  --c-cmd:       #E08C2A;
+  --c-medium:    #9B7FCC;
+
+  /* Typography */
+  --font-sans:   'Montserrat', sans-serif;
+  --font-serif:  'Lora', serif;
+
+  /* Spacing */
+  --section-pad: 5rem 2rem;
+  --container:   1100px;
+
+  /* Radius */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-pill: 30px;
+
+  /* Shadows */
+  --shadow-sm:   0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md:   0 4px 24px rgba(0, 0, 0, 0.10);
+  --shadow-lg:   0 8px 40px rgba(0, 0, 0, 0.14);
+  --shadow-teal: 0 4px 20px rgba(0, 155, 141, 0.25);
+
+  /* Transitions */
+  --transition:  0.25s ease;
+}
+
+/* ── RESET ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  /* background e color definidos por main.css ou portal.css */
+}
+
+img, svg { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: inherit; }
+a { text-decoration: none; }
+ul { list-style: none; }
+
+/* ── UTILITIES ── */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Section header pattern */
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 2px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+.section-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.section-desc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.8;
+}
+
+/* Reveal animation (driven by JS IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Shared buttons */
+.btn-mestrado {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--teal);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-pill);
+  border: none;
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+  box-shadow: var(--shadow-teal);
+  white-space: nowrap;
+}
+.btn-mestrado:hover {
+  background: var(--teal-dark);
+  box-shadow: 0 6px 24px rgba(0, 155, 141, 0.4);
+  transform: translateY(-1px);
+  color: var(--white);
+}

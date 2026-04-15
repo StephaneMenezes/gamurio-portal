@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamúrio do Amanhecer – Fortaleza, CE</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/horarios.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     NAVEGAÇÃO
+════════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-sun">
+      <img src="image/ministro_gamurio.jpeg" alt="Ministro Gamúrio" class="nav-logo-img-logo"/>
+    </div>
+    <div class="nav-logo-text">
+      <strong>Gamúrio do Amanhecer</strong>
+      <span>· Fortaleza · CE</span>
+    </div>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Início</a></li>
+    <li><a href="#vestimenta">Normas</a></li>
+    <li><a href="#horarios">Horários</a></li>
+    <li><a href="#duvidas">Dúvidas</a></li>
+    <li><a href="#historia">História</a></li>
+    <li><a href="#estrela">Estrela Candente</a></li>
+    <li><a href="#localizacao">Localização</a></li>
+    <li>
+      <a href="portal.html" class="btn-mestrado">
+        🔒 Área do Mestrado
+      </a>
+    </li>
+  </ul>
+
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════
+     HERO / HOME
+════════════════════════════════════ -->
+<section id="home">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-arc hero-arc-1"></div>
+  <div class="hero-arc hero-arc-2"></div>
+  <div class="hero-arc hero-arc-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <h1 class="hero-title">
+        Sejam Bem-vindos ao<br>
+        <span class="highlight">Gamúrio do Amanhecer</span>
+      </h1>
+      <p class="hero-subtitle">Fortaleza · Ceará · Brasil</p>
+      <p class="hero-phrase">"Amor, humildade e tolerância."</p>
+      <div class="hero-ctas">
+        <a href="/escala_completa_interna.html" class="btn-primary-hero"> Escala Estrela Candente </a>
+        <a href="#horarios" class="btn-outline-hero">Horários de Funcionamento</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="schedule-card">
+        <div class="schedule-card-header">
+          <span class="icon">🗓️</span>
+          <div>
+            <h3>Próximos Trabalhos</h3>
+            <p>Portões abrem 30 min antes</p>
+          </div>
+        </div>
+        <div class="schedule-items">
+          <div class="schedule-item">
+            <div class="schedule-dot"></div>
+            <div>
+              <div class="schedule-day">Quarta-feira</div>
+              <div class="schedule-time">Início às 19h30</div>
+              <div class="schedule-type">Trabalho Espiritual</div>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-dot"></div>
+            <div>
+              <div class="schedule-day">Sexta-feira</div>
+              <div class="schedule-time">Início às 19h30</div>
+              <div class="schedule-type">Trabalho Espiritual</div>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-dot gold"></div>
+            <div>
+              <div class="schedule-day">Domingo</div>
+              <div class="schedule-time">Início às 08h00</div>
+              <div class="schedule-type">Trabalho Especial</div>
+            </div>
+          </div>
+        </div>
+        <div class="schedule-note">
+          ℹ️ Datas especiais são divulgadas pelo Instagram.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     VESTIMENTA
+════════════════════════════════════ -->
+<section id="vestimenta">
+  <div class="container">
+
+    <div class="reveal">
+      <div class="section-label">Orientações de Entrada</div>
+      <h2 class="section-title">Normas de Vestimenta</h2>
+      <p class="section-desc">Para entrar no templo, pedimos que todos respeitem as normas abaixo, mantendo o ambiente de respeito e sacralidade.</p>
+    </div>
+
+    <div class="normas-intro reveal">
+      <p class="eyebrow">Senhores(as) Pacientes</p>
+      <h3>Solicitamos a gentileza que atendam as normas abaixo</h3>
+      <p class="sub">Vale do Amanhecer de Fortaleza – CE</p>
+    </div>
+
+    <div class="normas-grid reveal">
+      <div class="norma-card">
+        <div class="norma-card-header">
+          <span class="icon">🚫</span>
+          <h4>Não é Permitido — Mulheres</h4>
+        </div>
+        <ul class="norma-list">
+          <li>Saias curtas / roupas coladas</li>
+          <li>Bermudas acima do joelho</li>
+          <li>Roupas decotadas / transparentes</li>
+          <li>Blusas de alças / costas aparentes</li>
+        </ul>
+      </div>
+      <div class="norma-card">
+        <div class="norma-card-header">
+          <span class="icon">🚫</span>
+          <h4>Não é Permitido — Homens</h4>
+        </div>
+        <ul class="norma-list">
+          <li>Qualquer tipo de bermudas</li>
+          <li>Camiseta regata</li>
+          <li>Blusas abertas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tambem-grid reveal">
+      <div class="tambem-card">
+        <div class="tc-icon">🔇</div>
+        <div>
+          <h4>Celular</h4>
+          <p>Manter o celular desligado ou no modo silencioso durante todo o trabalho.</p>
+        </div>
+      </div>
+      <div class="tambem-card">
+        <div class="tc-icon">🚗</div>
+        <div>
+          <h4>Som no Carro</h4>
+          <p>Não permanecer no carro com o som ligado nas dependências do templo.</p>
+        </div>
+      </div>
+      <div class="tambem-card">
+        <div class="tc-icon">👶</div>
+        <div>
+          <h4>Crianças</h4>
+          <p>Manter as crianças junto a si durante toda a visita ao templo.</p>
+        </div>
+      </div>
+      <div class="tambem-card">
+        <div class="tc-icon">🙏</div>
+        <div>
+          <h4>Respeito</h4>
+          <p>Manter postura respeitosa e silenciosa durante os trabalhos espirituais.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="obs-banner reveal">
+      ℹ️ <strong>Observação:</strong>&nbsp;
+      Dúvidas? Favor procurar os recepcionistas na entrada do templo.
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     HORÁRIOS
+════════════════════════════════════ -->
+<section id="horarios">
+  <div class="container">
+
+    <div class="reveal">
+      <div class="section-label">Funcionamento</div>
+      <h2 class="section-title">Horários & Calendário</h2>
+      <p class="section-desc">Confira os horários dos trabalhos abertos ao público e o calendário oficial de atividades doutrinárias 2026.</p>
+    </div>
+
+    <!-- ── DUAS COLUNAS ── -->
+    <div class="hor-layout reveal">
+
+      <!-- COLUNA 1: HORÁRIOS DOS PACIENTES -->
+      <div class="hor-col">
+        <div class="hor-col-header">
+          <span class="hor-col-ico">🙏</span>
+          <div>
+            <div class="hor-col-label">Aberto ao público</div>
+            <h3 class="hor-col-title">Horários dos Trabalhos</h3>
+          </div>
+        </div>
+
+        <div class="hor-list">
+          <div class="hor-item">
+            <div class="hor-item-left">
+              <span class="hor-item-ico">🌙</span>
+              <div>
+                <div class="hor-item-day">Quarta-feira</div>
+                <div class="hor-item-type">Trabalho Espiritual</div>
+              </div>
+            </div>
+            <div class="hor-item-right">
+              <div class="hor-item-time">19h30</div>
+              <div class="hor-item-gate">Portões: 19h00</div>
+            </div>
+          </div>
+
+          <div class="hor-item">
+            <div class="hor-item-left">
+              <span class="hor-item-ico">⭐</span>
+              <div>
+                <div class="hor-item-day">Sexta-feira</div>
+                <div class="hor-item-type">Trabalho Espiritual</div>
+              </div>
+            </div>
+            <div class="hor-item-right">
+              <div class="hor-item-time">19h30</div>
+              <div class="hor-item-gate">Portões: 19h00</div>
+            </div>
+          </div>
+
+          <div class="hor-item destaque">
+            <div class="hor-item-left">
+              <span class="hor-item-ico">🌅</span>
+              <div>
+                <div class="hor-item-day">Domingo</div>
+                <div class="hor-item-type">Trabalho Especial</div>
+              </div>
+            </div>
+            <div class="hor-item-right">
+              <div class="hor-item-time">08h00</div>
+              <div class="hor-item-gate">Portões: 07h30</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hor-note">
+          📱 Datas especiais são divulgadas pelo <strong>Instagram</strong>. Fique atento!
+        </div>
+      </div>
+
+      <!-- COLUNA 2: CALENDÁRIO DOUTRINÁRIO -->
+      <div class="hor-col">
+        <div class="hor-col-header gold">
+          <span class="hor-col-ico">📅</span>
+          <div>
+            <div class="hor-col-label">Atividades Doutrinárias</div>
+            <h3 class="hor-col-title">Calendário Oficial 2026</h3>
+          </div>
+        </div>
+
+        <div class="cal-table-wrap">
+          <table class="cal-table">
+            <thead>
+              <tr>
+                <th>Mês</th>
+                <th>Angical</th>
+                <th>Sessão Branca</th>
+                <th class="cal-th-alaba" colspan="7">Alabá — Lua Cheia</th>
+                <th>Bênção</th>
+                <th>Batizado</th>
+              </tr>
+              <tr class="cal-sub">
+                <th colspan="3"></th>
+                <th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="cal-mes">Janeiro</td><td><b>12</b></td><td><b>19</b></td><td>31</td><td>1</td><td>2</td><td class="cal-lua">3</td><td>4</td><td>5</td><td>6</td><td><b>04</b></td><td><b>25</b></td></tr>
+              <tr><td class="cal-mes">Fevereiro</td><td><b>16</b></td><td><b>23</b></td><td>29</td><td>30</td><td>31</td><td class="cal-lua">1</td><td>2</td><td>3</td><td>4</td><td><b>01</b></td><td><b>22</b></td></tr>
+              <tr><td class="cal-mes">Março</td><td><b>16</b></td><td><b>23</b></td><td>28</td><td>1</td><td>2</td><td class="cal-lua">3</td><td>4</td><td>5</td><td>6</td><td><b>01</b></td><td><b>29</b></td></tr>
+              <tr><td class="cal-mes">Abril</td><td><b>13</b></td><td><b>20</b></td><td>29</td><td>30</td><td>31</td><td class="cal-lua">1</td><td>2</td><td>3</td><td>4</td><td><b>05</b></td><td><b>26</b></td></tr>
+              <tr><td class="cal-mes">Maio</td><td><b>11</b></td><td><b>18</b></td><td>28</td><td>29</td><td>30</td><td class="cal-lua">1</td><td>2</td><td>3</td><td>4</td><td><b>03</b></td><td><b>31</b></td></tr>
+              <tr><td class="cal-mes">Junho</td><td><b>15</b></td><td><b>22</b></td><td>26</td><td>27</td><td>28</td><td class="cal-lua">29</td><td>30</td><td>1</td><td>2</td><td><b>07</b></td><td><b>28</b></td></tr>
+              <tr><td class="cal-mes">Julho</td><td><b>13</b></td><td><b>20</b></td><td>26</td><td>27</td><td>28</td><td class="cal-lua">29</td><td>30</td><td>31</td><td>1</td><td><b>05</b></td><td><b>26</b></td></tr>
+              <tr><td class="cal-mes">Agosto</td><td><b>10</b></td><td><b>24</b></td><td>25</td><td>26</td><td>27</td><td class="cal-lua">28</td><td>29</td><td>30</td><td>31</td><td><b>02</b></td><td><b>30</b></td></tr>
+              <tr><td class="cal-mes">Setembro</td><td><b>14</b></td><td><b>21</b></td><td>23</td><td>24</td><td>25</td><td class="cal-lua">26</td><td>27</td><td>28</td><td>29</td><td><b>06</b></td><td><b>27</b></td></tr>
+              <tr><td class="cal-mes">Outubro</td><td><b>12</b></td><td><b>19</b></td><td>23</td><td>24</td><td>25</td><td class="cal-lua">26</td><td>27</td><td>28</td><td>29</td><td><b>04</b></td><td><b>25</b></td></tr>
+              <tr><td class="cal-mes">Novembro</td><td><b>16</b></td><td><b>23</b></td><td>21</td><td>22</td><td>23</td><td class="cal-lua">24</td><td>25</td><td>26</td><td>27</td><td><b>01</b></td><td><b>29</b></td></tr>
+              <tr><td class="cal-mes">Dezembro</td><td><b>14</b></td><td><b>21</b></td><td>20</td><td>21</td><td>22</td><td class="cal-lua">23</td><td>24</td><td>25</td><td>26</td><td><b>06</b></td><td><b>27</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cal-legend">
+          <span class="cal-legend-dot gold"></span> Lua Cheia (Alabá principal)
+          &nbsp;·&nbsp; Templos CE/RN
+        </div>
+      </div>
+
+    </div><!-- /hor-layout -->
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     DÚVIDAS FREQUENTES
+════════════════════════════════════ -->
+<section id="duvidas">
+  <div class="container">
+
+    <div class="reveal">
+      <div class="section-label">Perguntas & Respostas</div>
+      <h2 class="section-title">Dúvidas Frequentes</h2>
+      <p class="section-desc">Respondemos as perguntas mais comuns. Para trabalhos específicos, acompanhe o Instagram.</p>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item reveal">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Qualquer pessoa pode visitar o templo?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-body"><div class="faq-body-inner">
+         <b> Resposta: </b> Sim. O templo está de portas abertas para todas as pessoas que buscam acolhimento espiritual, independentemente de religião, 
+          credo ou trajetória. As visitas são livres e todos são bem-vindos. Ainda assim, é importante respeitar os horários de 
+          funcionamento e seguir as orientações de vestimenta indicadas pelo templo para garantir uma boa experiência para todos.
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Preciso fazer cadastro para entrar?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-body"><div class="faq-body-inner">
+         <b> Resposta: </b> Não. Para participar das atividades abertas ao público não é necessário qualquer tipo de cadastro prévio. 
+          Basta chegar e seguir as orientações dos mestres recepcionistas. 
+          Serão eles que orientaram sobre os trabalhos e atendimentos. 
+        </div></div>
+      </div>
+
+           <div class="faq-item reveal">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Preciso usar roupas brancas para entrar?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-body"><div class="faq-body-inner">
+         <b> Resposta: </b> <p>Não é obrigatório. Não há exigência de cor específica para pacientes — você pode usar qualquer cor que desejar.</p>
+          <p style="margin-top:0.8rem;">Porém, é necessário respeitar as orientações de vestimenta do templo:</p>
+ 
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:0.8rem;">
+            <div style="background:var(--red-light);border-left:3px solid var(--red);border-radius:6px;padding:0.8rem 1rem;">
+              <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem;">🚫 Mulheres</div>
+              <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+                <li style="font-size:0.82rem;color:var(--dark);display:flex;gap:0.4rem"><span style="color:var(--red);font-weight:700;flex-shrink:0">•</span>Saias curtas / roupas coladas</li>
+                <li style="font-size:0.82rem;color:var(--dark);display:flex;gap:0.4rem"><span style="color:var(--red);font-weight:700;flex-shrink:0">•</span>Bermudas acima do joelho</li>
+                <li style="font-size:0.82rem;color:var(--dark);display:flex;gap:0.4rem"><span style="color:var(--red);font-weight:700;flex-shrink:0">•</span>Roupas decotadas / transparentes</li>
+                <li style="font-size:0.82rem;color:var(--dark);display:flex;gap:0.4rem"><span style="color:var(--red);font-weight:700;flex-shrink:0">•</span>Blusas de alças / costas aparentes</li>
+              </ul>
+            </div>
+            <div style="background:var(--red-light);border-left:3px solid var(--red);border-radius:6px;padding:0.8rem 1rem;">
+              <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem;">🚫 Homens</div>
+              <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+                <li style="font-size:0.82rem;color:var(--dark);display:flex;gap:0.4rem"><span style="color:var(--red);font-weight:700;flex-shrink:0">•</span>Qualquer tipo de bermudas</li>
+                <li style="font-size:0.82rem;color:var(--dark);display:flex;gap:0.4rem"><span style="color:var(--red);font-weight:700;flex-shrink:0">•</span>Camiseta regata</li>
+                <li style="font-size:0.82rem;color:var(--dark);display:flex;gap:0.4rem"><span style="color:var(--red);font-weight:700;flex-shrink:0">•</span>Blusas abertas</li>
+              </ul>
+            </div>
+          </div>
+ 
+          <div style="margin-top:0.8rem;background:var(--teal-light);border-left:3px solid var(--teal);border-radius:6px;padding:0.7rem 1rem;font-size:0.82rem;color:var(--teal-dark);font-weight:500;">
+            ✅ Seguindo essas orientações, o paciente pode usar quaisquer roupas ou cores que desejar.
+          </div>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Os trabalhos são cobrados?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-body"><div class="faq-body-inner">
+         <b> Resposta: </b> <p> Não. Todos os atendimentos espirituais são totalmente gratuitos. </p>
+          <p> O templo não realiza cobranças por qualquer tipo de trabalho mediúnico ou assistência espiritual. As portas permanecem abertas para acolher quem necessita, sem qualquer custo.</p>
+          O Gamúrio do Amanhecer é mantido pelos próprios mestres, que se dedicam à caridade e ao funcionamento do templo. Todos os custos são assumidos voluntariamente por eles, por meio de doações internas que sustentam o espaço e suas atividades.
+          Por esse motivo, doações, pagamentos ou qualquer forma de agradecimento financeiro por parte dos pacientes não podem ser aceitos. Todo o trabalho é realizado exclusivamente pela caridade. </span> 
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Posso levar crianças?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-body"><div class="faq-body-inner">
+          <b> Resposta: </b>Sim. Crianças podem acompanhar os responsáveis, desde que permaneçam sob supervisão durante todo o tempo. 
+          <p> Algumas atividades, porém, podem ter restrições por exigirem silêncio, concentração ou por terem idade mínima para participação. </p>
+          <p>Além disso, é importante destacar que pessoas com crianças de colo têm prioridade no atendimento, conforme estabelece a <b>Lei nº 10.048/2000 </b>, que garante atendimento preferencial a pessoas com crianças de colo, gestantes, lactantes, idosos e pessoas com deficiência.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Como saber sobre datas especiais como Angical e Sessão Branca?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-body"><div class="faq-body-inner">
+          <b>Resposta:</b> O Angical ocorre sempre na segunda-feira mais próxima ao dia 13 de cada mês. Já a Sessão Branca é realizada na segunda-feira seguinte ao Angical.
+          <p>Além disso, as datas são divulgadas com antecedência no próprio templo e nos canais oficiais de comunicação. Recomendamos acompanhar o calendário disponível no site e as atualizações periódicas para confirmar cada programação.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Posso tirar fotos dentro do templo?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-body"><div class="faq-body-inner">
+         <b>Resposta: </b> O uso de celulares é permitido apenas na área externa do templo, sendo proibido dentro dos ambientes de trabalho espiritual externos — como Estrela Sublimação, Turigano, Alabá e Estrela Candente — para garantir silêncio, concentração e respeito aos rituais.
+          <p> Além disso, é estritamente proibido fotografar momentos de incorporação. Dependendo da atividade ou do momento espiritual, fotografias podem ser restritas para preservar o ambiente e o recolhimento dos trabalhos, além da individualidade de cada mestre ou ninfa.
+          Na dúvida, consulte sempre um recepcionista se pode ou não fotografar. </p>
+        
+          </div>
+        </div>
+      </div>
+
+    <div class="faq-item reveal">
+          <button class="faq-btn" onclick="toggleFaq(this)">
+            <span class="faq-q">O que devo fazer se não conseguir realizar todos os trabalhos recomendados nos Tronos no mesmo dia? </span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body"><div class="faq-body-inner">
+          <b>Resposta: </b> Não tem problema! Alguns trabalhos — como Turigano, Estrela Sublimação e Alabá — são realizados apenas em dias específicos. Por isso, caso não consiga fazê-los no mesmo dia, basta guardar o papel recebido nos Tronos e realizar o trabalho em outra visita ao templo.
+            <p> Ainda assim, é fundamental cumprir à risca a determinação do Preto Velho. Repetir um trabalho que não foi orientado, deixar de realizar algum, ou executar trabalhos que não foram recomendados — exceto os de passagem livre, como o Sudálio — pode comprometer o processo de cura física e espiritual que você foi buscar.</p>
+          </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     HISTÓRIA
+════════════════════════════════════ -->
+<section id="historia">
+  <div class="container">
+
+    <div class="reveal">
+      <div class="section-label">Nossas Raízes</div>
+      <h2 class="section-title">História do Templo</h2>
+    </div>
+
+    <div class="historia-grid">
+      <div class="historia-placeholder reveal">
+        <span class="ph-icon">📜</span>
+        <p>Esta seção está sendo preparada com carinho pela equipe do templo.</p>
+        <p>Conteúdo em revisão — Bianca e Marco Tulio.</p>
+        <span class="coming-tag">Em breve</span>
+      </div>
+      <div class="reveal">
+        <div class="section-label" style="margin-bottom:1rem;">Linha do Tempo</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">1959</div>
+            <div class="tl-text">Tia Neiva recebe as primeiras revelações espirituais no Mato Grosso, dando início à doutrina do Vale do Amanhecer.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">1969</div>
+            <div class="tl-text">Fundação do Templo Mãe em Planaltina-DF, centro irradiador da doutrina para todo o Brasil.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Expansão Nacional</div>
+            <div class="tl-text">A doutrina expande-se para todos os estados, tornando-se um dos maiores movimentos espirituais do país.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Fortaleza – CE</div>
+            <div class="tl-text">A luz do amanhecer chega ao Ceará e ao coração de Fortaleza. <em>(História local em elaboração)</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     ESTRELA CANDENTE
+════════════════════════════════════ -->
+<section id="estrela">
+  <div class="container">
+
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;">Estrela Candente Gamúrio do Amanhecer</div>
+      <h2 class="section-title">Estrela Candente</h2>
+    </div>
+
+    <div class="estrela-content">
+      <div>
+        <div class="estrela-text reveal">
+          <p>O Templo Gamúrio do Amanhecer realiza, no próximo dia <strong>1º de maio de 2026</strong>, a inauguração da Estrela Candente — um dos mais importantes trabalhos espirituais da Doutrina do Vale do Amanhecer. A cerimônia será aberta ao público e à imprensa.</p>
+
+          <p>A data marca simbolicamente a realização do primeiro trabalho de Estrela Candente na Terra, ocorrido em <strong>1º de maio de 1976</strong>, conduzido pela clarividente Tia Neiva, fundadora da doutrina.</p>
+
+          <p>A Estrela Candente é um espaço ritualístico a céu aberto, destinado à realização de trabalhos espirituais voltados ao equilíbrio energético, auxílio coletivo e desenvolvimento mediúnico, sendo considerada um importante ponto de força espiritual dentro do templo.</p>
+
+          <p>Sua implantação representa um marco na organização espiritual da casa, exigindo preparo, disciplina e médiuns capacitados para atuar com responsabilidade nos rituais.</p>
+        </div>
+
+        <div class="estrela-cards reveal">
+          <div class="estrela-card">
+            <div class="ec-num">📅</div>
+            <h4>Data</h4>
+            <p>1º de maio de 2026</p>
+          </div>
+
+          <div class="estrela-card">
+            <div class="ec-num">🕘</div>
+            <h4>Horário</h4>
+            <p>A partir das 11h45<br>(ritual às 12h15)</p>
+          </div>
+
+          <div class="estrela-card">
+            <div class="ec-num">📍</div>
+            <h4>Local</h4>
+            <p>R. dos Colibris, 58<br>Coaçu, Eusébio - CE</p>
+          </div>
+
+          <div class="estrela-card">
+            <div class="ec-num">✦</div>
+            <h4>Aberto ao Público</h4>
+            <p>Evento aberto à comunidade e à imprensa para acompanhamento e registro.</p>
+          </div>
+        </div>
+
+        <div class="estrela-text reveal" style="margin-top:20px;">
+          <p>A programação contará com cerimônias tradicionais, reunindo médiuns, visitantes e convidados. O público poderá acompanhar de perto um ritual marcado por organização, simbolismo e participação coletiva.</p>
+
+          <p>A imprensa está especialmente convidada a registrar o evento, que reúne elementos culturais, religiosos e sociais, oferecendo a oportunidade de documentar um dos rituais mais característicos do Vale do Amanhecer.</p>
+
+          <p><strong>Mais informações podem ser obtidas com a organização do templo.</strong></p>
+
+          <p style="margin-top:10px;"><em>Salve Deus!</em></p>
+        </div>
+      </div>
+
+      <div class="estrela-media reveal">
+          <div class="estrela-carousel" id="estrelaCarousel">
+            <div class="estrela-slides">
+              <div class="estrela-slide active">
+                <img src="image/estrela1.png.jpeg" alt="Estrela Candente - foto 1">
+              </div>
+              <div class="estrela-slide">
+                <img src="image/Estrela2.png.jpeg" alt="Estrela Candente - foto 2">
+              </div>
+              <div class="estrela-slide">
+                <img src="image/Estrela3.png.jpeg" alt="Estrela Candente - foto 3">
+              </div>
+              <div class="estrela-slide">
+                <img src="image/Estrela5.jpeg" alt="Estrela Candente - foto 4">
+              </div>
+            </div>
+
+            <button class="estrela-nav prev" type="button" aria-label="Foto anterior">‹</button>
+            <button class="estrela-nav next" type="button" aria-label="Próxima foto">›</button>
+
+            <div class="estrela-dots">
+              <button class="estrela-dot active" type="button" aria-label="Ir para foto 1"></button>
+              <button class="estrela-dot" type="button" aria-label="Ir para foto 2"></button>
+              <button class="estrela-dot" type="button" aria-label="Ir para foto 3"></button>
+              <button class="estrela-dot" type="button" aria-label="Ir para foto 4"></button>
+            </div>
+          </div>
+
+          <div class="estrela-actions">
+            <a href="/formulario.html" target="_blank" class="btn-primary-hero">
+              Dê escala para a Estrela Candente
+            </a>
+            <a href="escala_completa_interna.html" class="btn-outline-hero">
+              Visualize a escala da Estrela Candente
+            </a>
+          </div>
+        </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     LOCALIZAÇÃO
+════════════════════════════════════ -->
+<section id="localizacao">
+  <div class="container">
+
+    <div class="reveal">
+      <div class="section-label">Como Nos Encontrar</div>
+      <h2 class="section-title">Localização</h2>
+    </div>
+
+    <div class="loc-grid">
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.4!2d-38.5434!3d-3.7319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c74899b42d7b1%3A0x6b10c15d4fbfefb8!2sFortaleza%2C%20CE!5e0!3m2!1spt-BR!2sbr!4v1"
+          allowfullscreen="" loading="lazy" title="Mapa Gamúrio do Amanhecer">
+        </iframe>
+      </div>
+      <div class="reveal">
+        <div class="loc-address-card">
+          <h4>Endereço</h4>
+          <p>
+            <strong>Templo Gamúrio do Amanhecer</strong><br>
+            <em style="color:var(--muted);font-size:.85rem;">Endereço completo a confirmar</em><br>
+            Fortaleza – CE
+          </p>
+        </div>
+        <div class="loc-items">
+          <div class="loc-item">
+            <div class="li-icon">🕗</div>
+            <div>
+              <strong>Quarta e Sexta</strong>
+              <span>Portões: 19h00 · Início: 19h30</span>
+            </div>
+          </div>
+          <div class="loc-item">
+            <div class="li-icon">☀️</div>
+            <div>
+              <strong>Domingo</strong>
+              <span>Portões: 07h30 · Início: 08h00</span>
+            </div>
+          </div>
+          <div class="loc-item">
+            <div class="li-icon">📱</div>
+            <div>
+              <strong>Instagram</strong>
+              <span>@gamurio.amanhecer</span>
+            </div>
+          </div>
+          <div class="loc-item">
+            <div class="li-icon">❓</div>
+            <div>
+              <strong>Dúvidas</strong>
+              <span>Procure os recepcionistas na entrada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>Gamúrio do Amanhecer</strong>
+      <p>Fortaleza · Ceará · Brasil</p>
+      <p class="footer-phrase">"Amor, humildade e tolerância."</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#home">Início</a></li>
+      <li><a href="#vestimenta">Normas</a></li>
+      <li><a href="#horarios">Horários</a></li>
+      <li><a href="#duvidas">Dúvidas</a></li>
+      <li><a href="#historia">História</a></li>
+      <li><a href="#estrela">Estrela Candente</a></li>
+      <li><a href="#localizacao">Localização</a></li>
+    </ul>
+    <a href="portal.html" class="btn-mestrado">🔒 Área do Mestrado</a>
+  </div>
+  <p class="footer-copy">© 2025 Templo Gamúrio do Amanhecer – Fortaleza, CE · Todos os direitos reservados</p>
+</footer>
+
+<a href="#home" class="scroll-top" id="scrollTop">↑</a>
+
+<!-- JavaScript -->
+<script src="js/main.js"></script>
+
+</body>
+</html>

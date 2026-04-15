@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aprovação de Escalas – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:#009B8D; --teal-dark:#007A6E; --teal-light:#E6F5F4; --teal-mid:#C8ECEA;
+      --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
+      --sol:#F5C400; --lua:#4A90D9;
+      --green:#27ae60; --green-light:#e9f7ef;
+      --red:#C0392B; --red-light:#FDECEA;
+      --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
+      --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
+      --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.08);
+      --font:'Montserrat',system-ui,sans-serif;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:var(--font); background:var(--bg); color:var(--dark); min-height:100vh; -webkit-font-smoothing:antialiased; }
+
+    /* ── HEADER ── */
+    .header { background:linear-gradient(135deg,var(--teal-dark),var(--teal)); padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid var(--gold); position:sticky; top:0; z-index:100; box-shadow:0 2px 20px rgba(0,155,141,.2); }
+    .header-left { display:flex; align-items:center; gap:.8rem; }
+    .header-title { font-size:1rem; font-weight:800; color:var(--white); }
+    .header-sub { font-size:.7rem; color:rgba(255,255,255,.7); font-style:italic; }
+    .header-user { display:flex; align-items:center; gap:.6rem; font-size:.75rem; color:rgba(255,255,255,.85); font-weight:600; }
+    .header-avatar { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:800; color:var(--white); border:2px solid rgba(255,255,255,.3); }
+    .logout-btn { background:rgba(255,255,255,.15); border:none; color:var(--white); font-size:.65rem; font-weight:700; padding:.3rem .8rem; border-radius:20px; cursor:pointer; letter-spacing:.08em; text-transform:uppercase; transition:background .2s; }
+    .logout-btn:hover { background:rgba(255,255,255,.25); }
+
+    /* ── MAIN ── */
+    .main { max-width:800px; margin:0 auto; padding:2rem 1.5rem 4rem; }
+    .page-label { font-size:.65rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--teal); margin-bottom:.3rem; display:flex; align-items:center; gap:.4rem; }
+    .page-label::before { content:''; width:16px; height:2px; background:var(--teal); }
+    .page-title { margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
+    .page-title h1 { font-size:1.5rem; font-weight:800; color:var(--dark); }
+    .page-title p  { font-size:.85rem; color:var(--muted); margin-top:.3rem; }
+
+    /* ── INFO CARD ── */
+    .info-card { background:var(--teal-light); border:1px solid var(--teal-mid); border-left:4px solid var(--teal); border-radius:var(--radius); padding:1rem 1.2rem; margin-bottom:1.5rem; font-size:.82rem; color:var(--teal-dark); font-weight:500; }
+
+    /* ── INSCRIÇÃO CARD ── */
+    .inscricao-card { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin-bottom:1rem; border:1px solid var(--border); transition:transform .15s; }
+    .inscricao-card:hover { transform:translateY(-2px); }
+    .ic-header { padding:1rem 1.2rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; border-bottom:1px solid var(--border); background:var(--bg); }
+    .ic-nome { font-size:1rem; font-weight:800; color:var(--dark); }
+    .ic-data { font-size:.75rem; color:var(--muted); font-style:italic; margin-top:.15rem; }
+    .ic-badge { display:inline-flex; align-items:center; gap:.3rem; font-size:.65rem; font-weight:700; padding:.3rem .8rem; border-radius:20px; text-transform:uppercase; letter-spacing:.06em; }
+    .ic-badge.sol { background:var(--gold-light); color:var(--gold-dark); border:1px solid rgba(212,168,67,.3); }
+    .ic-badge.lua { background:var(--teal-light); color:var(--teal-dark); border:1px solid var(--teal-mid); }
+    .ic-body { padding:1rem 1.2rem; display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+    .ic-field { }
+    .ic-field-label { font-size:.6rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:.2rem; }
+    .ic-field-value { font-size:.85rem; font-weight:600; color:var(--dark); }
+    .ic-field-value.obs { color:var(--red); font-style:italic; }
+    .ic-actions { padding:.8rem 1.2rem; display:flex; gap:.8rem; border-top:1px solid var(--border); background:var(--bg); }
+    .btn-aprovar { flex:1; padding:.7rem; background:var(--green); color:var(--white); border:none; border-radius:20px; font-family:var(--font); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+    .btn-aprovar:hover { background:#219a52; transform:translateY(-1px); }
+    .btn-reprovar { flex:1; padding:.7rem; background:var(--white); color:var(--red); border:1.5px solid rgba(192,57,43,.3); border-radius:20px; font-family:var(--font); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+    .btn-reprovar:hover { background:var(--red-light); border-color:var(--red); }
+
+    /* ── EMPTY ── */
+    .empty { text-align:center; padding:4rem 2rem; color:var(--muted); }
+    .empty-ico { font-size:3rem; margin-bottom:1rem; display:block; }
+    .empty-title { font-size:1rem; font-weight:700; margin-bottom:.4rem; color:var(--mid); }
+    .empty-sub { font-size:.85rem; }
+
+    /* ── LOADING ── */
+    .loading { text-align:center; padding:3rem; color:var(--muted); font-style:italic; font-size:.88rem; }
+    .spinner-wrap { width:32px; height:32px; border:3px solid var(--teal-mid); border-top-color:var(--teal); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 1rem; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* ── POP-UP ── */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:200; display:flex; align-items:center; justify-content:center; padding:1rem; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .overlay.show { opacity:1; pointer-events:all; }
+    .popup { background:var(--white); border-radius:var(--radius); box-shadow:0 20px 60px rgba(0,0,0,.2); width:100%; max-width:480px; overflow:hidden; transform:translateY(20px); transition:transform .2s; }
+    .overlay.show .popup { transform:translateY(0); }
+    .popup-hdr { padding:1.2rem 1.5rem; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); }
+    .popup-title { font-size:1rem; font-weight:800; color:var(--dark); }
+    .popup-close { background:none; border:none; font-size:1.3rem; color:var(--muted); cursor:pointer; padding:.2rem .5rem; border-radius:6px; transition:all .2s; }
+    .popup-close:hover { background:var(--bg); color:var(--dark); }
+    .popup-body { padding:1.2rem 1.5rem; }
+    .popup-row { display:flex; justify-content:space-between; align-items:flex-start; padding:.5rem 0; border-bottom:1px solid var(--border); font-size:.85rem; gap:1rem; }
+    .popup-row:last-child { border-bottom:none; }
+    .popup-row-label { color:var(--muted); font-weight:600; font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; flex-shrink:0; }
+    .popup-row-value { color:var(--dark); font-weight:700; text-align:right; }
+    .popup-row-value.obs { color:var(--red); font-style:italic; }
+    .popup-actions { padding:1rem 1.5rem; display:flex; gap:.8rem; border-top:1px solid var(--border); }
+    .popup-btn-aprovar { flex:1; padding:.8rem; background:var(--green); color:var(--white); border:none; border-radius:20px; font-family:var(--font); font-size:.8rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+    .popup-btn-aprovar:hover { background:#219a52; }
+    .popup-btn-reprovar { flex:1; padding:.8rem; background:var(--white); color:var(--red); border:1.5px solid rgba(192,57,43,.3); border-radius:20px; font-family:var(--font); font-size:.8rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+    .popup-btn-reprovar:hover { background:var(--red-light); border-color:var(--red); }
+
+    /* ── FORMULÁRIO REGENTES ── */
+    .card { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-hdr { padding:.9rem 1.5rem; display:flex; align-items:center; gap:.6rem; font-size:.72rem; font-weight:800; letter-spacing:.15em; text-transform:uppercase; color:#fff; }
+    .card-hdr.teal   { background:linear-gradient(135deg,var(--teal-dark),var(--teal)); }
+    .card-hdr.gold   { background:linear-gradient(135deg,#8a5e00,var(--gold-dark)); }
+    .card-hdr.purple { background:linear-gradient(135deg,#4a2080,#7b4fc4); }
+    .card-body { padding:1.2rem 1.5rem; }
+    .field-reg { margin-bottom:.8rem; }
+    .field-reg:last-child { margin-bottom:0; }
+    .field-reg label { display:block; font-size:.62rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .field-reg input { width:100%; padding:.65rem 1rem; border:1.5px solid var(--border); border-radius:8px; font-family:var(--font); font-size:.85rem; color:var(--dark); background:var(--bg); outline:none; transition:border-color .2s; }
+    .field-reg input:focus { border-color:var(--teal); }
+    .inp-sol { border-left:3px solid var(--sol) !important; }
+    .inp-lua { border-left:3px solid var(--lua) !important; }
+    .inp-janata { border-left:3px solid #7b4fc4 !important; }
+    .janata-grid  { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+    .regentes-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .regente-pair { background:var(--bg); border-radius:8px; padding:1rem; border:1px solid var(--border); display:flex; flex-direction:column; gap:.6rem; }
+    .par-title { font-size:.62rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--teal-dark); padding-bottom:.4rem; border-bottom:1px solid var(--teal-mid); }
+    .submit-reg { width:100%; padding:.9rem; background:var(--teal); color:#fff; border:none; border-radius:30px; font-family:var(--font); font-size:.82rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; transition:all .2s; box-shadow:0 4px 16px rgba(0,155,141,.3); display:flex; align-items:center; justify-content:center; gap:.5rem; margin-bottom:.5rem; }
+    .submit-reg:hover:not(:disabled) { background:var(--teal-dark); transform:translateY(-1px); }
+    .submit-reg:disabled { opacity:.6; cursor:not-allowed; }
+    .reg-spinner { width:16px; height:16px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; display:none; }
+    .submit-reg.loading .reg-spinner { display:block; }
+    .submit-reg.loading .btn-txt { display:none; }
+    .toast-reg { padding:.8rem 1rem; border-radius:8px; font-size:.8rem; font-weight:600; text-align:center; display:none; margin-bottom:1rem; }
+    .toast-reg.ok   { background:#e6f9f0; border:1px solid #34c77b; color:#1a7a4a; display:block; }
+    .toast-reg.err  { background:var(--red-light); border:1px solid var(--red); color:var(--red); display:block; }
+    @media (max-width:600px) { .regentes-grid { grid-template-columns:1fr; } .janata-grid { grid-template-columns:1fr; } }
+
+    /* ── TOAST ── */
+    .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); padding:.8rem 1.5rem; border-radius:30px; font-size:.82rem; font-weight:700; color:var(--white); z-index:300; display:none; animation:slideUp .3s ease; }
+    .toast.ok  { background:var(--green); }
+    .toast.err { background:var(--red); }
+    .toast.show { display:block; }
+    @keyframes slideUp { from { transform:translateX(-50%) translateY(20px); opacity:0; } to { transform:translateX(-50%) translateY(0); opacity:1; } }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div>
+      <div class="header-title">🕊️ Aprovação de Escalas</div>
+      <div class="header-sub">Gamúrio do Amanhecer · Fortaleza, CE</div>
+    </div>
+  </div>
+  <div class="header-user">
+    <div class="header-avatar" id="headerAvatar">?</div>
+    <span id="headerNome">—</span>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="page-title">
+    <div class="page-label">Janatã do Dia</div>
+    <h1>Inscrições Pendentes</h1>
+    <p id="subtitulo">Carregando...</p>
+  </div>
+
+  <!-- BOTÃO ESCALA COMPLETA -->
+  <div style="margin-bottom:1.5rem">
+    <a href="escala_completa_interna.html" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;background:var(--teal-light);border:1.5px solid var(--teal-mid);color:var(--teal-dark);border-radius:20px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;"
+       onmouseover="this.style.background='var(--teal)';this.style.color='#fff';this.style.borderColor='var(--teal)'"
+       onmouseout="this.style.background='var(--teal-light)';this.style.color='var(--teal-dark)';this.style.borderColor='var(--teal-mid)'">
+      👁 Ver Escala Completa
+    </a>
+  </div>
+
+  <!-- FORMULÁRIO DE REGENTES -->
+  <div class="card" style="margin-bottom:1.2rem">
+    <div class="card-hdr teal">📅 Data da Escala</div>
+    <div class="card-body">
+      <div class="field-reg">
+        <label>Data</label>
+        <input type="date" id="data_escala"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.2rem">
+    <div class="card-hdr purple">🕊️ Janatãs do Dia</div>
+    <div class="card-body">
+      <div class="janata-grid">
+        <div class="field-reg"><label>1º Janatã</label><input type="text" id="janata_1" placeholder="Nome..." class="inp-janata"/></div>
+        <div class="field-reg"><label>2º Janatã</label><input type="text" id="janata_2" placeholder="Nome..." class="inp-janata"/></div>
+        <div class="field-reg"><label>3º Janatã</label><input type="text" id="janata_3" placeholder="Nome..." class="inp-janata"/></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.2rem">
+    <div class="card-hdr gold">👑 Regentes</div>
+    <div class="card-body">
+      <div class="regentes-grid">
+        <div class="regente-pair">
+          <div class="par-title">☀️ Par 1</div>
+          <div class="field-reg"><label>Regente Sol</label><input type="text" id="reg_sol" placeholder="Nome..." class="inp-sol"/></div>
+          <div class="field-reg"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_1" placeholder="Nome..." class="inp-lua"/></div>
+        </div>
+        <div class="regente-pair">
+          <div class="par-title">✨ Par 2</div>
+          <div class="field-reg"><label>Regente Luz</label><input type="text" id="reg_luz" placeholder="Nome..." class="inp-sol"/></div>
+          <div class="field-reg"><label>Ninfa Lua</label><input type="text" id="ninfa_lua_2" placeholder="Nome..." class="inp-lua"/></div>
+        </div>
+        <div class="regente-pair">
+          <div class="par-title">🌙 Par 3</div>
+          <div class="field-reg"><label>Regente Lua</label><input type="text" id="reg_lua" placeholder="Nome..." class="inp-lua"/></div>
+          <div class="field-reg"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_1" placeholder="Nome..." class="inp-sol"/></div>
+        </div>
+        <div class="regente-pair">
+          <div class="par-title">🌙 Par 4</div>
+          <div class="field-reg"><label>Regente Lua Sub.</label><input type="text" id="reg_lua_sub" placeholder="Nome..." class="inp-lua"/></div>
+          <div class="field-reg"><label>Ninfa Sol</label><input type="text" id="ninfa_sol_2" placeholder="Nome..." class="inp-sol"/></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="submit-reg" id="submitBtn" onclick="enviarEscala()">
+    <span class="btn-txt">✨ Publicar Escala</span>
+    <div class="reg-spinner"></div>
+  </button>
+  <div class="toast-reg" id="toastReg"></div>
+
+  <!-- DIVISOR -->
+  <div style="margin:2rem 0;border-top:2px solid var(--border);padding-top:2rem">
+    <div class="page-label">Aprovações</div>
+    <h2 style="font-size:1.2rem;font-weight:800;color:var(--dark);margin-bottom:1rem">Inscrições Pendentes</h2>
+  </div>
+
+  <div class="info-card" id="infoCard" style="display:none">
+    📅 Exibindo inscrições pendentes para os dias em que você é Janatã.
+    Revise os dados e aprove ou reprove cada inscrição.
+  </div>
+
+  <div id="listaContainer">
+    <div class="loading">
+      <div class="spinner-wrap"></div>
+      Buscando inscrições pendentes...
+    </div>
+  </div>
+</main>
+
+<!-- POP-UP -->
+<div class="overlay" id="overlay" onclick="fecharPopup(event)">
+  <div class="popup">
+    <div class="popup-hdr">
+      <div class="popup-title" id="popupTitle">Detalhes da Inscrição</div>
+      <button class="popup-close" onclick="fecharPopup()">✕</button>
+    </div>
+    <div class="popup-body" id="popupBody"></div>
+    <div class="popup-actions">
+      <button class="popup-btn-reprovar" onclick="confirmarAcao('Reprovado')">✕ Reprovar</button>
+      <button class="popup-btn-aprovar"  onclick="confirmarAcao('Aprovado')">✓ Aprovar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTmroPARDpOXMScktk560b2VG_QD5sLw-ir3x3l6CiKRd1HYr2_1W-u7q1B0za4hnw/exec';
+const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
+
+// ── Auth ──
+const usuario = sessionStorage.getItem('regente_usuario');
+const auth    = sessionStorage.getItem('regente_auth');
+const perfil  = sessionStorage.getItem('regente_perfil');
+
+if (!auth || auth !== 'true') window.location.href = 'login-regentes.html';
+
+document.getElementById('headerNome').textContent   = usuario || '—';
+document.getElementById('headerAvatar').textContent = (usuario || '?')[0].toUpperCase();
+
+function logout() {
+  sessionStorage.clear();
+  window.location.href = 'login-regentes.html';
+}
+
+// ── Dados ──
+let pendentes    = [];
+let inscricaoAtual = null;
+let diasDoJanata = [];
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', async () => {
+  await carregarDiasJanata();
+  await carregarPendentes();
+});
+
+// Buscar quais dias do mês esse usuário é Janatã
+async function carregarDiasJanata() {
+  try {
+    const url  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Janatas&t=${Date.now()}`;
+    const res  = await fetch(url);
+    const text = await res.text();
+    const linhas = text.trim().split('\n').slice(1);
+    diasDoJanata = linhas
+      .map(l => l.split(',').map(c => c.replace(/^"|"$/g,'').trim()))
+      .filter(c => c[1].toLowerCase() === (usuario || '').toLowerCase())
+      .map(c => parseInt(c[0]));
+
+    if (diasDoJanata.length > 0) {
+      document.getElementById('subtitulo').textContent =
+        `Você é Janatã nos dias: ${diasDoJanata.join(', ')} de cada mês`;
+    } else {
+      document.getElementById('subtitulo').textContent = 'Nenhum dia cadastrado para você.';
+    }
+  } catch(e) { console.error('Erro ao carregar Janatãs:', e); }
+}
+
+// Buscar inscrições pendentes dos dias do Janatã
+async function carregarPendentes() {
+  try {
+    const url  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=P%C3%A1gina1&t=${Date.now()}`;
+    const res  = await fetch(url);
+    const text = await res.text();
+    const linhas = text.trim().split('\n').slice(1);
+
+    pendentes = linhas
+      .map(l => {
+        const c = splitCSV(l);
+        return {
+          timestamp:    clean(c[0]), nome:          clean(c[1]),
+          contato:      clean(c[2]), data_escala:   clean(c[3]),
+          mediunidade:  clean(c[4]), classificacao: clean(c[5]),
+          tipo_escala:  clean(c[6]), outra_escala:  clean(c[7]) || '',
+          acompanhante: clean(c[8]) || '', acomp_med: clean(c[9]) || '',
+          acomp_class:  clean(c[10]) || '', status: clean(c[11]) || 'Pendente'
+        };
+      })
+      .filter(r => {
+        if (!r.nome || !r.data_escala) return false;
+        const dia = parseInt(r.data_escala.split('-')[2] || '0');
+        return diasDoJanata.includes(dia) && r.status === 'Pendente';
+      });
+
+    renderLista();
+  } catch(e) {
+    console.error('Erro:', e);
+    document.getElementById('listaContainer').innerHTML =
+      '<div class="empty"><span class="empty-ico">⚠️</span><p class="empty-title">Erro ao carregar inscrições</p></div>';
+  }
+}
+
+// ── Renderizar lista ──
+function renderLista() {
+  const container = document.getElementById('listaContainer');
+
+  if (pendentes.length === 0) {
+    container.innerHTML = `
+      <div class="empty">
+        <span class="empty-ico">✅</span>
+        <p class="empty-title">Nenhuma inscrição pendente</p>
+        <p class="empty-sub">Todas as inscrições dos seus dias já foram avaliadas.</p>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('infoCard').style.display = 'block';
+
+  container.innerHTML = pendentes.map((p, idx) => {
+    const [yyyy, mm, dd] = (p.data_escala || '').split('-');
+    const isSol = p.mediunidade === 'Doutrinador(a)';
+    return `
+      <div class="inscricao-card" onclick="abrirPopup(${idx})">
+        <div class="ic-header">
+          <div>
+            <div class="ic-nome">${p.nome}</div>
+            <div class="ic-data">📅 ${dd}/${mm}/${yyyy} · ${p.timestamp}</div>
+          </div>
+          <span class="ic-badge ${isSol ? 'sol' : 'lua'}">
+            ${isSol ? '☀️ Sol' : '🌙 Lua'}
+          </span>
+        </div>
+        <div class="ic-body">
+          <div class="ic-field">
+            <div class="ic-field-label">Classificação</div>
+            <div class="ic-field-value">${p.classificacao || '—'}</div>
+          </div>
+          <div class="ic-field">
+            <div class="ic-field-label">Consagração</div>
+            <div class="ic-field-value">${p.outra_escala || p.tipo_escala || '—'}</div>
+          </div>
+          ${p.acompanhante ? `
+          <div class="ic-field">
+            <div class="ic-field-label">Par</div>
+            <div class="ic-field-value">${p.acompanhante} (${p.acomp_med === 'Sol' ? '☀️' : '🌙'} ${p.acomp_class || ''})</div>
+          </div>` : ''}
+        </div>
+        <div class="ic-actions">
+          <button class="btn-reprovar" onclick="event.stopPropagation();abrirPopup(${idx});setTimeout(()=>confirmarAcao('Reprovado'),100)">✕ Reprovar</button>
+          <button class="btn-aprovar"  onclick="event.stopPropagation();abrirPopup(${idx});setTimeout(()=>confirmarAcao('Aprovado'),100)">✓ Aprovar</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Pop-up ──
+function abrirPopup(idx) {
+  inscricaoAtual = pendentes[idx];
+  const p = inscricaoAtual;
+  const [yyyy, mm, dd] = (p.data_escala || '').split('-');
+
+  document.getElementById('popupTitle').textContent = p.nome;
+
+  const linhas = [
+    { label: 'Data da Escala',  value: `${dd}/${mm}/${yyyy}` },
+    { label: 'Mediunidade',     value: p.mediunidade },
+    { label: 'Classificação',   value: p.classificacao },
+    { label: 'Consagração',     value: p.outra_escala || p.tipo_escala },
+    { label: 'Contato',         value: p.contato },
+    p.acompanhante ? { label: 'Par', value: `${p.acompanhante} · ${p.acomp_med === 'Sol' ? '☀️ Sol' : '🌙 Lua'} · ${p.acomp_class || ''}` } : null,
+  ].filter(Boolean);
+
+  document.getElementById('popupBody').innerHTML = linhas.map(l => `
+    <div class="popup-row">
+      <span class="popup-row-label">${l.label}</span>
+      <span class="popup-row-value">${l.value || '—'}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('overlay').classList.add('show');
+}
+
+function fecharPopup(e) {
+  if (e && e.target !== document.getElementById('overlay')) return;
+  document.getElementById('overlay').classList.remove('show');
+  inscricaoAtual = null;
+}
+
+// ── Aprovar / Reprovar ──
+async function confirmarAcao(status) {
+  if (!inscricaoAtual) return;
+  document.getElementById('overlay').classList.remove('show');
+
+  const p = inscricaoAtual;
+
+  // Enviar via iframe
+  const payload = {
+    aba:         'aprovacao',
+    nome:        p.nome,
+    data_escala: p.data_escala,
+    status:      status,
+    aprovador:   usuario
+  };
+
+  const iframeName = 'aprov_iframe_' + Date.now();
+  const iframe = document.createElement('iframe');
+  iframe.name = iframeName; iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SCRIPT_URL;
+  form.target = iframeName; form.style.display = 'none';
+
+  Object.keys(payload).forEach(key => {
+    const input = document.createElement('input');
+    input.type = 'hidden'; input.name = key; input.value = payload[key];
+    form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+
+  setTimeout(() => {
+    document.body.removeChild(form);
+    document.body.removeChild(iframe);
+
+    // Remover da lista local
+    pendentes = pendentes.filter(x => !(x.nome === p.nome && x.data_escala === p.data_escala));
+    renderLista();
+
+    showToast(status === 'Aprovado' ? 'ok' : 'err',
+      status === 'Aprovado'
+        ? `✅ ${p.nome} aprovado(a)!`
+        : `✕ ${p.nome} reprovado(a).`);
+  }, 1500);
+
+  inscricaoAtual = null;
+}
+
+function showToast(tipo, msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${tipo} show`;
+  setTimeout(() => { t.className = 'toast'; }, 3000);
+}
+
+// ── FORMULÁRIO DE REGENTES ──
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTmroPARDpOXMScktk560b2VG_QD5sLw-ir3x3l6CiKRd1HYr2_1W-u7q1B0za4hnw/exec';
+const CAMPOS_REG = ['reg_sol','ninfa_lua_1','reg_luz','ninfa_lua_2','reg_lua','ninfa_sol_1','reg_lua_sub','ninfa_sol_2'];
+const CAMPOS_JAN = ['janata_1','janata_2','janata_3'];
+const TODOS = [...CAMPOS_REG, ...CAMPOS_JAN];
+
+// Definir hoje
+document.addEventListener('DOMContentLoaded', () => {
+  const hoje = new Date().toISOString().split('T')[0];
+  if (document.getElementById('data_escala')) {
+    document.getElementById('data_escala').value = hoje;
+    carregarDadosRegentes(hoje);
+    document.getElementById('data_escala').addEventListener('change', function() {
+      carregarDadosRegentes(this.value);
+    });
+  }
+});
+
+async function carregarDadosRegentes(data) {
+  if (!data) return;
+  try {
+    const url  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Regentes&t=${Date.now()}`;
+    const res  = await fetch(url);
+    const text = await res.text();
+    const linhas = text.trim().split('\n').slice(1)
+      .map(l => l.split(',').map(c => c.replace(/^"|"$/g,'').trim()))
+      .filter(c => c[2] === data);
+    if (linhas.length === 0) return;
+    TODOS.forEach((id, idx) => {
+      const col = idx + 3;
+      const val = [...linhas].reverse().find(r => r[col] && r[col].trim());
+      if (val && document.getElementById(id)) document.getElementById(id).value = val[col];
+    });
+    const t = document.getElementById('toastReg');
+    t.textContent = '📋 Dados anteriores carregados.';
+    t.className = 'toast-reg ok';
+    setTimeout(() => { t.className = 'toast-reg'; }, 3000);
+  } catch(e) {}
+}
+
+async function enviarEscala() {
+  const btn  = document.getElementById('submitBtn');
+  const data = document.getElementById('data_escala').value;
+  if (!data) {
+    const t = document.getElementById('toastReg');
+    t.textContent = '⚠️ Selecione a data.';
+    t.className = 'toast-reg err';
+    return;
+  }
+  btn.classList.add('loading'); btn.disabled = true;
+
+  const payload = {
+    aba:'Regentes', timestamp: new Date().toLocaleString('pt-BR'),
+    login: usuario || '', data_escala: data,
+    reg_sol:     document.getElementById('reg_sol').value.trim(),
+    ninfa_lua_1: document.getElementById('ninfa_lua_1').value.trim(),
+    reg_luz:     document.getElementById('reg_luz').value.trim(),
+    ninfa_lua_2: document.getElementById('ninfa_lua_2').value.trim(),
+    reg_lua:     document.getElementById('reg_lua').value.trim(),
+    ninfa_sol_1: document.getElementById('ninfa_sol_1').value.trim(),
+    reg_lua_sub: document.getElementById('reg_lua_sub').value.trim(),
+    ninfa_sol_2: document.getElementById('ninfa_sol_2').value.trim(),
+    janata_1:    document.getElementById('janata_1').value.trim(),
+    janata_2:    document.getElementById('janata_2').value.trim(),
+    janata_3:    document.getElementById('janata_3').value.trim()
+  };
+
+  const iframeName = 'reg_' + Date.now();
+  const iframe = document.createElement('iframe');
+  iframe.name = iframeName; iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SCRIPT_URL;
+  form.target = iframeName; form.style.display = 'none';
+  Object.keys(payload).forEach(key => {
+    const input = document.createElement('input');
+    input.type = 'hidden'; input.name = key; input.value = payload[key];
+    form.appendChild(input);
+  });
+  document.body.appendChild(form);
+  form.submit();
+
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.disabled = false;
+    document.body.removeChild(form); document.body.removeChild(iframe);
+    const t = document.getElementById('toastReg');
+    t.textContent = '✅ Escala publicada com sucesso!';
+    t.className = 'toast-reg ok';
+    TODOS.forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = ''; });
+  }, 2000);
+}
+
+function splitCSV(line) {
+  const res = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === ',' && !inQ) { res.push(cur); cur = ''; }
+    else { cur += ch; }
+  }
+  res.push(cur); return res;
+}
+function clean(s = '') { return s.replace(/^"|"$/g,'').trim(); }
+</script>
+
+</body>
+</html>

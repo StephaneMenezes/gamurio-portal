@@ -1,0 +1,862 @@
+/* ═══════════════════════════════════════════════════
+   escala.css  —  Formulário de Inscrição de Escala
+   Gamúrio do Amanhecer · Fortaleza, CE
+   Depende de: shared.css
+═══════════════════════════════════════════════════ */
+
+/* ── BASE ── */
+body {
+  background: var(--bg);
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.page-header {
+  background: var(--teal-dark);
+  padding: 0 2rem;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--gold);
+  box-shadow: 0 2px 20px rgba(0,155,141,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: none;
+}
+
+.header-logo-circle {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  overflow: hidden;
+  background: var(--gold-light);
+  flex-shrink: 0;
+}
+
+.header-logo-circle img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.header-logo-text strong {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
+.header-logo-text span {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.header-back:hover { color: var(--gold); }
+
+/* ── HERO BANNER ── */
+.form-hero {
+  background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 100%);
+  padding: 3.5rem 2rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.015) 0px,
+    rgba(255,255,255,0.015) 1px,
+    transparent 1px,
+    transparent 28px
+  );
+  pointer-events: none;
+}
+
+.form-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(212,168,67,0.2);
+  border: 1px solid rgba(212,168,67,0.4);
+  color: var(--gold);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1rem;
+  position: relative; z-index: 1;
+}
+
+.form-hero h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  position: relative; z-index: 1;
+}
+.form-hero h1 span { color: var(--gold); }
+
+.form-hero p {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.75);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative; z-index: 1;
+}
+
+/* ── FORM WRAPPER ── */
+.form-wrapper {
+  max-width: 700px;
+  margin: -1.5rem auto 4rem;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  overflow: hidden;
+  animation: fade-up 0.5s 0.1s both;
+}
+
+/* ── FORM CARD HEADER ── */
+.form-card-header {
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  padding: 1.4rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-bottom: 3px solid var(--gold);
+}
+
+.form-card-header .fch-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.form-card-header h2 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.form-card-header p {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: 0.15rem;
+}
+
+/* ── FORM BODY ── */
+.form-body {
+  padding: 2rem;
+}
+
+.form-section-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.2rem;
+  margin-top: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.form-section-title:first-child { margin-top: 0; }
+.form-section-title::before {
+  content: '';
+  width: 16px; height: 2px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.form-row.full { grid-template-columns: 1fr; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ── LABELS ── */
+label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+label .required {
+  color: var(--red);
+  margin-left: 2px;
+}
+label .optional {
+  color: var(--muted);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.68rem;
+}
+
+/* ── INPUTS ── */
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--teal-mid);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--dark);
+  background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,155,141,0.12);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A92A3' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.date-hint {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+/* ── OPÇÕES DE ESCALA ── */
+.escala-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.escala-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 1rem 1.2rem;
+  border: 1.5px solid var(--teal-mid);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--white);
+}
+.escala-option:hover {
+  border-color: var(--teal);
+  background: var(--teal-light);
+}
+.escala-option input[type="radio"] {
+  width: 18px; height: 18px;
+  accent-color: var(--teal);
+  margin-top: 1px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.escala-option.selected {
+  border-color: var(--teal);
+  background: var(--teal-light);
+}
+
+.escala-option-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.escala-option-label strong {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+.escala-option-label span {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Campo "Outra escala" condicional */
+.outra-escala-wrap {
+  display: none;
+  margin-top: 0.8rem;
+}
+.outra-escala-wrap.visible { display: block; }
+
+/* ── TOAST ── */
+.toast {
+  display: none;
+  margin: 0 2rem 1.5rem;
+  padding: 1rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  align-items: center;
+  gap: 0.7rem;
+}
+.toast.success {
+  display: none;
+  background: #e6f9f0;
+  border: 1.5px solid #34c77b;
+  color: #1a7a4a;
+}
+.toast.error {
+  display: none;
+  background: var(--red-light);
+  border: 1.5px solid var(--red);
+  color: var(--red);
+}
+.toast.show { display: flex; }
+
+/* ── FORM FOOTER ── */
+.form-footer {
+  padding: 1.5rem 2rem 2rem;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: var(--teal);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(0,155,141,0.35);
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--teal-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,155,141,0.45);
+}
+.btn-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-submit .spinner {
+  display: none;
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.btn-submit.loading .btn-text { display: none; }
+.btn-submit.loading .spinner  { display: block; }
+
+.form-note {
+  margin-top: 0.8rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── KEYFRAMES ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .form-row    { grid-template-columns: 1fr; }
+  .form-body   { padding: 1.5rem; }
+  .form-footer { padding: 1.2rem 1.5rem 1.5rem; }
+}
+
+/* ── CALENDÁRIO PICKER ── */
+.cal-picker {
+  border: 1.5px solid var(--teal-mid);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--white);
+  user-select: none;
+}
+
+/* Navegação mês/ano */
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--teal-dark);
+  padding: 0.7rem 1rem;
+}
+.cal-mes-ano {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  text-transform: capitalize;
+}
+.cal-arrow {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: var(--white);
+  font-size: 1.2rem;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+}
+.cal-arrow:hover { background: rgba(255,255,255,0.3); }
+.cal-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Dias da semana */
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--teal-light);
+  border-bottom: 1px solid var(--teal-mid);
+}
+.cal-weekdays span {
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  padding: 0.5rem 0;
+}
+
+/* Grade de dias */
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  padding: 0.5rem;
+  background: var(--bg);
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--dark);
+  transition: all 0.15s;
+  border: 1.5px solid transparent;
+}
+.cal-day:hover {
+  background: var(--teal-light);
+  border-color: var(--teal-mid);
+}
+.cal-day.today {
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  font-weight: 800;
+}
+.cal-day.selected {
+  background: var(--teal);
+  color: var(--white);
+  font-weight: 800;
+  border-color: var(--teal-dark);
+  box-shadow: 0 2px 8px rgba(0,155,141,0.4);
+}
+.cal-day.empty { cursor: default; }
+.cal-day.disabled {
+  color: var(--muted);
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.cal-day.disabled:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* Data selecionada */
+.cal-selected {
+  padding: 0.6rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  background: var(--teal-light);
+  border-top: 1px solid var(--teal-mid);
+  text-align: center;
+  font-style: italic;
+  min-height: 36px;
+}
+
+/* ── LAYOUT DUAS COLUNAS ── */
+.escala-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  align-items: start;
+}
+
+/* ── CALENDÁRIO ASIDE ── */
+.cal-aside { position: sticky; top: 80px; }
+
+.cal-aside-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.cal-aside-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  padding: 0.9rem 1rem;
+  border-bottom: 3px solid var(--gold);
+}
+.cal-aside-titulo {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  text-transform: capitalize;
+  text-align: center;
+  flex: 1;
+}
+.cal-aside-arrow {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: var(--white);
+  font-size: 1.1rem;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.cal-aside-arrow:hover:not(:disabled) { background: rgba(255,255,255,0.3); }
+.cal-aside-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.cal-aside-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--teal-light);
+  border-bottom: 1px solid var(--teal-mid);
+  padding: 0.3rem 0.5rem 0;
+}
+.cal-aside-weekdays span {
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  padding-bottom: 0.3rem;
+  letter-spacing: 0.05em;
+}
+
+.cal-aside-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  padding: 0.5rem;
+}
+.cal-d {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 50%;
+  color: var(--dark);
+  position: relative;
+  cursor: default;
+}
+.cal-d.vazio { visibility: hidden; }
+.cal-d.hoje {
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  font-weight: 800;
+  border: 2px solid var(--teal);
+}
+.cal-d.feriado {
+  background: var(--gold-light);
+  color: var(--gold-dark);
+  font-weight: 700;
+}
+.cal-d[title] { cursor: help; }
+
+/* Legenda */
+.cal-aside-legend {
+  padding: 0.8rem 1rem;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.cal-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--mid);
+  font-weight: 500;
+}
+.cal-leg-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cal-leg-dot.feriado { background: var(--gold-light); border: 1.5px solid var(--gold); }
+.cal-leg-dot.hoje    { background: var(--teal-light); border: 2px solid var(--teal); }
+
+/* Ajustar o form-wrapper dentro do layout */
+.escala-layout .form-wrapper {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .escala-layout {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1rem 3rem;
+  }
+  .cal-aside { position: static; }
+}
+
+/* ── LISTA DE FERIADOS ── */
+.cal-feriado-label {
+  padding: 0.7rem 1rem;
+  background: var(--gold-light);
+  border-top: 1px solid rgba(212,168,67,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.cal-feriado-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+}
+.cal-feriado-dia {
+  font-weight: 800;
+  color: var(--gold-dark);
+  min-width: 20px;
+  flex-shrink: 0;
+}
+.cal-feriado-nome {
+  color: var(--mid);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ── ACOMPANHANTE TOGGLE ── */
+.acomp-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border: 1.5px solid var(--teal-mid);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.acomp-toggle:hover { border-color: var(--teal); background: var(--teal-light); }
+.acomp-toggle.ativo  { border-color: var(--teal); background: var(--teal-light); }
+
+.acomp-toggle-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  flex: 1;
+}
+.acomp-toggle-ico {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  transition: transform 0.2s;
+}
+.acomp-toggle-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.2rem;
+}
+.acomp-toggle-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Switch visual */
+.acomp-toggle-switch {
+  width: 42px; height: 24px;
+  border-radius: 12px;
+  background: var(--teal-mid);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.acomp-toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--white);
+  top: 3px; left: 3px;
+  transition: left 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.acomp-toggle.ativo .acomp-toggle-switch {
+  background: var(--teal);
+}
+.acomp-toggle.ativo .acomp-toggle-switch::after {
+  left: 21px;
+}
+
+.acomp-wrap { margin-top: 0; }
+.acomp-wrap.hidden { display: none; }
+
+/* ── ACOMPANHANTE MEDIUNIDADE ── */
+.acomp-med-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+.acomp-med-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.9rem 0.5rem;
+  border: 1.5px solid var(--teal-mid);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  background: var(--white);
+}
+.acomp-med-btn input[type="radio"] { display: none; }
+.acomp-med-btn:hover { border-color: var(--teal); background: var(--teal-light); }
+.acomp-med-btn.sel-sol {
+  border-color: var(--gold);
+  background: var(--gold-light);
+}
+.acomp-med-btn.sel-lua {
+  border-color: var(--teal);
+  background: var(--teal-light);
+}
+.acomp-med-ico  { font-size: 1.5rem; }
+.acomp-med-lbl  { font-size: 0.8rem; font-weight: 800; color: var(--dark); }
+.acomp-med-sub  { font-size: 0.68rem; color: var(--muted); font-style: italic; }
+
+/* ── CONSAGRAÇÃO BADGE ── */
+.consagracao-badges {
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+}
+.consagracao-badges.hidden { display: none; }
+.cons-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--teal-light);
+  border: 1.5px solid var(--teal-mid);
+  color: var(--teal-dark);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+.cons-badge strong { font-weight: 800; }

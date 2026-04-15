@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscrição de Escala – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/escala.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="page-header">
+  <a href="index.html" class="header-logo">
+    <div class="header-logo-circle">
+      <img src="image/ministro_gamurio.jpeg" alt="Gamúrio do Amanhecer"/>
+    </div>
+    <div class="header-logo-text">
+      <strong>Gamúrio do Amanhecer</strong>
+      <span>Fortaleza · CE</span>
+    </div>
+  </a>
+  <a href="index.html" class="header-back">← Voltar ao site</a>
+</header>
+
+<!-- HERO -->
+<div class="form-hero">
+  <div class="form-hero-badge">✦ Inscrição</div>
+  <h1>Formulário de <span>Escala</span></h1>
+  <p>Preencha os dados abaixo para se inscrever na escala do Gamúrio do Amanhecer de Fortaleza.</p>
+</div>
+
+<!-- LAYOUT DUAS COLUNAS -->
+<div class="escala-layout">
+
+  <!-- COLUNA ESQUERDA: CALENDÁRIO INFORMATIVO -->
+  <aside class="cal-aside">
+    <div class="cal-aside-card">
+
+      <div class="cal-aside-hdr">
+        <button type="button" class="cal-aside-arrow" id="calPrev">‹</button>
+        <span id="calMesAno" class="cal-aside-titulo"></span>
+        <button type="button" class="cal-aside-arrow" id="calNext">›</button>
+      </div>
+
+      <div class="cal-aside-weekdays">
+        <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+      </div>
+
+      <div class="cal-aside-days" id="calDays"></div>
+
+      <div class="cal-feriado-label" id="calFeriadoLabel"></div>
+
+      <div class="cal-aside-legend">
+        <div class="cal-leg-item"><span class="cal-leg-dot feriado"></span> Feriado</div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- COLUNA DIREITA: FORMULÁRIO -->
+  <div class="form-wrapper">
+    <div class="form-card">
+
+      <div class="form-card-header">
+        <div class="fch-icon">📋</div>
+        <div>
+          <h2>Dados da Inscrição</h2>
+          <p>Todos os campos marcados com * são obrigatórios</p>
+        </div>
+      </div>
+
+      <form id="escalaForm" novalidate>
+        <div class="form-body">
+
+          <!-- SEÇÃO 1 — IDENTIFICAÇÃO -->
+          <div class="form-section-title">Identificação</div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome completo <span class="required">*</span></label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required/>
+            </div>
+            <div class="form-group">
+              <label for="contato">Contato (WhatsApp) <span class="required">*</span></label>
+              <input type="tel" id="contato" name="contato" placeholder="(85) 99999-9999" required/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="templo">Templo de origem <span class="required">*</span></label>
+              <input type="text" id="templo" name="templo" placeholder="Nome do seu templo" required/>
+            </div>
+            <div class="form-group">
+              <label for="data">Data da escala <span class="required">*</span></label>
+              <input type="date" id="data" name="data" required/>
+              <span class="date-hint">Selecione a data em que deseja ser escalado(a)</span>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 2 — MEDIUNIDADE -->
+          <div class="form-section-title">Mediunidade</div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mediunidade">Mediunidade <span class="required">*</span></label>
+              <select id="mediunidade" name="mediunidade" required>
+                <option value="" disabled selected>Selecione sua mediunidade</option>
+                <option>Doutrinador(a)</option>
+                <option>Apará</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="classificacao">Classificação <span class="required">*</span></label>
+              <select id="classificacao" name="classificacao" required>
+                <option value="" disabled selected>Selecione sua classificação</option>
+                <option>Elevado</option>
+                <option>Centurião</option>
+                <option>Presidente</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 3 — CONSAGRAÇÃO -->
+          <div class="form-section-title">Consagração</div>
+
+          <div class="form-group" style="margin-bottom: 1.2rem;">
+            <label>Selecione sua consagração <span class="required">*</span></label>
+            <div class="escala-options" id="escalaOptions">
+
+              <label class="escala-option" id="opt-primeira">
+                <input type="radio" name="tipo_escala" value="primeira"
+                  onchange="handleConsagracao(this)"/>
+                <div class="escala-option-label">
+                  <strong>1ª Consagração</strong>
+                  <span>Disponível para toda a escala — 1ª, 2ª e 3ª</span>
+                </div>
+              </label>
+
+              <label class="escala-option" id="opt-segunda">
+                <input type="radio" name="tipo_escala" value="segunda"
+                  onchange="handleConsagracao(this)"/>
+                <div class="escala-option-label">
+                  <strong>2ª Consagração</strong>
+                  <span>Disponível para a 2ª e 3ª escalada</span>
+                </div>
+              </label>
+
+              <label class="escala-option" id="opt-terceira">
+                <input type="radio" name="tipo_escala" value="terceira"
+                  onchange="handleConsagracao(this)"/>
+                <div class="escala-option-label">
+                  <strong>3ª Consagração</strong>
+                  <span>Disponível apenas para a 3ª escalada</span>
+                </div>
+              </label>
+
+            </div>
+
+            <div class="consagracao-badges hidden" id="consagracaoBadges"></div>
+
+            <input type="hidden" id="tipo_escala_valor" name="tipo_escala_valor"/>
+            <input type="hidden" id="outra_escala" name="outra_escala"/>
+          </div>
+
+        </div><!-- /form-body -->
+
+        <!-- SEÇÃO 4 — PAR -->
+        <div class="form-body" style="padding-top:0">
+          <div class="form-section-title">Par</div>
+
+          <div class="acomp-toggle" id="acompToggle" onclick="toggleAcomp()">
+            <div class="acomp-toggle-left">
+              <div class="acomp-toggle-ico" id="acompIco">⭕</div>
+              <div>
+                <div class="acomp-toggle-title">Tenho um par para esta escala</div>
+                <div class="acomp-toggle-sub">
+                  Marque caso haja um Mestre Sol ou Ninfa Lua disponível para lhe acompanhar
+                  e que ainda <strong>não tenha se inscrito</strong> na escala desta data.
+                </div>
+              </div>
+            </div>
+            <div class="acomp-toggle-switch" id="acompSwitch"></div>
+          </div>
+
+          <div class="acomp-wrap hidden" id="acompWrap">
+            <div class="form-row" style="margin-top:0.8rem">
+              <div class="form-group">
+                <label for="acompanhante">Nome do par <span class="required">*</span></label>
+                <input type="text" id="acompanhante" name="acompanhante"
+                  placeholder="Nome e sobrenome do Mestre ou Ninfa"/>
+                <span id="acompNomeHint" style="display:none;font-size:0.72rem;color:var(--red);margin-top:0.3rem">
+                  ⚠️ Informe pelo menos o primeiro e o segundo nome.
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="acomp_classificacao">Classificação do par <span class="required">*</span></label>
+                <select id="acomp_classificacao" name="acomp_classificacao">
+                  <option value="" disabled selected>Selecione a classificação</option>
+                  <option>Elevado</option>
+                  <option>Centurião</option>
+                  <option>Presidente</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="grid-column: 1 / -1">
+                <label>Mediunidade do par <span class="required">*</span></label>
+                <div class="acomp-med-options">
+                  <label class="acomp-med-btn" id="acomp-sol">
+                    <input type="radio" name="acomp_med" value="Sol" onchange="selectAcompMed(this)"/>
+                    <span class="acomp-med-ico">☀️</span>
+                    <span class="acomp-med-lbl">Mestre Sol</span>
+                    <span class="acomp-med-sub">Doutrinador(a)</span>
+                  </label>
+                  <label class="acomp-med-btn" id="acomp-lua">
+                    <input type="radio" name="acomp_med" value="Lua" onchange="selectAcompMed(this)"/>
+                    <span class="acomp-med-ico">🌙</span>
+                    <span class="acomp-med-lbl">Ninfa Lua</span>
+                    <span class="acomp-med-sub">Apará</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOASTS -->
+        <div id="toastSuccess" class="toast success">
+          ✅ Inscrição enviada com sucesso! Em breve entraremos em contato.
+        </div>
+        <div id="toastError" class="toast error">
+          ❌ Erro ao enviar. Tente novamente ou entre em contato pelo Instagram.
+        </div>
+
+        <!-- FOOTER -->
+        <div class="form-footer">
+          <button type="submit" class="btn-submit" id="btnSubmit">
+            <span class="btn-text">✦ Enviar Inscrição</span>
+            <div class="spinner"></div>
+          </button>
+          <p class="form-note">
+            Suas informações serão registradas e analisadas pela coordenação.<br>
+            Dúvidas? Fale conosco pelo Instagram.
+          </p>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div><!-- /escala-layout -->
+
+<script src="js/escala.js"></script>
+
+</body>
+</html>

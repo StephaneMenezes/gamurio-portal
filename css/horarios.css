@@ -1,0 +1,244 @@
+/* ═══════════════════════════════════════════════════
+   horarios.css
+   Seção de Horários + Calendário Doutrinário 2026
+   Gamúrio do Amanhecer · Fortaleza, CE
+═══════════════════════════════════════════════════ */
+
+/* ── LAYOUT DUAS COLUNAS ── */
+.hor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 2rem;
+  margin-top: 2.5rem;
+  align-items: start;
+}
+
+/* ── COLUNA BASE ── */
+.hor-col {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER DA COLUNA ── */
+.hor-col-header {
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-bottom: 3px solid var(--teal-mid);
+}
+.hor-col-header.gold {
+  background: linear-gradient(135deg, #8a5e00, var(--gold-dark));
+  border-bottom-color: rgba(212,168,67,0.5);
+}
+
+.hor-col-ico {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.hor-col-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0.15rem;
+}
+.hor-col-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+/* ── LISTA DE HORÁRIOS ── */
+.hor-list {
+  flex: 1;
+  padding: 0.5rem 0;
+}
+
+.hor-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+  gap: 1rem;
+}
+.hor-item:last-child { border-bottom: none; }
+.hor-item:hover { background: var(--teal-light); }
+
+.hor-item.destaque {
+  background: var(--gold-light);
+  border-left: 4px solid var(--gold);
+}
+.hor-item.destaque:hover { background: #f5e9c0; }
+
+.hor-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.hor-item-ico { font-size: 1.3rem; flex-shrink: 0; }
+.hor-item-day { font-size: 0.92rem; font-weight: 700; color: var(--dark); }
+.hor-item-type { font-size: 0.72rem; color: var(--muted); font-style: italic; margin-top: 0.1rem; }
+
+.hor-item-right { text-align: right; flex-shrink: 0; }
+.hor-item-time {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  line-height: 1;
+}
+.hor-item.destaque .hor-item-time { color: var(--gold-dark); }
+.hor-item-gate {
+  font-size: 0.65rem;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+
+/* ── NOTA DE RODAPÉ ── */
+.hor-note {
+  padding: 0.9rem 1.5rem;
+  font-size: 0.75rem;
+  color: var(--mid);
+  line-height: 1.6;
+  background: var(--teal-light);
+  border-top: 1px solid var(--teal-mid);
+}
+
+/* ── CALENDÁRIO ── */
+.cal-table-wrap { overflow-x: auto; flex: 1; }
+
+.cal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+/* ── CABEÇALHO — linha principal ── */
+.cal-table thead tr:first-child th {
+  background: var(--teal-dark);
+  color: var(--white);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.12);
+  white-space: nowrap;
+}
+.cal-table thead tr:first-child th:first-child { text-align: left; padding-left: 1rem; }
+.cal-table thead tr:first-child th:last-child  { border-right: none; }
+
+/* Alabá — sem destaque, igual ao restante */
+.cal-th-alaba {
+  background: var(--teal-dark);
+  color: var(--white);
+  border-left: 1px solid rgba(255,255,255,0.2) !important;
+  border-right: 1px solid rgba(255,255,255,0.2) !important;
+}
+
+/* ── CABEÇALHO — subheader dias ── */
+.cal-table thead tr.cal-sub th {
+  background: var(--teal);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.35rem 0.4rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  letter-spacing: 0.05em;
+}
+.cal-table thead tr.cal-sub th:last-child { border-right: none; }
+
+/* ── CORPO DA TABELA ── */
+.cal-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.cal-table tbody tr:last-child { border-bottom: none; }
+.cal-table tbody tr:hover { background: var(--teal-light); }
+.cal-table tbody tr:nth-child(even) { background: var(--bg); }
+.cal-table tbody tr:nth-child(even):hover { background: var(--teal-light); }
+
+/* Células */
+.cal-table td {
+  padding: 0.55rem 0.4rem;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  color: var(--mid);
+  font-size: 0.78rem;
+}
+.cal-table td:last-child { border-right: none; }
+
+/* Célula do mês */
+.cal-table td.cal-mes {
+  text-align: left;
+  font-weight: 700;
+  color: var(--teal-dark);
+  font-size: 0.8rem;
+  padding-left: 1rem;
+  white-space: nowrap;
+  border-left: 3px solid var(--teal);
+}
+
+/* Célula da Lua Cheia — destaque dourado */
+.cal-table td.cal-lua {
+  background: rgba(212,168,67,0.15);
+  color: var(--gold-dark);
+  font-weight: 800;
+  font-size: 0.85rem;
+  border-left: 1px solid rgba(212,168,67,0.3);
+  border-right: 1px solid rgba(212,168,67,0.3);
+  position: relative;
+}
+.cal-table td.cal-lua::after {
+  content: '';
+  position: absolute;
+  bottom: 3px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* Bold nos números principais */
+.cal-table td b {
+  font-weight: 800;
+  color: var(--teal-dark);
+}
+
+/* ── LEGENDA ── */
+.cal-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.68rem;
+  color: var(--muted);
+  background: var(--gold-light);
+  border-top: 1px solid rgba(212,168,67,0.25);
+}
+.cal-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.cal-legend-dot.gold { background: var(--gold); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .hor-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .cal-table { font-size: 0.7rem; }
+  .cal-table td, .cal-table thead th { padding: 0.4rem 0.25rem; }
+  .cal-table td.cal-mes { font-size: 0.72rem; padding-left: 0.6rem; }
+  .hor-item { padding: 0.8rem 1rem; }
+}

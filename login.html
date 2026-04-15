@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Acesso Restrito – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:#009B8D; --teal-dark:#007A6E; --teal-light:#E6F5F4; --teal-mid:#C8ECEA;
+      --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
+      --red:#C0392B; --red-light:#FDECEA;
+      --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
+      --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', system-ui, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* ── CARD ── */
+    .login-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      overflow: hidden;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* Header */
+    .login-hdr {
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-bottom: 4px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    .login-hdr::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg,
+        rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px,
+        transparent 1px, transparent 28px);
+    }
+    .login-hdr-ico {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      position: relative; z-index: 1;
+    }
+    .login-hdr h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      position: relative; z-index: 1;
+      margin-bottom: 0.2rem;
+    }
+    .login-hdr p {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.75);
+      font-style: italic;
+      position: relative; z-index: 1;
+    }
+
+    /* Body */
+    .login-body { padding: 1.8rem 1.5rem; }
+
+    .login-field { margin-bottom: 1rem; }
+    .login-field label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .login-field input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      color: var(--dark);
+      outline: none;
+      background: var(--bg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .login-field input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0,155,141,0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--teal);
+      color: var(--white);
+      border: none;
+      border-radius: 30px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+      box-shadow: 0 4px 16px rgba(0,155,141,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .login-btn:hover:not(:disabled) {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,155,141,0.4);
+    }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .login-spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .login-btn.loading .login-spinner { display: block; }
+    .login-btn.loading .login-txt { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .login-error {
+      margin-top: 1rem;
+      padding: 0.7rem 1rem;
+      background: var(--red-light);
+      border: 1px solid rgba(192,57,43,0.25);
+      border-radius: 8px;
+      font-size: 0.78rem;
+      color: var(--red);
+      font-weight: 600;
+      text-align: center;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    .login-foot {
+      padding: 1rem 1.5rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="login-hdr">
+    <div class="login-hdr-ico">👑</div>
+    <h1>Área dos Regentes</h1>
+    <p>Gamúrio do Amanhecer · Fortaleza, CE</p>
+  </div>
+
+  <div class="login-body">
+    <div class="login-field">
+      <label>Usuário</label>
+      <input type="text" id="usuario" placeholder="Seu primeiro nome" autocomplete="off"/>
+    </div>
+    <div class="login-field">
+      <label>Senha</label>
+      <input type="password" id="senha" placeholder="••••••••" onkeydown="if(event.key==='Enter') fazerLogin()"/>
+    </div>
+
+    <button class="login-btn" id="loginBtn" onclick="fazerLogin()">
+      <span class="login-txt">✦ Entrar</span>
+      <div class="login-spinner"></div>
+    </button>
+
+    <div class="login-error" id="loginError">
+      ❌ Usuário ou senha incorretos. Tente novamente.
+    </div>
+  </div>
+
+  <div class="login-foot">
+    Acesso restrito · Somente regentes autorizados
+  </div>
+</div>
+
+<script>
+// Lê a aba Logins da planilha via CSV — mesma abordagem das escalas
+const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
+const LOGINS_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Logins&t=${Date.now()}`;
+
+async function fazerLogin() {
+  const usuario = document.getElementById('usuario').value.trim();
+  const senha   = document.getElementById('senha').value.trim();
+  const btn     = document.getElementById('loginBtn');
+  const erro    = document.getElementById('loginError');
+
+  if (!usuario || !senha) {
+    erro.textContent = '⚠️ Preencha usuário e senha.';
+    erro.classList.add('show');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+  erro.classList.remove('show');
+
+  try {
+    const res  = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Logins&t=${Date.now()}`);
+    const text = await res.text();
+
+    // Parse CSV
+    const linhas = text.trim().split('\n').slice(1); // pula cabeçalho
+    let perfil = '';
+    const encontrado = linhas.some(linha => {
+      const cols = linha.split(',').map(c => c.replace(/^"|"$/g, '').trim());
+      if (cols[0] === usuario && cols[1] === senha) {
+        perfil = cols[2] || 'regente';
+        return true;
+      }
+      return false;
+    });
+
+    if (encontrado) {
+      sessionStorage.setItem('regente_usuario', usuario);
+      sessionStorage.setItem('regente_auth', 'true');
+      sessionStorage.setItem('regente_perfil', perfil);
+      window.location.href = 'formulario_interno.html';
+    } else {
+      erro.textContent = '❌ Usuário ou senha incorretos. Tente novamente.';
+      erro.classList.add('show');
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  } catch(err) {
+    erro.textContent = '⚠️ Erro de conexão. Tente novamente.';
+    erro.classList.add('show');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>

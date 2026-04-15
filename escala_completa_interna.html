@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Escala Completa – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:#009B8D; --teal-dark:#007A6E; --teal-light:#E6F5F4; --teal-mid:#C8ECEA;
+      --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
+      --sol:#F5C400; --sol-dark:#c9a000; --sol-light:#fffbe6;
+      --lua:#4A90D9; --lua-dark:#2c6fad; --lua-light:#e8f2fc;
+      --red:#C0392B; --red-light:#FDECEA;
+      --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
+      --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
+      --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.08);
+      --font:'Montserrat',system-ui,sans-serif;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--font); background:var(--bg); color:var(--dark); -webkit-font-smoothing:antialiased; }
+    .container { max-width:900px; margin:0 auto; padding:0 1.5rem; }
+
+    .header { background:linear-gradient(135deg,var(--teal-dark),var(--teal)); padding:2rem 0 1.8rem; text-align:center; border-bottom:4px solid var(--gold); position:relative; overflow:hidden; }
+    .header::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 28px); }
+    .header h1 { font-size:clamp(1.3rem,4vw,1.8rem); font-weight:800; color:#fff; position:relative; z-index:1; margin-bottom:.3rem; }
+    .header p  { font-size:.85rem; color:rgba(255,255,255,.75); font-style:italic; position:relative; z-index:1; }
+
+    .date-nav { background:var(--white); border-bottom:1px solid var(--border); padding:.9rem 0; position:sticky; top:0; z-index:100; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+    .date-nav .container { display:flex; align-items:center; justify-content:center; gap:.8rem; flex-wrap:wrap; }
+    .nav-arrow { width:36px; height:36px; border-radius:50%; background:var(--teal-light); border:1.5px solid var(--teal-mid); color:var(--teal-dark); font-size:1.1rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+    .nav-arrow:hover { background:var(--teal); color:#fff; border-color:var(--teal); }
+    .nav-arrow:disabled { opacity:.3; cursor:not-allowed; }
+    .date-input-wrap { display:flex; align-items:center; gap:.5rem; }
+    .date-input-wrap input[type="date"] { padding:.55rem 1rem; border:1.5px solid var(--teal-mid); border-radius:8px; font-family:var(--font); font-size:.9rem; color:var(--dark); outline:none; background:var(--bg); transition:border-color .2s; }
+    .date-input-wrap input:focus { border-color:var(--teal); }
+    .btn-hoje { padding:.55rem 1.2rem; border:none; border-radius:20px; font-family:var(--font); font-size:.75rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; background:var(--gold-light); color:var(--gold-dark); border:1.5px solid rgba(212,168,67,.3); transition:all .2s; }
+    .btn-hoje:hover { background:#f0e0a0; }
+
+    .card { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .section-wrap { padding:1.5rem 0 0; }
+
+    .summary-card { padding:1.5rem; border-top:4px solid var(--teal); text-align:center; }
+    .summary-date { font-size:clamp(1rem,3vw,1.4rem); font-weight:800; color:var(--dark); margin-bottom:.3rem; }
+    .summary-sub  { font-size:.85rem; color:var(--muted); font-style:italic; }
+
+    .card-hdr { display:flex; align-items:center; gap:.6rem; padding:.9rem 1.5rem; font-size:.72rem; font-weight:800; letter-spacing:.15em; text-transform:uppercase; color:#fff; }
+    .card-hdr.teal  { background:linear-gradient(135deg,var(--teal-dark),var(--teal)); }
+    .card-hdr.gold  { background:linear-gradient(135deg,#8a5e00,var(--gold-dark)); }
+    .card-hdr.purple{ background:linear-gradient(135deg,#4a2080,#7b4fc4); }
+
+    /* ── JANATÃS ── */
+    .janata-table { width:100%; border-collapse:collapse; }
+    .janata-table td { padding:.75rem 1.2rem; border-bottom:1px solid var(--border); font-size:.88rem; vertical-align:middle; }
+    .janata-table tr:last-child td { border-bottom:none; }
+    .janata-table tr:nth-child(even) td { background:var(--bg); }
+    .janata-table tr:hover td { background:rgba(123,79,196,.04); }
+    .janata-num  { width:48px; text-align:center; font-size:.72rem; font-weight:700; color:var(--muted); border-right:1px solid var(--border); background:rgba(0,0,0,.02) !important; }
+    .janata-nome { border-left:3px solid #7b4fc4; font-weight:700; color:var(--dark); }
+    .janata-nome.vazio { color:var(--muted); font-style:italic; font-weight:400; }
+
+    /* ── REGENTES ── */
+    .regentes-grid { display:grid; grid-template-columns:1fr 1fr; }
+    .regente-pair  { border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .regente-pair:nth-child(even) { border-right:none; }
+    .regente-pair:nth-last-child(-n+2) { border-bottom:none; }
+    .regente-item { display:flex; align-items:center; justify-content:space-between; padding:.75rem 1.2rem; border-bottom:1px solid var(--border); gap:1rem; }
+    .regente-item:last-child { border-bottom:none; }
+    .regente-item.sol { border-left:4px solid var(--sol); }
+    .regente-item.lua { border-left:4px solid var(--lua); }
+    .regente-cargo { font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); flex-shrink:0; }
+    .regente-nome  { font-size:.9rem; font-weight:700; color:var(--dark); text-align:right; }
+    .regente-nome.vazio { color:var(--muted); font-style:italic; font-weight:400; }
+
+    /* ── PARES ── */
+    .pares-header { background:var(--teal-dark); color:#fff; text-align:center; font-size:.75rem; font-weight:800; letter-spacing:.2em; text-transform:uppercase; padding:.7rem; }
+    .pares-table { width:100%; border-collapse:collapse; }
+    .pares-table .th-num { width:48px; background:var(--dark); color:rgba(255,255,255,.5); font-size:.6rem; font-weight:700; text-align:center; padding:.7rem .5rem; }
+    .pares-table .th-sol { background:var(--sol); color:var(--dark); font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:.7rem 1.2rem; }
+    .pares-table .th-disp-sol { background:var(--sol); color:var(--dark); font-size:.6rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.7rem .8rem; white-space:nowrap; }
+    .pares-table .th-lua { background:var(--lua); color:#fff; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:.7rem 1.2rem; }
+    .pares-table .th-disp-lua { background:var(--lua); color:#fff; font-size:.6rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.7rem .8rem; white-space:nowrap; }
+    .th-badge { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:rgba(0,0,0,.15); font-size:.65rem; font-weight:800; margin-left:5px; vertical-align:middle; }
+    .pares-table tbody tr { border-bottom:1px solid var(--border); transition:background .15s; }
+    .pares-table tbody tr:last-child { border-bottom:none; }
+    .pares-table tbody tr:hover { background:rgba(0,155,141,.04); }
+    .pares-table tbody tr:nth-child(even) { background:rgba(0,0,0,.015); }
+    .pares-table tbody tr:nth-child(even):hover { background:rgba(0,155,141,.04); }
+    .pares-table td { padding:.65rem 1.2rem; vertical-align:middle; }
+    .par-num  { text-align:center; font-size:.72rem; font-weight:700; color:var(--muted); background:rgba(0,0,0,.02); border-right:1px solid var(--border); width:48px; }
+    .par-sol  { border-left:3px solid var(--sol); }
+    .par-lua  { border-left:3px solid var(--lua); }
+    .par-disp { border-left:1px solid var(--border); min-width:100px; }
+    .par-nome  { display:block; font-size:.88rem; font-weight:700; color:var(--dark); }
+    .par-nome.acomp { color:var(--muted); font-style:italic; font-weight:400; }
+    .par-class { display:block; font-size:.72rem; color:var(--muted); font-style:italic; }
+    .disp-line { font-size:.78rem; color:var(--mid); }
+    .disp-line.acomp-disp { color:var(--teal); font-style:italic; }
+
+    .no-data { padding:2rem 0; }
+    .no-data.hidden { display:none; }
+    .no-data-card { padding:3rem 2rem; text-align:center; border-top:3px solid var(--muted); }
+    .nd-icon  { font-size:2.5rem; margin-bottom:1rem; display:block; }
+    .nd-title { font-size:1rem; font-weight:700; color:var(--mid); margin-bottom:.4rem; }
+    .nd-sub   { font-size:.85rem; color:var(--muted); }
+    .hidden { display:none; }
+
+    .page-footer { margin-top:3rem; padding:1.5rem 0; text-align:center; font-size:.72rem; color:var(--muted); border-top:1px solid var(--border); }
+
+    @media (max-width:640px) {
+      .regentes-grid { grid-template-columns:1fr; }
+      .regente-pair { border-right:none; }
+      .pares-table .th-disp-sol, .pares-table .th-disp-lua, .par-disp { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <h1>Estrela Candente</h1>
+    <p>Escala completa · Estrela Candente · Gamúrio do Amanhecer</p>
+  </div>
+</header>
+
+<nav class="date-nav">
+  <div class="container">
+    <button class="nav-arrow" id="btnAnterior" onclick="navegarData(-1)" title="Dia anterior">‹</button>
+    <div class="date-input-wrap">
+      <input type="date" id="datePicker" onchange="loadScale(this.value)"/>
+    </div>
+    <button class="nav-arrow" id="btnProximo" onclick="navegarData(1)" title="Próximo dia">›</button>
+    <button class="btn-hoje" onclick="loadToday()">Hoje</button>
+  </div>
+</nav>
+
+<!-- RESUMO -->
+<section class="section-wrap">
+  <div class="container">
+    <div class="card summary-card">
+      <div class="summary-date" id="dataTitulo">Carregando...</div>
+      <div class="summary-sub"  id="observacao"></div>
+    </div>
+  </div>
+</section>
+
+<!-- JANATÃS -->
+<section class="section-wrap hidden" id="janatasSection">
+  <div class="container">
+    <div class="card">
+      <div class="card-hdr purple">🕊️ Janatãs do Dia</div>
+      <table class="janata-table">
+        <tbody id="janatasContainer"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- REGENTES -->
+<section class="section-wrap hidden" id="regentesSection">
+  <div class="container">
+    <div class="card">
+      <div class="card-hdr teal">👑 Regentes</div>
+      <div class="regentes-grid" id="regentesContainer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARES -->
+<section class="section-wrap hidden" id="paresSection">
+  <div class="container">
+    <div class="card">
+      <div class="pares-header">PARES</div>
+      <table class="pares-table">
+        <thead>
+          <tr>
+            <th class="th-num">#</th>
+            <th class="th-sol">SOL — Doutrinador(a) <span id="totalSol" class="th-badge">0</span></th>
+            <th class="th-disp-sol">Disponibilidade</th>
+            <th class="th-lua">LUA — Apará <span id="totalLua" class="th-badge">0</span></th>
+            <th class="th-disp-lua">Disponibilidade</th>
+          </tr>
+        </thead>
+        <tbody id="paresContainer"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SEM DADOS -->
+<section class="no-data hidden" id="noData">
+  <div class="container">
+    <div class="card no-data-card">
+      <span class="nd-icon">📭</span>
+      <p class="nd-title">Nenhuma escala para esta data</p>
+      <p class="nd-sub">Ainda não há registros de regentes ou pares para este dia.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="container">
+    Gamúrio do Amanhecer · Fortaleza, CE &nbsp;·&nbsp;
+    <a href="escala.html" style="color:var(--teal);font-weight:600">Inscrever-se →</a>
+  </div>
+</footer>
+
+<script>
+const SHEET_ID  = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
+const URL_PARES = () => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=P%C3%A1gina1&t=${Date.now()}`;
+const URL_REG   = () => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Regentes&t=${Date.now()}`;
+
+let dadosPares = [], dadosRegentes = [], dataAtual = '';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await Promise.all([fetchPares(), fetchRegentes()]);
+  loadToday();
+});
+
+async function fetchPares() {
+  try {
+    const res  = await fetch(URL_PARES());
+    const text = await res.text();
+    dadosPares = splitCSVRows(text).slice(1).map(l => {
+      const c = splitCSV(l);
+      return {
+        timestamp: clean(c[0]), nome: clean(c[1]), contato: clean(c[2]),
+        data_escala: clean(c[3]), mediunidade: clean(c[4]), classificacao: clean(c[5]),
+        tipo_escala: clean(c[6]), outra_escala: clean(c[7]) || '',
+        acompanhante: clean(c[8]) || '', acomp_med: clean(c[9]) || '',
+        acomp_class: clean(c[10]) || '', status: clean(c[11]) || ''
+      };
+    }).filter(r => r.nome && r.data_escala && r.status === 'Aprovado');
+  } catch(e) { console.error('Erro pares:', e); }
+}
+
+async function fetchRegentes() {
+  try {
+    const res  = await fetch(URL_REG());
+    const text = await res.text();
+    dadosRegentes = text.trim().split('\n').slice(1).map(l => {
+      const c = splitCSV(l);
+      return {
+        timestamp: clean(c[0]), login: clean(c[1]), data_escala: clean(c[2]),
+        reg_sol: clean(c[3]), ninfa_lua_1: clean(c[4]),
+        reg_luz: clean(c[5]), ninfa_lua_2: clean(c[6]),
+        reg_lua: clean(c[7]), ninfa_sol_1: clean(c[8]),
+        reg_lua_sub: clean(c[9]), ninfa_sol_2: clean(c[10]),
+        janata_1: clean(c[11]) || '', janata_2: clean(c[12]) || '', janata_3: clean(c[13]) || ''
+      };
+    }).filter(r => r.data_escala);
+  } catch(e) { console.error('Erro regentes:', e); }
+}
+
+function loadToday() {
+  const iso = new Date().toISOString().split('T')[0];
+  document.getElementById('datePicker').value = iso;
+  loadScale(iso);
+}
+
+function navegarData(delta) {
+  const current = document.getElementById('datePicker').value;
+  if (!current) return;
+  const d = new Date(current + 'T12:00:00');
+  d.setDate(d.getDate() + delta);
+  const iso = d.toISOString().split('T')[0];
+  document.getElementById('datePicker').value = iso;
+  loadScale(iso);
+}
+
+function loadScale(isoDate) {
+  dataAtual = isoDate;
+  const [yyyy, mm, dd] = isoDate.split('-');
+  const dateObj   = new Date(isoDate + 'T12:00:00');
+  const diaSemana = dateObj.toLocaleDateString('pt-BR', { weekday:'long' });
+  document.getElementById('dataTitulo').textContent =
+    `${diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1)}, ${dd}/${mm}/${yyyy}`;
+
+  const pares    = dadosPares.filter(r => r.data_escala === isoDate);
+  const regDoMes = dadosRegentes.filter(r => r.data_escala === isoDate);
+  const temRegentes = regDoMes.length > 0;
+  const temPares    = pares.length > 0;
+
+  document.getElementById('noData').classList.add('hidden');
+
+  // Merge regentes + janatãs
+  const campos = ['reg_sol','ninfa_lua_1','reg_luz','ninfa_lua_2','reg_lua','ninfa_sol_1','reg_lua_sub','ninfa_sol_2','janata_1','janata_2','janata_3'];
+  const r = { data_escala: isoDate };
+  campos.forEach(campo => {
+    const val = [...regDoMes].reverse().find(reg => reg[campo] && reg[campo].trim());
+    r[campo] = val ? val[campo] : '';
+  });
+
+  // Janatãs — sempre exibe
+  renderJanatas(r);
+  document.getElementById('janatasSection').classList.remove('hidden');
+
+  // Regentes — sempre exibe
+  renderRegentes(r);
+  document.getElementById('regentesSection').classList.remove('hidden');
+
+  // Pares — sempre exibe
+  renderPares(pares);
+  document.getElementById('paresSection').classList.remove('hidden');
+
+  const statusReg   = temRegentes ? 'Regentes definidos' : 'Regentes pendentes';
+  const statusPares = temPares ? `${pares.length} médium(ns) inscrito(s)` : 'Nenhum médium inscrito';
+  document.getElementById('observacao').textContent = `${statusPares} · ${statusReg}`;
+}
+
+function renderJanatas(r) {
+  const janatas = [r.janata_1, r.janata_2, r.janata_3];
+  document.getElementById('janatasContainer').innerHTML = janatas.map((j, i) => `
+    <tr>
+      <td class="janata-num">${i + 1}</td>
+      <td class="janata-nome${!j ? ' vazio' : ''}">${j || '—'}</td>
+    </tr>
+  `).join('');
+}
+
+function renderRegentes(r) {
+  const pairs = [
+    { cargo1:'Regente Sol',      nome1:r.reg_sol,     tipo1:'sol', cargo2:'Ninfa Lua', nome2:r.ninfa_lua_1, tipo2:'lua' },
+    { cargo1:'Regente Luz',      nome1:r.reg_luz,     tipo1:'sol', cargo2:'Ninfa Lua', nome2:r.ninfa_lua_2, tipo2:'lua' },
+    { cargo1:'Regente Lua',      nome1:r.reg_lua,     tipo1:'lua', cargo2:'Ninfa Sol', nome2:r.ninfa_sol_1, tipo2:'sol' },
+    { cargo1:'Regente Lua Sub.', nome1:r.reg_lua_sub, tipo1:'lua', cargo2:'Ninfa Sol', nome2:r.ninfa_sol_2, tipo2:'sol' },
+  ];
+  document.getElementById('regentesContainer').innerHTML = pairs.map(p => `
+    <div class="regente-pair">
+      <div class="regente-item ${p.tipo1}">
+        <div class="regente-cargo">${p.cargo1}</div>
+        <div class="regente-nome${!p.nome1?' vazio':''}">${p.nome1||'—'}</div>
+      </div>
+      <div class="regente-item ${p.tipo2}">
+        <div class="regente-cargo">${p.cargo2}</div>
+        <div class="regente-nome${!p.nome2?' vazio':''}">${p.nome2||'—'}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPares(registros) {
+  const pares = [], jaUsados = new Set();
+  registros.forEach(r => {
+    if (jaUsados.has(r.nome)) return;
+    const isSol    = r.mediunidade === 'Doutrinador(a)';
+    const temAcomp = r.acompanhante && r.acomp_med;
+    if (temAcomp) {
+      const acomp = { nome:r.acompanhante, classificacao:r.acomp_class||'', tipo_escala:'Escalada completa', outra_escala:'', isAcomp:true };
+      pares.push(isSol ? {sol:r,lua:acomp} : {sol:acomp,lua:r});
+      jaUsados.add(r.acompanhante);
+    } else {
+      pares.push(isSol ? {sol:r,lua:null} : {sol:null,lua:r});
+    }
+  });
+
+  const solSemPar  = pares.filter(p => p.sol && !p.lua);
+  const luaSemPar  = pares.filter(p => p.lua && !p.sol);
+  const paresFinais = pares.filter(p => p.sol && p.lua);
+  const max = Math.max(solSemPar.length, luaSemPar.length);
+  for (let i = 0; i < max; i++) paresFinais.push({sol:solSemPar[i]?.sol||null, lua:luaSemPar[i]?.lua||null});
+
+  document.getElementById('totalSol').textContent = paresFinais.filter(p => p.sol).length;
+  document.getElementById('totalLua').textContent = paresFinais.filter(p => p.lua).length;
+
+  if (paresFinais.length === 0) {
+    document.getElementById('paresContainer').innerHTML = `
+      <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;font-style:italic">
+        📭 Nenhum médium inscrito para esta data.
+      </td></tr>`;
+    return;
+  }
+
+  const getDisp = p => {
+    if (!p) return '';
+    if (p.isAcomp) return 'Acompanhante';
+    if (p.tipo_escala === 'Escalada completa') return 'Completa';
+    return `⚠️ ${p.outra_escala || 'Parcial'}`;
+  };
+
+  document.getElementById('paresContainer').innerHTML = paresFinais.map((par, i) => {
+    const {sol, lua} = par;
+    return `
+      <tr>
+        <td class="par-num">${i+1}</td>
+        <td class="par-sol">${sol?`<span class="par-nome${sol.isAcomp?' acomp':''}">${sol.nome}</span>${sol.classificacao?`<span class="par-class">${sol.classificacao}</span>`:''}`:''}</td>
+        <td class="par-disp">${sol?`<div class="disp-line${sol.isAcomp?' acomp-disp':''}">${getDisp(sol)}</div>`:''}</td>
+        <td class="par-lua">${lua?`<span class="par-nome${lua.isAcomp?' acomp':''}">${lua.nome}</span>${lua.classificacao?`<span class="par-class">${lua.classificacao}</span>`:''}`:''}</td>
+        <td class="par-disp">${lua?`<div class="disp-line${lua.isAcomp?' acomp-disp':''}">${getDisp(lua)}</div>`:''}</td>
+      </tr>`;
+  }).join('');
+}
+
+function showOnly(mode) {
+  ['janatasSection','regentesSection','paresSection','noData'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  if (mode === 'noData') document.getElementById('noData').classList.remove('hidden');
+}
+
+function splitCSV(line) {
+  const res = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === ',' && !inQ) { res.push(cur); cur = ''; }
+    else { cur += ch; }
+  }
+  res.push(cur);
+  return res;
+}
+
+function splitCSVRows(text) {
+  const rows = []; let cur = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '"') { inQ = !inQ; cur += ch; }
+    else if ((ch === '\n' || ch === '\r') && !inQ) {
+      if (ch === '\r' && text[i+1] === '\n') i++;
+      if (cur.trim()) rows.push(cur);
+      cur = '';
+    } else { cur += ch; }
+  }
+  if (cur.trim()) rows.push(cur);
+  return rows;
+}
+
+function clean(s = '') { return s.replace(/^"|"$/g,'').trim(); }
+</script>
+</body>
+</html>
