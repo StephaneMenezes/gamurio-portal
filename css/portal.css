@@ -11,6 +11,9 @@ body {
   font-size: 15px;
 }
 
+.nav-logo-text{
+  color: gray
+}
 /* ── LOADING ── */
 #loadingScreen {
   position: fixed; inset: 0; z-index: 900;

@@ -29,6 +29,7 @@ nav {
 }
 
 .nav-logo {
+  color:rgb(77, 76, 76);
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -572,12 +573,20 @@ section {
    Gamúrio do Amanhecer · Fortaleza, CE
 ═══════════════════════════════════════════════════ */
 
+
 /* ── CARDS DE HORÁRIO ── */
+
 .hor-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-top: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .hor-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 .hor-card {

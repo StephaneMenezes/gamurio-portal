@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //  Substitua pela URL do seu Google Apps Script
 //  após publicar (veja SHEETS-SETUP.md)
 // ─────────────────────────────────────────────────
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzTmroPARDpOXMScktk560b2VG_QD5sLw-ir3x3l6CiKRd1HYr2_1W-u7q1B0za4hnw/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz5TwDq5RbcNkimvltCBc11GGJf3JE2fm0y4QnuydvjasYg_A-kOajoLXstaQGx9rFl/exec';
 
 // ── Consagração ──
 const CONSAGRACAO_MAP = {
