@@ -576,17 +576,12 @@ section {
 
 /* ── CARDS DE HORÁRIO ── */
 
+
 .hor-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-top: 2.5rem;
-}
-
-@media (max-width: 768px) {
-  .hor-cards-grid {
-    grid-template-columns: 1fr !important;
-  }
 }
 
 .hor-card {
@@ -1611,6 +1606,19 @@ footer {
   }
 
   .estrela-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hor-dois-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .hor-dois-cards {
     grid-template-columns: 1fr;
   }
 }
