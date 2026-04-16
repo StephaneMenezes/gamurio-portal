@@ -110,7 +110,7 @@ nav {
   padding-top: 68px;
   position: relative;
   overflow: hidden;
-  background: url('/image/bg_blured.png') center center / cover no-repeat;
+  background: url('/image/bg_b1.png') center center / cover no-repeat;
   display: flex;
   flex-direction: column;
 }
@@ -169,8 +169,13 @@ nav {
 
 .hero-left {
   flex: 1;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
 }
-
 .salve-badge {
   font-family: Amicale;
   display: inline-flex;
@@ -1620,5 +1625,21 @@ footer {
 @media (max-width: 768px) {
   .hor-dois-cards {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: clamp(1.6rem, 8vw, 2.2rem);
+    padding-top: 1rem;
+  }
+  
+  .hero-left {
+    padding: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
   }
 }
