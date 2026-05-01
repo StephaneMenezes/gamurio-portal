@@ -1007,47 +1007,92 @@ section {
 
 .historia-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
   gap: 4rem;
   align-items: start;
   margin-top: 2.5rem;
 }
 
-.historia-placeholder {
+.historia-text {
+  position: relative;
   background: var(--teal-light);
-  border: 2px dashed rgba(0, 155, 141, 0.3);
+  border-left: 4px solid var(--teal);
   border-radius: var(--radius-lg);
-  padding: 3rem 2rem;
-  text-align: center;
+  padding: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 155, 141, 0.08);
 }
 
-.historia-placeholder .ph-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.historia-placeholder p {
-  font-size: 0.88rem;
+.historia-text-inner p {
+  font-size: 0.9rem;
   color: var(--mid);
-  line-height: 1.7;
+  line-height: 1.85;
 }
 
-.historia-placeholder p + p {
-  margin-top: 0.5rem;
-}
-
-.coming-tag {
-  display: inline-block;
+.historia-text-inner p + p {
   margin-top: 1rem;
+}
+
+.historia-collapsed {
+  max-height: 660px;
+  overflow: hidden;
+}
+
+.historia-collapsed::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 170px;
+  background: linear-gradient(
+    180deg,
+    rgba(230, 245, 244, 0),
+    var(--teal-light) 72%
+  );
+  pointer-events: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.historia-text.expanded {
+  max-height: none;
+  overflow: visible;
+}
+
+.historia-text.expanded::after {
+  display: none;
+}
+
+.historia-ver-mais {
+  position: absolute;
+  left: 2rem;
+  bottom: 1.5rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--teal);
   color: var(--white);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.3rem 0.9rem;
-  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 155, 141, 0.22);
+  transition: background var(--transition), transform var(--transition);
+}
+
+.historia-ver-mais:hover {
+  background: var(--teal-dark);
+  transform: translateY(-1px);
+}
+
+.historia-text.expanded .historia-ver-mais {
+  position: static;
+  margin-top: 1.5rem;
 }
 
 .timeline {
@@ -1098,6 +1143,27 @@ section {
   color: var(--mid);
   line-height: 1.7;
 }
+
+@media (max-width: 900px) {
+  .historia-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .historia-collapsed {
+    max-height: 430px;
+  }
+
+  .historia-text {
+    padding: 1.4rem;
+  }
+
+  .historia-ver-mais {
+    left: 1.4rem;
+    bottom: 1.2rem;
+  }
+}
+
 
 /* ── ESTRELA CANDENTE ── */
 #estrela {
