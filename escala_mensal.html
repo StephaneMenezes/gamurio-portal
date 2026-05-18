@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Escala Entrega de Energias – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:#009B8D; --teal-dark:#007A6E; --teal-light:#E6F5F4; --teal-mid:#C8ECEA;
+      --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
+      --blue:#1B4F8A; --blue-light:#E8F0FB;
+      --red:#C0392B; --red-light:#FDECEA;
+      --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
+      --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
+      --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.08);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Montserrat',system-ui,sans-serif;color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;background:url('image/estrela1.jpeg') center center/cover no-repeat fixed;}
+    body::before{content:'';position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:0;}
+    body>*{position:relative;z-index:1;}
+
+    /* HEADER */
+    .header{background:rgba(0,122,110,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,155,141,.2);}
+    .header-brand{display:flex;align-items:center;gap:.8rem;}
+    .header-title{font-size:.95rem;font-weight:800;color:#fff;}
+    .header-sub{font-size:.65rem;color:rgba(255,255,255,.7);font-style:italic;}
+    .header-back{color:rgba(255,255,255,.8);text-decoration:none;font-size:.72rem;font-weight:600;padding:.4rem .9rem;border-radius:20px;border:1px solid rgba(255,255,255,.25);transition:all .2s;}
+    .header-back:hover{background:rgba(255,255,255,.15);}
+
+    /* MAIN */
+    .main{max-width:680px;margin:0 auto;padding:3rem 1.5rem 5rem;background:transparent;}
+
+    /* PAGE TITLE */
+    .page-hero{text-align:center;margin-bottom:2.5rem;}
+    .page-hero-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:.4rem;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+    .page-hero-label::before,.page-hero-label::after{content:'';width:24px;height:2px;background:rgba(255,255,255,.7);}
+    .page-hero h1{font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:.4rem;text-shadow:0 2px 8px rgba(0,0,0,.3);}
+    .page-hero p{font-size:.88rem;color:rgba(255,255,255,.8);}
+
+    /* CARD */
+    .card{background:rgba(255,255,255,0.97);border-radius:var(--radius);box-shadow:0 8px 32px rgba(0,0,0,0.18);overflow:hidden;margin-bottom:1.2rem;backdrop-filter:blur(4px);}
+    .card-hdr{padding:.9rem 1.5rem;display:flex;align-items:center;gap:.6rem;font-size:.68rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#fff;}
+    .card-hdr.teal{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
+    .card-hdr.blue{background:linear-gradient(135deg,#0f3460,var(--blue));}
+    .card-body{padding:1.5rem;}
+
+    /* FORM FIELDS */
+    .field{margin-bottom:1.2rem;}
+    .field:last-child{margin-bottom:0;}
+    .field label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+    .field input,.field select{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.9rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
+    .field input:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,155,141,.08);}
+
+    /* MES SELECTOR */
+    .mes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:.2rem;}
+    .mes-btn{padding:.6rem .4rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:600;color:var(--mid);background:var(--bg);cursor:pointer;transition:all .2s;text-align:center;}
+    .mes-btn:hover{border-color:var(--teal);color:var(--teal);}
+    .mes-btn.ativo{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700;}
+
+    /* CALENDÁRIO */
+    .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+    .cal-titulo{font-size:1rem;font-weight:800;color:var(--dark);}
+    .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;}
+    .cal-weekdays span{font-size:.6rem;font-weight:700;text-align:center;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;padding:.3rem 0;}
+    .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+    .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .15s;color:var(--dark);background:var(--bg);}
+    .cal-day:hover{border-color:var(--teal);color:var(--teal);}
+    .cal-day.vazio{visibility:hidden;pointer-events:none;}
+    .cal-day.passado{color:var(--muted);opacity:.4;pointer-events:none;}
+    .cal-day.selecionado{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700;}
+    .cal-day.hoje{border-color:var(--gold);color:var(--gold-dark);}
+    .cal-day.selecionado.hoje{background:var(--blue);color:#fff;}
+
+    /* DIAS SELECIONADOS BADGE */
+    .dias-selecionados{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;min-height:36px;}
+    .dia-badge{background:var(--blue);color:#fff;font-size:.68rem;font-weight:700;padding:.3rem .7rem;border-radius:20px;display:inline-flex;align-items:center;gap:.3rem;}
+    .dia-badge button{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:.8rem;line-height:1;padding:0;margin:0;}
+    .dia-badge button:hover{color:#fff;}
+    .dias-hint{font-size:.72rem;color:var(--muted);font-style:italic;}
+
+    /* PREVIEW */
+    .preview-card{background:var(--blue-light);border:1.5px solid rgba(27,79,138,.2);border-radius:var(--radius);padding:1.2rem 1.5rem;margin-top:1rem;}
+    .preview-nome{font-size:.8rem;font-weight:800;color:var(--blue);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em;}
+    .preview-dias{display:flex;flex-wrap:wrap;gap:.4rem;}
+    .preview-dia{background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;padding:.25rem .65rem;border-radius:6px;}
+
+    /* SUBMIT */
+    .btn-submit{width:100%;padding:.95rem;background:var(--teal);color:#fff;border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:.85rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,155,141,.3);display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:1rem;}
+    .btn-submit:hover:not(:disabled){background:var(--teal-dark);transform:translateY(-1px);}
+    .btn-submit:disabled{opacity:.6;cursor:not-allowed;}
+    .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+    .btn-submit.loading .spinner{display:block;}
+    .btn-submit.loading .btn-txt{display:none;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* TOAST */
+    .toast{margin-top:1rem;padding:.9rem 1.2rem;border-radius:8px;font-size:.82rem;font-weight:600;text-align:center;display:none;}
+    .toast.ok{background:#e6f9f0;border:1px solid #34c77b;color:#1a7a4a;display:block;}
+    .toast.err{background:var(--red-light);border:1px solid var(--red);color:var(--red);display:block;}
+
+    /* SUCESSO - IMAGEM */
+    .success-section{display:none;text-align:center;position:relative;z-index:2;}
+    .success-section.show{display:block;}
+    .success-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:2rem;margin-bottom:1rem;}
+    .success-icon{font-size:3rem;margin-bottom:.5rem;}
+    .success-title{font-size:1.1rem;font-weight:800;color:var(--teal-dark);margin-bottom:.3rem;}
+    .success-sub{font-size:.82rem;color:var(--muted);}
+
+    /* CANVAS PREVIEW */
+    #previewCanvas{border-radius:8px;box-shadow:var(--shadow);max-width:100%;margin:1rem auto;display:block;}
+    .btn-download{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;padding:.8rem 1.8rem;border-radius:20px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;margin:.3rem;}
+    .btn-download:hover{background:#0f3460;transform:translateY(-1px);}
+    .btn-nova{display:inline-flex;align-items:center;gap:.5rem;background:var(--teal-light);color:var(--teal-dark);padding:.8rem 1.8rem;border-radius:20px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--teal-mid);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;margin:.3rem;}
+    .btn-nova:hover{background:var(--teal);color:#fff;}
+
+    @media(max-width:600px){
+      .mes-grid{grid-template-columns:repeat(3,1fr);}
+      .header{padding:0 1rem;}
+    }
+  </style>
+</head>
+<body>
+
+
+
+
+<main class="main">
+
+  <!-- FORMULÁRIO -->
+  <div id="formSection">
+
+    <!-- IDENTIFICAÇÃO -->
+    <div class="card">
+      <div style="text-align:center;padding:2rem 1.5rem 1.2rem;border-bottom:1px solid var(--border);">
+        <img src="image/Imagem 1 gerada.png" alt="Logo Vale do Amanhecer" style="width:80px;height:80px;object-fit:contain;border-radius:50%;background:#fff;border:3px solid var(--gold);padding:4px;margin-bottom:1rem;box-shadow:0 4px 20px rgba(0,0,0,.12);display:block;margin-left:auto;margin-right:auto;"/>
+        <div style="font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.4rem;"><span style="display:inline-block;width:20px;height:2px;background:var(--teal);"></span>Estrela Candente<span style="display:inline-block;width:20px;height:2px;background:var(--teal);"></span></div>
+        <h1 style="font-size:1.5rem;font-weight:800;color:var(--dark);margin-bottom:.3rem;">Escala Mensal</h1>
+        <p style="font-size:.82rem;color:var(--muted);">Selecione os dias do mês em que você está disponível para a Entrega de Energias.</p>
+        <a href="index.html" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:.8rem;font-size:.7rem;color:var(--teal);font-weight:600;text-decoration:none;">← Voltar ao site</a>
+      </div>
+      <div class="card-hdr teal" style="margin-top:0;">👤 Identificação</div>
+      <div class="card-body">
+        <div class="field">
+          <label>Seu nome completo <span style="color:var(--red)">*</span></label>
+          <input type="text" id="nome" placeholder="Digite seu nome completo"/>
+        </div>
+        <div class="field">
+          <label>Mês da escala <span style="color:var(--red)">*</span></label>
+          <div class="mes-grid" id="mesGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALENDÁRIO -->
+    <div class="card">
+      <div class="card-hdr blue">📅 Selecione os Dias</div>
+      <div class="card-body">
+        <div class="cal-header">
+          <div class="cal-titulo" id="calTitulo">Selecione um mês acima</div>
+        </div>
+        <div class="cal-weekdays">
+          <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+        </div>
+        <div class="cal-days" id="calDays"></div>
+
+        <div style="margin-top:1rem;">
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">Dias selecionados</div>
+          <div class="dias-selecionados" id="diasSelecionados">
+            <span class="dias-hint">Nenhum dia selecionado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="card" id="previewSection" style="display:none">
+      <div class="card-hdr teal">✅ Confirme sua escala</div>
+      <div class="card-body">
+        <div class="preview-card">
+          <div class="preview-nome" id="previewNome"></div>
+          <div class="preview-dias" id="previewDias"></div>
+        </div>
+        <button class="btn-submit" id="btnSubmit" onclick="enviar()">
+          <span class="btn-txt">✦ Confirmar e Enviar Escala</span>
+          <div class="spinner"></div>
+        </button>
+        <div class="toast" id="toast"></div>
+      </div>
+    </div>
+
+  </div><!-- /formSection -->
+
+  <!-- SUCESSO -->
+  <div class="success-section" id="successSection">
+    <div class="success-card">
+      <div class="success-icon">✅</div>
+      <div class="success-title" id="successTitle">Escala enviada com sucesso!</div>
+      <div class="success-sub" id="successSub"></div>
+    </div>
+
+    <canvas id="previewCanvas" width="600" height="400"></canvas>
+
+    <div style="margin-top:.5rem">
+      <button class="btn-download" onclick="downloadImagem()">⬇ Baixar Imagem</button>
+      <button class="btn-nova" onclick="novaEscala()">+ Nova Escala</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwF0beNA1ubSoOHBDFC41REq1NrUjCCZCXAsxAqMJt7lR9Y0OUbqqRebHDynq0_p9sN/exec';
+const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
+
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+let mesSelecionado = null;
+let anoSelecionado = null;
+let diasSelecionados = [];
+let nomeUsuario = '';
+
+// ── Init ──
+const agora = new Date();
+const mesAtual = agora.getMonth();
+const anoAtual = agora.getFullYear();
+
+// Gerar grid de meses (mês atual + próximos 3)
+const mesGrid = document.getElementById('mesGrid');
+for (let i = 0; i < 2; i++) {
+  let m = (mesAtual + i) % 12;
+  let a = anoAtual + Math.floor((mesAtual + i) / 12);
+  const btn = document.createElement('button');
+  btn.className = 'mes-btn';
+  btn.textContent = `${MESES[m].substring(0,3)} ${a}`;
+  btn.dataset.mes = m;
+  btn.dataset.ano = a;
+  btn.onclick = () => selecionarMes(m, a, btn);
+  mesGrid.appendChild(btn);
+}
+
+function selecionarMes(mes, ano, btn) {
+  mesSelecionado = mes;
+  anoSelecionado = ano;
+  diasSelecionados = [];
+  document.querySelectorAll('.mes-btn').forEach(b => b.classList.remove('ativo'));
+  btn.classList.add('ativo');
+  document.getElementById('calTitulo').textContent = `${MESES[mes]} ${ano}`;
+  renderCalendario();
+  atualizarPreview();
+}
+
+function renderCalendario() {
+  const container = document.getElementById('calDays');
+  container.innerHTML = '';
+  const primeiroDia = new Date(anoSelecionado, mesSelecionado, 1).getDay();
+  const totalDias   = new Date(anoSelecionado, mesSelecionado + 1, 0).getDate();
+  const hoje = new Date();
+
+  for (let i = 0; i < primeiroDia; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day vazio';
+    container.appendChild(el);
+  }
+
+  for (let d = 1; d <= totalDias; d++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    el.textContent = d;
+
+    const dataEl = new Date(anoSelecionado, mesSelecionado, d);
+    const ehMesAtual = mesSelecionado === hoje.getMonth() && anoSelecionado === hoje.getFullYear();
+    if (ehMesAtual && dataEl < new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) {
+      el.classList.add('passado');
+    }
+    if (d === hoje.getDate() && mesSelecionado === hoje.getMonth() && anoSelecionado === hoje.getFullYear()) {
+      el.classList.add('hoje');
+    }
+    if (diasSelecionados.includes(d)) {
+      el.classList.add('selecionado');
+    }
+
+    el.onclick = () => toggleDia(d, el);
+    container.appendChild(el);
+  }
+}
+
+function toggleDia(dia, el) {
+  const idx = diasSelecionados.indexOf(dia);
+  if (idx === -1) {
+    diasSelecionados.push(dia);
+    diasSelecionados.sort((a,b) => a-b);
+    el.classList.add('selecionado');
+  } else {
+    diasSelecionados.splice(idx, 1);
+    el.classList.remove('selecionado');
+  }
+  atualizarBadges();
+  atualizarPreview();
+}
+
+function atualizarBadges() {
+  const container = document.getElementById('diasSelecionados');
+  if (diasSelecionados.length === 0) {
+    container.innerHTML = '<span class="dias-hint">Nenhum dia selecionado</span>';
+    return;
+  }
+  container.innerHTML = diasSelecionados.map(d => {
+    const data = new Date(anoSelecionado, mesSelecionado, d);
+    const diaSem = DIAS_SEMANA[data.getDay()];
+    return `<span class="dia-badge">${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')} (${diaSem}) <button onclick="removerDia(${d})">×</button></span>`;
+  }).join('');
+}
+
+function removerDia(dia) {
+  const idx = diasSelecionados.indexOf(dia);
+  if (idx !== -1) diasSelecionados.splice(idx, 1);
+  renderCalendario();
+  atualizarBadges();
+  atualizarPreview();
+}
+
+function atualizarPreview() {
+  const nome = document.getElementById('nome').value.trim();
+  const secao = document.getElementById('previewSection');
+
+  if (!nome || diasSelecionados.length === 0 || mesSelecionado === null) {
+    secao.style.display = 'none';
+    return;
+  }
+
+  secao.style.display = 'block';
+  secao.style.position = 'relative';
+  secao.style.zIndex = '10';
+  setTimeout(() => secao.scrollIntoView({behavior:'smooth', block:'nearest'}), 100);
+  document.getElementById('previewNome').textContent = nome.toUpperCase();
+  const container = document.getElementById('previewDias');
+  container.innerHTML = diasSelecionados.map(d => {
+    const data = new Date(anoSelecionado, mesSelecionado, d);
+    const diaSem = DIAS_SEMANA[data.getDay()];
+    return `<span class="preview-dia">${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')} · ${diaSem}</span>`;
+  }).join('');
+}
+
+document.getElementById('nome').addEventListener('input', atualizarPreview);
+
+function enviar() {
+  const nome = document.getElementById('nome').value.trim();
+  if (!nome) { showToast('err','⚠️ Digite seu nome.'); return; }
+  if (mesSelecionado === null) { showToast('err','⚠️ Selecione um mês.'); return; }
+  if (diasSelecionados.length === 0) { showToast('err','⚠️ Selecione pelo menos um dia.'); return; }
+
+  nomeUsuario = nome;
+  const btn = document.getElementById('btnSubmit');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  const diasStr = diasSelecionados.map(d => {
+    const data = new Date(anoSelecionado, mesSelecionado, d);
+    return `${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')} (${DIAS_SEMANA[data.getDay()]})`;
+  }).join(', ');
+
+  const payload = {
+    aba: 'escala_entrega_de_energias',
+    timestamp: new Date().toLocaleString('pt-BR'),
+    nome: nome,
+    mes: `${MESES[mesSelecionado]} ${anoSelecionado}`,
+    dias: diasStr,
+    dias_numeros: diasSelecionados.join(',')
+  };
+
+  const iframeName = 'em_' + Date.now();
+  const iframe = document.createElement('iframe');
+  iframe.name = iframeName; iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SCRIPT_URL;
+  form.target = iframeName; form.style.display = 'none';
+  Object.keys(payload).forEach(key => {
+    const input = document.createElement('input');
+    input.type = 'hidden'; input.name = key; input.value = payload[key];
+    form.appendChild(input);
+  });
+  document.body.appendChild(form);
+  form.submit();
+
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.disabled = false;
+    document.body.removeChild(form);
+    document.body.removeChild(iframe);
+    mostrarSucesso(nome, diasStr);
+  }, 2000);
+}
+
+function mostrarSucesso(nome, diasStr) {
+  document.getElementById('formSection').style.display = 'none';
+  const sec = document.getElementById('successSection');
+  sec.classList.add('show');
+  document.getElementById('successTitle').textContent = `Escala enviada, ${nome.split(' ')[0]}!`;
+  document.getElementById('successSub').textContent = `${MESES[mesSelecionado]} ${anoSelecionado} · ${diasSelecionados.length} dia(s) selecionado(s)`;
+  gerarImagem(nome);
+}
+
+function gerarImagem(nome) {
+  const canvas = document.getElementById('previewCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = 600;
+  const totalDias = diasSelecionados.length;
+  const linhasPorDia = 1;
+  const alturaBase = 180;
+  const alturaItem = 52;
+  const H = alturaBase + (totalDias * alturaItem) + 40;
+  canvas.width = W;
+  canvas.height = H;
+
+  // Fundo
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, W, H);
+
+  // Header azul
+  ctx.fillStyle = '#1B4F8A';
+  ctx.fillRect(0, 0, W, 90);
+
+  // Título
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 13px Montserrat, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE', W/2, 30);
+  ctx.font = 'bold 18px Montserrat, sans-serif';
+  ctx.fillText(nome.toUpperCase(), W/2, 58);
+  ctx.font = '12px Montserrat, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.fillText(`${MESES[mesSelecionado]} ${anoSelecionado} · ${totalDias} dia(s)`, W/2, 78);
+
+  // Dias
+  let y = 110;
+  diasSelecionados.forEach((d, i) => {
+    const data = new Date(anoSelecionado, mesSelecionado, d);
+    const diaSem = DIAS_SEMANA[data.getDay()];
+    const label = `${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')}`;
+
+    // Linha alternada
+    ctx.fillStyle = i % 2 === 0 ? '#F5F9F8' : '#FFFFFF';
+    ctx.fillRect(0, y - 16, W, alturaItem);
+
+    // Badge data
+    ctx.fillStyle = '#1B4F8A';
+    ctx.beginPath();
+    ctx.roundRect(20, y - 12, 100, 34, 8);
+    ctx.fill();
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 13px Montserrat, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, 70, y + 4);
+    ctx.font = '10px Montserrat, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.fillText(diaSem.toUpperCase(), 70, y + 16);
+
+    // Linha divisória
+    ctx.strokeStyle = 'rgba(0,155,141,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, y + alturaItem - 16);
+    ctx.lineTo(W, y + alturaItem - 16);
+    ctx.stroke();
+
+    y += alturaItem;
+  });
+
+  // Footer
+  ctx.fillStyle = '#009B8D';
+  ctx.fillRect(0, H - 30, W, 30);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '10px Montserrat, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Gamúrio do Amanhecer · Fortaleza, CE · gamuriodoamanhecer.com.br', W/2, H - 12);
+}
+
+function downloadImagem() {
+  const canvas = document.getElementById('previewCanvas');
+  const link = document.createElement('a');
+  link.download = `escala_${nomeUsuario.split(' ')[0]}_${MESES[mesSelecionado]}_${anoSelecionado}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function novaEscala() {
+  document.getElementById('formSection').style.display = 'block';
+  document.getElementById('successSection').classList.remove('show');
+  document.getElementById('nome').value = '';
+  document.querySelectorAll('.mes-btn').forEach(b => b.classList.remove('ativo'));
+  mesSelecionado = null;
+  anoSelecionado = null;
+  diasSelecionados = [];
+  document.getElementById('calDays').innerHTML = '';
+  document.getElementById('calTitulo').textContent = 'Selecione um mês acima';
+  document.getElementById('diasSelecionados').innerHTML = '<span class="dias-hint">Nenhum dia selecionado</span>';
+  document.getElementById('previewSection').style.display = 'none';
+  document.getElementById('toast').className = 'toast';
+}
+
+function showToast(tipo, msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${tipo}`;
+}
+</script>
+</body>
+</html>

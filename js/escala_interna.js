@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //  Substitua pela URL do seu Google Apps Script
 //  após publicar (veja SHEETS-SETUP.md)
 // ─────────────────────────────────────────────────
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx3p23p8nNMcsMYULAX0F2D6kav7HqTov-JiuzuVod6qtoIAsWoF_OE6tZSe7jdrqsh/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwF0beNA1ubSoOHBDFC41REq1NrUjCCZCXAsxAqMJt7lR9Y0OUbqqRebHDynq0_p9sN/exec';
 
 // ── Tipo de escala — mostrar/ocultar campo condicional ──
 function handleEscalaChange(radio) {
