@@ -11,501 +11,665 @@
       --teal:#009B8D; --teal-dark:#007A6E; --teal-light:#E6F5F4; --teal-mid:#C8ECEA;
       --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
       --blue:#1B4F8A; --blue-light:#E8F0FB;
-      --red:#C0392B; --red-light:#FDECEA;
+      --purple:#8B5CF6; --purple-dark:#5b21b6; --purple-light:#f5f3ff;
+      --red:#8d2010; --red-light:#FDECEA;
       --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
       --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
-      --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.08);
+      --radius:12px; --shadow:0 8px 32px rgba(0,0,0,0.15);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Montserrat',system-ui,sans-serif;color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;background:url('image/estrela1.jpeg') center center/cover no-repeat fixed;}
     body::before{content:'';position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:0;}
-    body>*{position:relative;z-index:1;}
+    .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:3rem 1.5rem 6rem;}
 
-    /* HEADER */
-    .header{background:rgba(0,122,110,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,155,141,.2);}
-    .header-brand{display:flex;align-items:center;gap:.8rem;}
-    .header-title{font-size:.95rem;font-weight:800;color:#fff;}
-    .header-sub{font-size:.65rem;color:rgba(255,255,255,.7);font-style:italic;}
-    .header-back{color:rgba(255,255,255,.8);text-decoration:none;font-size:.72rem;font-weight:600;padding:.4rem .9rem;border-radius:20px;border:1px solid rgba(255,255,255,.25);transition:all .2s;}
-    .header-back:hover{background:rgba(255,255,255,.15);}
-
-    /* MAIN */
-    .main{max-width:680px;margin:0 auto;padding:3rem 1.5rem 5rem;background:transparent;}
-
-    /* PAGE TITLE */
-    .page-hero{text-align:center;margin-bottom:2.5rem;}
-    .page-hero-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:.4rem;display:flex;align-items:center;justify-content:center;gap:.4rem;}
-    .page-hero-label::before,.page-hero-label::after{content:'';width:24px;height:2px;background:rgba(255,255,255,.7);}
-    .page-hero h1{font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:.4rem;text-shadow:0 2px 8px rgba(0,0,0,.3);}
-    .page-hero p{font-size:.88rem;color:rgba(255,255,255,.8);}
-
-    /* CARD */
-    .card{background:rgba(255,255,255,0.97);border-radius:var(--radius);box-shadow:0 8px 32px rgba(0,0,0,0.18);overflow:hidden;margin-bottom:1.2rem;backdrop-filter:blur(4px);}
+    .card{background:rgba(255,255,255,0.97);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.5rem;}
     .card-hdr{padding:.9rem 1.5rem;display:flex;align-items:center;gap:.6rem;font-size:.68rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#fff;}
     .card-hdr.teal{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
     .card-hdr.blue{background:linear-gradient(135deg,#0f3460,var(--blue));}
+    .card-hdr.purple{background:linear-gradient(135deg,var(--purple-dark),var(--purple));}
     .card-body{padding:1.5rem;}
 
-    /* FORM FIELDS */
+    .hero-inner{text-align:center;padding:2rem 1.5rem 1.2rem;border-bottom:1px solid var(--border);}
+    .hero-inner img{width:80px;height:80px;object-fit:contain;border-radius:50%;background:#fff;border:3px solid var(--gold);padding:4px;margin-bottom:1rem;box-shadow:0 4px 20px rgba(0,0,0,.12);display:block;margin-left:auto;margin-right:auto;}
+    .hero-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+    .hero-label::before,.hero-label::after{content:'';display:inline-block;width:20px;height:2px;background:var(--teal);}
+    .hero-inner h1{font-size:1.5rem;font-weight:800;color:var(--dark);margin-bottom:.3rem;}
+    .hero-inner p{font-size:.82rem;color:var(--muted);}
+    .hero-inner a{display:inline-flex;align-items:center;gap:.4rem;margin-top:.8rem;font-size:.7rem;color:var(--teal);font-weight:600;text-decoration:none;}
+
     .field{margin-bottom:1.2rem;}
     .field:last-child{margin-bottom:0;}
     .field label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
-    .field input,.field select{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.9rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
-    .field input:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,155,141,.08);}
+    .field input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.9rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
+    .field input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,155,141,.08);}
 
-    /* MES SELECTOR */
-    .mes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:.2rem;}
-    .mes-btn{padding:.6rem .4rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:600;color:var(--mid);background:var(--bg);cursor:pointer;transition:all .2s;text-align:center;}
+    .mes-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.2rem;}
+    .mes-btn{padding:.65rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:600;color:var(--mid);background:var(--bg);cursor:pointer;transition:all .2s;text-align:center;}
     .mes-btn:hover{border-color:var(--teal);color:var(--teal);}
     .mes-btn.ativo{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700;}
+    .mes-btn.ativo-purple{background:var(--purple);border-color:var(--purple);color:#fff;font-weight:700;}
 
-    /* CALENDÁRIO */
-    .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
-    .cal-titulo{font-size:1rem;font-weight:800;color:var(--dark);}
-    .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;}
-    .cal-weekdays span{font-size:.6rem;font-weight:700;text-align:center;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;padding:.3rem 0;}
-    .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-    .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .15s;color:var(--dark);background:var(--bg);}
+    .cal-titulo{font-size:.95rem;font-weight:800;color:var(--dark);margin-bottom:.8rem;}
+    .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px;}
+    .cal-weekdays span{font-size:.58rem;font-weight:700;text-align:center;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;padding:.2rem 0;}
+    .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+    .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:7px;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .15s;color:var(--dark);background:var(--bg);}
     .cal-day:hover{border-color:var(--teal);color:var(--teal);}
     .cal-day.vazio{visibility:hidden;pointer-events:none;}
-    .cal-day.passado{color:var(--muted);opacity:.4;pointer-events:none;}
-    .cal-day.selecionado{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700;}
-    .cal-day.hoje{border-color:var(--gold);color:var(--gold-dark);}
-    .cal-day.selecionado.hoje{background:var(--blue);color:#fff;}
+    .cal-day.passado{color:var(--muted);opacity:.35;pointer-events:none;}
+    .cal-day.sel{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700;}
+    .cal-day.hoje{border-color:var(--gold);}
+    /* Dia lotado — vermelho, bloqueado */
+    .cal-day.lotado{background:#4174ae;color:#ffffff;border-color:#1B4F8A;cursor:not-allowed;}
+    .cal-day.lotado:hover{background:#fee2e2;color:#1B4F8A;border-color:#fca5a5;}
+    /* Cantora */
+    .cal-day.purple:hover{border-color:var(--purple);color:var(--purple);}
+    .cal-day.sel-purple{background:var(--purple);color:#fff;border-color:var(--purple);font-weight:700;}
+    .cal-day.com-escala{background:#fff;color:var(--dark);border-color:var(--blue);border-width:2px;}
+    .cal-day.com-escala:hover{background:var(--blue-light);color:var(--blue);}
+    .cal-day.ocupado{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700;cursor:not-allowed;opacity:.75;}
+    .cal-day.ocupado:hover{background:var(--blue);color:#fff;}
 
-    /* DIAS SELECIONADOS BADGE */
-    .dias-selecionados{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;min-height:36px;}
-    .dia-badge{background:var(--blue);color:#fff;font-size:.68rem;font-weight:700;padding:.3rem .7rem;border-radius:20px;display:inline-flex;align-items:center;gap:.3rem;}
-    .dia-badge button{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:.8rem;line-height:1;padding:0;margin:0;}
+    .dias-sel{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem;min-height:32px;}
+    .dia-badge{background:var(--blue);color:#fff;font-size:.68rem;font-weight:700;padding:.25rem .65rem;border-radius:20px;display:inline-flex;align-items:center;gap:.3rem;}
+    .dia-badge button{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:.8rem;line-height:1;}
     .dia-badge button:hover{color:#fff;}
     .dias-hint{font-size:.72rem;color:var(--muted);font-style:italic;}
+    .dia-badge-purple{background:var(--purple);}
 
-    /* PREVIEW */
-    .preview-card{background:var(--blue-light);border:1.5px solid rgba(27,79,138,.2);border-radius:var(--radius);padding:1.2rem 1.5rem;margin-top:1rem;}
-    .preview-nome{font-size:.8rem;font-weight:800;color:var(--blue);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em;}
-    .preview-dias{display:flex;flex-wrap:wrap;gap:.4rem;}
-    .preview-dia{background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;padding:.25rem .65rem;border-radius:6px;}
+    .aviso{padding:.7rem 1rem;background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;font-size:.75rem;color:#991b1b;font-weight:600;display:none;margin-top:.6rem;}
+    .aviso.show{display:block;}
 
-    /* SUBMIT */
-    .btn-submit{width:100%;padding:.95rem;background:var(--teal);color:#fff;border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:.85rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,155,141,.3);display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:1rem;}
-    .btn-submit:hover:not(:disabled){background:var(--teal-dark);transform:translateY(-1px);}
-    .btn-submit:disabled{opacity:.6;cursor:not-allowed;}
-    .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-    .btn-submit.loading .spinner{display:block;}
-    .btn-submit.loading .btn-txt{display:none;}
+    .preview-box{background:var(--blue-light);border:1.5px solid rgba(27,79,138,.2);border-radius:var(--radius);padding:1.2rem;margin-top:1rem;}
+    .preview-box.purple{background:var(--purple-light);border-color:rgba(139,92,246,.2);}
+    .preview-nome{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:.5rem;}
+    .preview-nome.purple{color:var(--purple-dark);}
+    .preview-dias{display:flex;flex-wrap:wrap;gap:.3rem;}
+    .preview-dia{background:var(--blue);color:#fff;font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:5px;}
+    .preview-dia.purple{background:var(--purple);}
+
+    .btn-sub{width:100%;padding:.9rem;color:#fff;border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.8rem;}
+    .btn-sub.teal{background:var(--teal);box-shadow:0 4px 16px rgba(0,155,141,.3);}
+    .btn-sub.teal:hover:not(:disabled){background:var(--teal-dark);}
+    .btn-sub.purple{background:var(--purple);box-shadow:0 4px 16px rgba(139,92,246,.3);}
+    .btn-sub.purple:hover:not(:disabled){background:var(--purple-dark);}
+    .btn-sub:disabled{opacity:.6;cursor:not-allowed;}
+    .spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+    .btn-sub.loading .spinner{display:block;}
+    .btn-sub.loading .btn-txt{display:none;}
     @keyframes spin{to{transform:rotate(360deg);}}
 
-    /* TOAST */
-    .toast{margin-top:1rem;padding:.9rem 1.2rem;border-radius:8px;font-size:.82rem;font-weight:600;text-align:center;display:none;}
+    .toast{margin-top:.8rem;padding:.8rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;text-align:center;display:none;}
     .toast.ok{background:#e6f9f0;border:1px solid #34c77b;color:#1a7a4a;display:block;}
     .toast.err{background:var(--red-light);border:1px solid var(--red);color:var(--red);display:block;}
 
-    /* SUCESSO - IMAGEM */
-    .success-section{display:none;text-align:center;position:relative;z-index:2;}
-    .success-section.show{display:block;}
-    .success-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:2rem;margin-bottom:1rem;}
-    .success-icon{font-size:3rem;margin-bottom:.5rem;}
-    .success-title{font-size:1.1rem;font-weight:800;color:var(--teal-dark);margin-bottom:.3rem;}
-    .success-sub{font-size:.82rem;color:var(--muted);}
-
-    /* CANVAS PREVIEW */
-    #previewCanvas{border-radius:8px;box-shadow:var(--shadow);max-width:100%;margin:1rem auto;display:block;}
-    .btn-download{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;padding:.8rem 1.8rem;border-radius:20px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;margin:.3rem;}
-    .btn-download:hover{background:#0f3460;transform:translateY(-1px);}
-    .btn-nova{display:inline-flex;align-items:center;gap:.5rem;background:var(--teal-light);color:var(--teal-dark);padding:.8rem 1.8rem;border-radius:20px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--teal-mid);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;margin:.3rem;}
+    .sucesso{display:none;text-align:center;}
+    .sucesso.show{display:block;}
+    .sucesso-card{background:rgba(255,255,255,0.97);border-radius:var(--radius);box-shadow:var(--shadow);padding:2rem;margin-bottom:1rem;}
+    .sucesso-ico{font-size:3rem;margin-bottom:.5rem;}
+    .sucesso-title{font-size:1.1rem;font-weight:800;color:var(--teal-dark);margin-bottom:.3rem;}
+    .sucesso-sub{font-size:.82rem;color:var(--muted);}
+    canvas{border-radius:8px;box-shadow:var(--shadow);max-width:100%;margin:1rem auto;display:block;}
+    .btn-dl{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.6rem;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;margin:.3rem;}
+    .btn-dl.blue{background:var(--blue);color:#fff;}
+    .btn-dl.blue:hover{background:#0f3460;}
+    .btn-dl.purple{background:var(--purple);color:#fff;}
+    .btn-dl.purple:hover{background:var(--purple-dark);}
+    .btn-nova{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.6rem;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--teal-light);color:var(--teal-dark);border:1.5px solid var(--teal-mid);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;margin:.3rem;}
     .btn-nova:hover{background:var(--teal);color:#fff;}
 
-    @media(max-width:600px){
-      .mes-grid{grid-template-columns:repeat(3,1fr);}
-      .header{padding:0 1rem;}
-    }
+    @media(max-width:600px){.mes-grid{grid-template-columns:1fr 1fr;}}
   </style>
 </head>
 <body>
+<div class="wrap">
 
-
-
-
-<main class="main">
-
-  <!-- FORMULÁRIO -->
-  <div id="formSection">
-
-    <!-- IDENTIFICAÇÃO -->
+  <!-- ══ BLOCO 1: ENTREGA DE ENERGIAS ══ -->
+  <div id="bloco1">
     <div class="card">
-      <div style="text-align:center;padding:2rem 1.5rem 1.2rem;border-bottom:1px solid var(--border);">
-        <img src="image/Imagem 1 gerada.png" alt="Logo Vale do Amanhecer" style="width:80px;height:80px;object-fit:contain;border-radius:50%;background:#fff;border:3px solid var(--gold);padding:4px;margin-bottom:1rem;box-shadow:0 4px 20px rgba(0,0,0,.12);display:block;margin-left:auto;margin-right:auto;"/>
-        <div style="font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.4rem;"><span style="display:inline-block;width:20px;height:2px;background:var(--teal);"></span>Estrela Candente<span style="display:inline-block;width:20px;height:2px;background:var(--teal);"></span></div>
-        <h1 style="font-size:1.5rem;font-weight:800;color:var(--dark);margin-bottom:.3rem;">Escala Mensal</h1>
-        <p style="font-size:.82rem;color:var(--muted);">Selecione os dias do mês em que você está disponível para a Entrega de Energias.</p>
-        <a href="index.html" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:.8rem;font-size:.7rem;color:var(--teal);font-weight:600;text-decoration:none;">← Voltar ao site</a>
+      <div class="hero-inner">
+        <img src="image/Imagem 1 gerada.png" alt="Logo"/>
+        <div class="hero-label">Estrela Candente</div>
+        <h1>Escala Mensal</h1>
+        <p>Selecione os dias do mês em que você está disponível para a Entrega de Energias.</p>
+        <a href="index.html">← Voltar ao site</a>
       </div>
-      <div class="card-hdr teal" style="margin-top:0;">👤 Identificação</div>
+      <div class="card-hdr teal">👤 Identificação</div>
       <div class="card-body">
         <div class="field">
-          <label>Seu nome completo <span style="color:var(--red)">*</span></label>
-          <input type="text" id="nome" placeholder="Digite seu nome completo"/>
+          <label>Nome e Sobrenome <span style="color:var(--red)">*</span></label>
+          <input type="text" id="nome1" placeholder="Digite seu nome completo"/>
         </div>
         <div class="field">
           <label>Mês da escala <span style="color:var(--red)">*</span></label>
-          <div class="mes-grid" id="mesGrid"></div>
+          <div class="mes-grid" id="mesGrid1"></div>
         </div>
       </div>
     </div>
 
-    <!-- CALENDÁRIO -->
-    <div class="card">
+    <div class="card" id="calCard1" style="display:none">
       <div class="card-hdr blue">📅 Selecione os Dias</div>
       <div class="card-body">
-        <div class="cal-header">
-          <div class="cal-titulo" id="calTitulo">Selecione um mês acima</div>
-        </div>
-        <div class="cal-weekdays">
-          <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
-        </div>
-        <div class="cal-days" id="calDays"></div>
-
-        <div style="margin-top:1rem;">
-          <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">Dias selecionados</div>
-          <div class="dias-selecionados" id="diasSelecionados">
-            <span class="dias-hint">Nenhum dia selecionado</span>
-          </div>
+        <div class="cal-titulo" id="calTitulo1"></div>
+        <div class="cal-weekdays"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+        <div class="cal-days" id="calDays1"></div>
+        <div class="aviso" id="avisoLotado">⚠️ Já atingimos o número máximo de escalas para este dia, por favor, veja outro dia para ajudar.</div>
+        <div style="margin-top:.8rem;">
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Dias selecionados</div>
+          <div class="dias-sel" id="diasSel1"><span class="dias-hint">Nenhum dia selecionado</span></div>
         </div>
       </div>
     </div>
 
-    <!-- PREVIEW -->
-    <div class="card" id="previewSection" style="display:none">
+    <div class="card" id="preview1" style="display:none">
       <div class="card-hdr teal">✅ Confirme sua escala</div>
       <div class="card-body">
-        <div class="preview-card">
-          <div class="preview-nome" id="previewNome"></div>
-          <div class="preview-dias" id="previewDias"></div>
+        <div class="preview-box">
+          <div class="preview-nome" id="pNome1"></div>
+          <div class="preview-dias" id="pDias1"></div>
         </div>
-        <button class="btn-submit" id="btnSubmit" onclick="enviar()">
+        <button class="btn-sub teal" id="btnEnviar1" onclick="enviar1()">
           <span class="btn-txt">✦ Confirmar e Enviar Escala</span>
           <div class="spinner"></div>
         </button>
-        <div class="toast" id="toast"></div>
+        <div class="toast" id="toast1"></div>
       </div>
-    </div>
-
-  </div><!-- /formSection -->
-
-  <!-- SUCESSO -->
-  <div class="success-section" id="successSection">
-    <div class="success-card">
-      <div class="success-icon">✅</div>
-      <div class="success-title" id="successTitle">Escala enviada com sucesso!</div>
-      <div class="success-sub" id="successSub"></div>
-    </div>
-
-    <canvas id="previewCanvas" width="600" height="400"></canvas>
-
-    <div style="margin-top:.5rem">
-      <button class="btn-download" onclick="downloadImagem()">⬇ Baixar Imagem</button>
-      <button class="btn-nova" onclick="novaEscala()">+ Nova Escala</button>
     </div>
   </div>
 
-</main>
+  <!-- SUCESSO 1 -->
+  <div class="sucesso" id="sucesso1">
+    <div class="sucesso-card">
+      <div class="sucesso-ico">✅</div>
+      <div class="sucesso-title" id="sTitle1">Escala enviada!</div>
+      <div class="sucesso-sub" id="sSub1"></div>
+    </div>
+    <canvas id="canvas1" width="600" height="400"></canvas>
+    <div>
+      <button class="btn-dl blue" onclick="baixar1()">⬇ Baixar Imagem</button>
+      <button class="btn-nova" onclick="reset1()">+ Nova Escala</button>
+    </div>
+  </div>
+
+  <!-- ══ BLOCO 2: CANTORA ══ -->
+  <div id="bloco2">
+    <div class="card">
+      <div class="hero-inner" style="padding:1.5rem 1.5rem 1.2rem;">
+        <h1 style="color:var(--purple-dark);">🎵 Escala de Cantora</h1>
+        <p>Dê escala como cantora do ritual. Apenas uma cantora por dia.</p>
+      </div>
+      <div class="card-hdr purple">👤 Identificação</div>
+      <div class="card-body">
+        <div class="field">
+          <label>Nome e Sobrenome <span style="color:var(--red)">*</span></label>
+          <input type="text" id="nome2" placeholder="Digite seu nome completo"/>
+        </div>
+        <div class="field">
+          <label>Mês <span style="color:var(--red)">*</span></label>
+          <div class="mes-grid" id="mesGrid2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="calCard2" style="display:none">
+      <div class="card-hdr purple">📅 Selecione o Dia</div>
+      <div class="card-body">
+        <div class="cal-titulo" id="calTitulo2"></div>
+        <div class="cal-weekdays"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+        <div class="cal-days" id="calDays2"></div>
+        <div class="aviso" id="avisoOcupado">🚫 Já há uma cantora escalada para este dia. Por favor, escolha outra data.</div>
+        <div style="margin-top:.8rem;">
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Dia selecionado</div>
+          <div class="dias-sel" id="diasSel2"><span class="dias-hint">Nenhum dia selecionado</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="preview2" style="display:none">
+      <div class="card-hdr purple">🎵 Confirme sua escala</div>
+      <div class="card-body">
+        <div class="preview-box purple">
+          <div class="preview-nome purple" id="pNome2"></div>
+          <div class="preview-dias" id="pDias2"></div>
+        </div>
+        <button class="btn-sub purple" id="btnEnviar2" onclick="enviar2()">
+          <span class="btn-txt">🎤 Confirmar Escala de Cantora</span>
+          <div class="spinner"></div>
+        </button>
+        <div class="toast" id="toast2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCESSO 2 -->
+  <div class="sucesso" id="sucesso2">
+    <div class="sucesso-card">
+      <div class="sucesso-ico">🎤</div>
+      <div class="sucesso-title" id="sTitle2" style="color:var(--purple-dark);">Escala de cantora enviada!</div>
+      <div class="sucesso-sub" id="sSub2"></div>
+    </div>
+    <canvas id="canvas2" width="600" height="280"></canvas>
+    <div>
+      <button class="btn-dl purple" onclick="baixar2()">⬇ Baixar Imagem</button>
+      <button class="btn-nova" onclick="reset2()">+ Nova Escala</button>
+    </div>
+  </div>
+
+</div>
 
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwF0beNA1ubSoOHBDFC41REq1NrUjCCZCXAsxAqMJt7lR9Y0OUbqqRebHDynq0_p9sN/exec';
 const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
-
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const MAX_POR_DIA = 4;
 
-let mesSelecionado = null;
-let anoSelecionado = null;
-let diasSelecionados = [];
-let nomeUsuario = '';
+// ── Estado ──
+let mes1=null, ano1=null, dias1=[];
+let mes2=null, ano2=null, dia2=null;
+let diasLotados = {};     // dia -> true se >= 4 pessoas únicas (bloco 1)
+let cantorasOcupadas = {}; // dia -> nome cantora (bloco 2)
+let nomeUsuario1='', nomeUsuario2='';
 
-// ── Init ──
+// ── Init grids de mês ──
 const agora = new Date();
 const mesAtual = agora.getMonth();
 const anoAtual = agora.getFullYear();
 
-// Gerar grid de meses (mês atual + próximos 3)
-const mesGrid = document.getElementById('mesGrid');
-for (let i = 0; i < 2; i++) {
-  let m = (mesAtual + i) % 12;
-  let a = anoAtual + Math.floor((mesAtual + i) / 12);
-  const btn = document.createElement('button');
-  btn.className = 'mes-btn';
-  btn.textContent = `${MESES[m].substring(0,3)} ${a}`;
-  btn.dataset.mes = m;
-  btn.dataset.ano = a;
-  btn.onclick = () => selecionarMes(m, a, btn);
-  mesGrid.appendChild(btn);
+['mesGrid1','mesGrid2'].forEach((gridId, idx) => {
+  const grid = document.getElementById(gridId);
+  for (let i = 0; i < 2; i++) {
+    let m = (mesAtual + i) % 12;
+    let a = anoAtual + Math.floor((mesAtual + i) / 12);
+    const btn = document.createElement('button');
+    btn.className = 'mes-btn';
+    btn.textContent = `${MESES[m].substring(0,3)} ${a}`;
+    btn.dataset.mes = m; btn.dataset.ano = a;
+    btn.onclick = () => idx === 0 ? selecionarMes1(m, a, btn) : selecionarMes2(m, a, btn);
+    grid.appendChild(btn);
+  }
+});
+
+// ══ BLOCO 1 ══
+
+// Carrega planilha e calcula quais dias já têm 4+ pessoas únicas
+async function carregarDadosMes1() {
+  diasLotados = {};
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=escala_entrega_de_energias&t=${Date.now()}`;
+    const text = await (await fetch(url)).text();
+    const mesFmt = `${MESES[mes1].toLowerCase()} ${ano1}`;
+    const nomesPorDia = {};
+
+    splitCSVRows(text).slice(1).forEach(l => {
+      const c       = splitCSV(l);
+      const mesR    = clean(c[2]).toLowerCase();
+      const nomeR   = clean(c[1]);
+      const diasNum = clean(c[4]);
+      const cantora = clean(c[5]);
+      // Cantoras não contam no limite dos ajudantes
+      if (mesR !== mesFmt || cantora === 'Sim') return;
+      diasNum.split(',').forEach(n => {
+        const dia = parseInt(n.trim());
+        if (!dia) return;
+        if (!nomesPorDia[dia]) nomesPorDia[dia] = new Set();
+        nomesPorDia[dia].add(nomeR);
+      });
+    });
+
+    // Marcar dias com 4+ nomes únicos como lotados
+    Object.entries(nomesPorDia).forEach(([dia, nomes]) => {
+      if (nomes.size >= MAX_POR_DIA) diasLotados[parseInt(dia)] = true;
+    });
+  } catch(e) { console.error('Erro ao carregar dias lotados:', e); }
 }
 
-function selecionarMes(mes, ano, btn) {
-  mesSelecionado = mes;
-  anoSelecionado = ano;
-  diasSelecionados = [];
-  document.querySelectorAll('.mes-btn').forEach(b => b.classList.remove('ativo'));
+async function selecionarMes1(mes, ano, btn) {
+  mes1=mes; ano1=ano; dias1=[];
+  document.querySelectorAll('#mesGrid1 .mes-btn').forEach(b => b.classList.remove('ativo'));
   btn.classList.add('ativo');
-  document.getElementById('calTitulo').textContent = `${MESES[mes]} ${ano}`;
-  renderCalendario();
-  atualizarPreview();
+  document.getElementById('calTitulo1').textContent = `${MESES[mes]} ${ano}`;
+  document.getElementById('calCard1').style.display = 'block';
+  document.getElementById('avisoLotado').classList.remove('show');
+  await carregarDadosMes1();
+  renderCal1();
+  atualizarPreview1();
 }
 
-function renderCalendario() {
-  const container = document.getElementById('calDays');
+function renderCal1() {
+  const container = document.getElementById('calDays1');
   container.innerHTML = '';
-  const primeiroDia = new Date(anoSelecionado, mesSelecionado, 1).getDay();
-  const totalDias   = new Date(anoSelecionado, mesSelecionado + 1, 0).getDate();
-  const hoje = new Date();
-
-  for (let i = 0; i < primeiroDia; i++) {
-    const el = document.createElement('div');
-    el.className = 'cal-day vazio';
-    container.appendChild(el);
+  const primeiro = new Date(ano1, mes1, 1).getDay();
+  const total    = new Date(ano1, mes1+1, 0).getDate();
+  const hoje     = new Date();
+  for (let i = 0; i < primeiro; i++) {
+    const el = document.createElement('div'); el.className='cal-day vazio'; container.appendChild(el);
   }
-
-  for (let d = 1; d <= totalDias; d++) {
-    const el = document.createElement('div');
-    el.className = 'cal-day';
-    el.textContent = d;
-
-    const dataEl = new Date(anoSelecionado, mesSelecionado, d);
-    const ehMesAtual = mesSelecionado === hoje.getMonth() && anoSelecionado === hoje.getFullYear();
-    if (ehMesAtual && dataEl < new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) {
+  for (let d = 1; d <= total; d++) {
+    const el = document.createElement('div'); el.className='cal-day'; el.textContent=d;
+    const ehMesAtual = mes1===hoje.getMonth() && ano1===hoje.getFullYear();
+    if (ehMesAtual && new Date(ano1,mes1,d) < new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate())) {
       el.classList.add('passado');
+    } else if (diasLotados[d] && !dias1.includes(d)) {
+      el.classList.add('lotado');
+      el.title = `Dia lotado — máx. ${MAX_POR_DIA} pessoas`;
     }
-    if (d === hoje.getDate() && mesSelecionado === hoje.getMonth() && anoSelecionado === hoje.getFullYear()) {
-      el.classList.add('hoje');
-    }
-    if (diasSelecionados.includes(d)) {
-      el.classList.add('selecionado');
-    }
-
-    el.onclick = () => toggleDia(d, el);
+    if (d===hoje.getDate() && mes1===hoje.getMonth() && ano1===hoje.getFullYear()) el.classList.add('hoje');
+    if (dias1.includes(d)) { el.classList.remove('lotado'); el.classList.add('sel'); }
+    el.onclick = () => toggleDia1(d, el);
     container.appendChild(el);
   }
 }
 
-function toggleDia(dia, el) {
-  const idx = diasSelecionados.indexOf(dia);
-  if (idx === -1) {
-    diasSelecionados.push(dia);
-    diasSelecionados.sort((a,b) => a-b);
-    el.classList.add('selecionado');
+function toggleDia1(d, el) {
+  document.getElementById('avisoLotado').classList.remove('show');
+  // Bloquear se lotado e não foi selecionado por esta pessoa antes
+  if (diasLotados[d] && !dias1.includes(d)) {
+    document.getElementById('avisoLotado').classList.add('show');
+    setTimeout(() => document.getElementById('avisoLotado').scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
+    return;
+  }
+  const idx = dias1.indexOf(d);
+  if (idx===-1) {
+    dias1.push(d); dias1.sort((a,b)=>a-b); el.classList.add('sel');
   } else {
-    diasSelecionados.splice(idx, 1);
-    el.classList.remove('selecionado');
+    dias1.splice(idx,1); el.classList.remove('sel');
+    if (diasLotados[d]) el.classList.add('lotado');
   }
-  atualizarBadges();
-  atualizarPreview();
+  atualizarBadges1();
+  atualizarPreview1();
 }
 
-function atualizarBadges() {
-  const container = document.getElementById('diasSelecionados');
-  if (diasSelecionados.length === 0) {
-    container.innerHTML = '<span class="dias-hint">Nenhum dia selecionado</span>';
-    return;
-  }
-  container.innerHTML = diasSelecionados.map(d => {
-    const data = new Date(anoSelecionado, mesSelecionado, d);
-    const diaSem = DIAS_SEMANA[data.getDay()];
-    return `<span class="dia-badge">${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')} (${diaSem}) <button onclick="removerDia(${d})">×</button></span>`;
+function atualizarBadges1() {
+  const c = document.getElementById('diasSel1');
+  if (dias1.length===0) { c.innerHTML='<span class="dias-hint">Nenhum dia selecionado</span>'; return; }
+  c.innerHTML = dias1.map(d => {
+    const ds = DIAS_SEM[new Date(ano1,mes1,d).getDay()];
+    return `<span class="dia-badge">${String(d).padStart(2,'0')}/${String(mes1+1).padStart(2,'0')} (${ds}) <button onclick="remover1(${d})">×</button></span>`;
   }).join('');
 }
 
-function removerDia(dia) {
-  const idx = diasSelecionados.indexOf(dia);
-  if (idx !== -1) diasSelecionados.splice(idx, 1);
-  renderCalendario();
-  atualizarBadges();
-  atualizarPreview();
+function remover1(d) {
+  dias1.splice(dias1.indexOf(d),1);
+  renderCal1(); atualizarBadges1(); atualizarPreview1();
 }
 
-function atualizarPreview() {
-  const nome = document.getElementById('nome').value.trim();
-  const secao = document.getElementById('previewSection');
-
-  if (!nome || diasSelecionados.length === 0 || mesSelecionado === null) {
-    secao.style.display = 'none';
-    return;
-  }
-
-  secao.style.display = 'block';
-  secao.style.position = 'relative';
-  secao.style.zIndex = '10';
-  setTimeout(() => secao.scrollIntoView({behavior:'smooth', block:'nearest'}), 100);
-  document.getElementById('previewNome').textContent = nome.toUpperCase();
-  const container = document.getElementById('previewDias');
-  container.innerHTML = diasSelecionados.map(d => {
-    const data = new Date(anoSelecionado, mesSelecionado, d);
-    const diaSem = DIAS_SEMANA[data.getDay()];
-    return `<span class="preview-dia">${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')} · ${diaSem}</span>`;
+function atualizarPreview1() {
+  const nome = document.getElementById('nome1').value.trim();
+  const p = document.getElementById('preview1');
+  if (!nome || dias1.length===0 || mes1===null) { p.style.display='none'; return; }
+  p.style.display='block';
+  setTimeout(()=>p.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  document.getElementById('pNome1').textContent = nome.toUpperCase();
+  document.getElementById('pDias1').innerHTML = dias1.map(d => {
+    const ds = DIAS_SEM[new Date(ano1,mes1,d).getDay()];
+    return `<span class="preview-dia">${String(d).padStart(2,'0')}/${String(mes1+1).padStart(2,'0')} · ${ds}</span>`;
   }).join('');
 }
 
-document.getElementById('nome').addEventListener('input', atualizarPreview);
+document.getElementById('nome1').addEventListener('input', atualizarPreview1);
 
-function enviar() {
-  const nome = document.getElementById('nome').value.trim();
-  if (!nome) { showToast('err','⚠️ Digite seu nome.'); return; }
-  if (mesSelecionado === null) { showToast('err','⚠️ Selecione um mês.'); return; }
-  if (diasSelecionados.length === 0) { showToast('err','⚠️ Selecione pelo menos um dia.'); return; }
-
-  nomeUsuario = nome;
-  const btn = document.getElementById('btnSubmit');
-  btn.classList.add('loading'); btn.disabled = true;
-
-  const diasStr = diasSelecionados.map(d => {
-    const data = new Date(anoSelecionado, mesSelecionado, d);
-    return `${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')} (${DIAS_SEMANA[data.getDay()]})`;
+function enviar1() {
+  const nome = document.getElementById('nome1').value.trim();
+  if (!nome) { showToast('toast1','err','⚠️ Digite seu nome.'); return; }
+  if (mes1===null) { showToast('toast1','err','⚠️ Selecione um mês.'); return; }
+  if (dias1.length===0) { showToast('toast1','err','⚠️ Selecione pelo menos um dia.'); return; }
+  nomeUsuario1 = nome;
+  const btn = document.getElementById('btnEnviar1');
+  btn.classList.add('loading'); btn.disabled=true;
+  const diasStr = dias1.map(d => {
+    const ds = DIAS_SEM[new Date(ano1,mes1,d).getDay()];
+    return `${String(d).padStart(2,'0')}/${String(mes1+1).padStart(2,'0')} (${ds})`;
   }).join(', ');
-
-  const payload = {
-    aba: 'escala_entrega_de_energias',
+  enviarPost({
+    aba:'escala_entrega_de_energias',
     timestamp: new Date().toLocaleString('pt-BR'),
-    nome: nome,
-    mes: `${MESES[mesSelecionado]} ${anoSelecionado}`,
-    dias: diasStr,
-    dias_numeros: diasSelecionados.join(',')
-  };
+    nome, mes:`${MESES[mes1].toLowerCase()} ${ano1}`,
+    dias:diasStr, dias_numeros:dias1.join(','),
+    cantora:'', dia_cantora:''
+  }, () => {
+    btn.classList.remove('loading'); btn.disabled=false;
+    document.getElementById('bloco1').style.display='none';
+    document.getElementById('sucesso1').classList.add('show');
+    document.getElementById('sTitle1').textContent=`Escala enviada, ${nome.split(' ')[0]}!`;
+    document.getElementById('sSub1').textContent=`${MESES[mes1]} ${ano1} · ${dias1.length} dia(s)`;
+    gerarImagem1(nome);
+  });
+}
 
-  const iframeName = 'em_' + Date.now();
-  const iframe = document.createElement('iframe');
-  iframe.name = iframeName; iframe.style.display = 'none';
+function gerarImagem1(nome) {
+  const canvas=document.getElementById('canvas1'), ctx=canvas.getContext('2d');
+  const W=600, totalD=dias1.length, H=160+totalD*50+30;
+  canvas.width=W; canvas.height=H;
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#1B4F8A'; ctx.fillRect(0,0,W,88);
+  ctx.fillStyle='#fff'; ctx.font='bold 12px Montserrat,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE',W/2,22);
+  ctx.font='bold 18px Montserrat,sans-serif'; ctx.fillText(nome.toUpperCase(),W/2,50);
+  ctx.font='11px Montserrat,sans-serif'; ctx.fillStyle='rgba(255,255,255,.75)';
+  ctx.fillText(`${MESES[mes1]} ${ano1} · ${totalD} dia(s)`,W/2,72);
+  let y=108;
+  dias1.forEach((d,i) => {
+    const ds=DIAS_SEM[new Date(ano1,mes1,d).getDay()];
+    const label=`${String(d).padStart(2,'0')}/${String(mes1+1).padStart(2,'0')}`;
+    ctx.fillStyle=i%2===0?'#F5F9F8':'#fff'; ctx.fillRect(0,y-14,W,48);
+    ctx.fillStyle='#1B4F8A';
+    ctx.beginPath(); ctx.roundRect?ctx.roundRect(18,y-10,96,30,7):ctx.rect(18,y-10,96,30); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='bold 12px Montserrat,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(label,66,y+5);
+    ctx.font='9px Montserrat,sans-serif'; ctx.fillStyle='rgba(255,255,255,.8)';
+    ctx.fillText(ds.toUpperCase(),66,y+16);
+    ctx.strokeStyle='rgba(0,155,141,.12)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,y+34); ctx.lineTo(W,y+34); ctx.stroke();
+    y+=48;
+  });
+  ctx.fillStyle='#009B8D'; ctx.fillRect(0,H-28,W,28);
+  ctx.fillStyle='#fff'; ctx.font='9px Montserrat,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Gamúrio do Amanhecer · Fortaleza, CE · gamuriodoamanhecer.com.br',W/2,H-11);
+}
+
+function baixar1() {
+  const a=document.createElement('a');
+  a.download=`escala_${nomeUsuario1.split(' ')[0]}_${MESES[mes1]}_${ano1}.png`;
+  a.href=document.getElementById('canvas1').toDataURL('image/png'); a.click();
+}
+
+function reset1() {
+  document.getElementById('bloco1').style.display='block';
+  document.getElementById('sucesso1').classList.remove('show');
+  document.getElementById('nome1').value='';
+  document.querySelectorAll('#mesGrid1 .mes-btn').forEach(b=>b.classList.remove('ativo'));
+  mes1=null; ano1=null; dias1=[]; diasLotados={};
+  document.getElementById('calCard1').style.display='none';
+  document.getElementById('diasSel1').innerHTML='<span class="dias-hint">Nenhum dia selecionado</span>';
+  document.getElementById('preview1').style.display='none';
+  document.getElementById('toast1').className='toast';
+  document.getElementById('avisoLotado').classList.remove('show');
+}
+
+// ══ BLOCO 2 — CANTORA ══
+async function selecionarMes2(mes, ano, btn) {
+  mes2=mes; ano2=ano; dia2=null;
+  document.querySelectorAll('#mesGrid2 .mes-btn').forEach(b=>b.classList.remove('ativo','ativo-purple'));
+  btn.classList.add('ativo-purple');
+  document.getElementById('calTitulo2').textContent=`${MESES[mes]} ${ano}`;
+  document.getElementById('calCard2').style.display='block';
+  document.getElementById('avisoOcupado').classList.remove('show');
+  document.getElementById('diasSel2').innerHTML='<span class="dias-hint">Nenhum dia selecionado</span>';
+  document.getElementById('preview2').style.display='none';
+  await carregarCantoras();
+  renderCal2();
+}
+
+async function carregarCantoras() {
+  cantorasOcupadas={};
+  try {
+    const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=escala_entrega_de_energias&t=${Date.now()}`;
+    const text=await (await fetch(url)).text();
+    const mesFmt=`${MESES[mes2].toLowerCase()} ${ano2}`;
+    splitCSVRows(text).slice(1).forEach(l => {
+      const c=splitCSV(l);
+      const mesR=clean(c[2]).toLowerCase(), diaC=clean(c[6]);
+      const nomeR=clean(c[1]), cantora=clean(c[5]);
+      if (mesR!==mesFmt || cantora!=='Sim') return;
+      if (diaC && parseInt(diaC)) cantorasOcupadas[parseInt(diaC)]=nomeR;
+    });
+  } catch(e){ console.error('Erro ao carregar cantoras:', e); }
+}
+
+function renderCal2() {
+  const container=document.getElementById('calDays2');
+  container.innerHTML='';
+  const primeiro=new Date(ano2,mes2,1).getDay();
+  const total=new Date(ano2,mes2+1,0).getDate();
+  const hoje=new Date();
+  for (let i=0;i<primeiro;i++) {
+    const el=document.createElement('div'); el.className='cal-day vazio'; container.appendChild(el);
+  }
+  for (let d=1;d<=total;d++) {
+    const el=document.createElement('div'); el.className='cal-day purple'; el.textContent=d;
+    const ehMesAtual=mes2===hoje.getMonth()&&ano2===hoje.getFullYear();
+    if (ehMesAtual&&new Date(ano2,mes2,d)<new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate())) {
+      el.classList.add('passado');
+    } else if (cantorasOcupadas[d]) {
+      el.classList.add('ocupado');
+      el.title=`Cantora: ${cantorasOcupadas[d]}`;
+    }
+    if (d===hoje.getDate()&&mes2===hoje.getMonth()&&ano2===hoje.getFullYear()) el.classList.add('hoje');
+    if (dia2===d) el.classList.add('sel-purple');
+    el.onclick=()=>selecionarDia2(d,el);
+    container.appendChild(el);
+  }
+}
+
+function selecionarDia2(d, el) {
+  if (el.classList.contains('passado')) return;
+  document.getElementById('avisoOcupado').classList.remove('show');
+  if (cantorasOcupadas[d]) {
+    document.getElementById('avisoOcupado').classList.add('show');
+    dia2=null; atualizarPreview2(); return;
+  }
+  document.querySelectorAll('#calDays2 .cal-day').forEach(x=>x.classList.remove('sel-purple'));
+  el.classList.add('sel-purple');
+  dia2=d;
+  const ds=DIAS_SEM[new Date(ano2,mes2,d).getDay()];
+  document.getElementById('diasSel2').innerHTML=
+    `<span class="dia-badge dia-badge-purple">🎵 ${String(d).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})</span>`;
+  atualizarPreview2();
+}
+
+function atualizarPreview2() {
+  const nome=document.getElementById('nome2').value.trim();
+  const p=document.getElementById('preview2');
+  if (!nome||dia2===null||mes2===null) { p.style.display='none'; return; }
+  p.style.display='block';
+  setTimeout(()=>p.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  document.getElementById('pNome2').textContent=nome.toUpperCase();
+  const ds=DIAS_SEM[new Date(ano2,mes2,dia2).getDay()];
+  document.getElementById('pDias2').innerHTML=
+    `<span class="preview-dia purple">🎵 ${String(dia2).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})</span>`;
+}
+
+document.getElementById('nome2').addEventListener('input', atualizarPreview2);
+
+function enviar2() {
+  const nome=document.getElementById('nome2').value.trim();
+  if (!nome) { showToast('toast2','err','⚠️ Digite seu nome.'); return; }
+  if (mes2===null) { showToast('toast2','err','⚠️ Selecione um mês.'); return; }
+  if (dia2===null) { showToast('toast2','err','⚠️ Selecione um dia.'); return; }
+  nomeUsuario2=nome;
+  const btn=document.getElementById('btnEnviar2');
+  btn.classList.add('loading'); btn.disabled=true;
+  const ds=DIAS_SEM[new Date(ano2,mes2,dia2).getDay()];
+  const diaStr=`${String(dia2).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})`;
+  enviarPost({
+    aba:'escala_entrega_de_energias',
+    timestamp:new Date().toLocaleString('pt-BR'),
+    nome, mes:`${MESES[mes2].toLowerCase()} ${ano2}`,
+    dias:'', dias_numeros:'',
+    cantora:'Sim', dia_cantora:String(dia2)
+  }, () => {
+    btn.classList.remove('loading'); btn.disabled=false;
+    document.getElementById('bloco2').style.display='none';
+    document.getElementById('sucesso2').classList.add('show');
+    document.getElementById('sTitle2').textContent=`Escala confirmada, ${nome.split(' ')[0]}!`;
+    document.getElementById('sSub2').textContent=`🎵 Cantora do ritual — ${diaStr}`;
+    gerarImagem2(nome, diaStr);
+  });
+}
+
+function gerarImagem2(nome, diaStr) {
+  const canvas=document.getElementById('canvas2'), ctx=canvas.getContext('2d');
+  const W=600,H=260; canvas.width=W; canvas.height=H;
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#5b21b6'; ctx.fillRect(0,0,W,88);
+  ctx.fillStyle='#fff'; ctx.font='bold 11px Montserrat,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE',W/2,22);
+  ctx.fillStyle='rgba(255,255,255,.8)'; ctx.font='bold 10px Montserrat,sans-serif';
+  ctx.fillText('🎵 CANTORA DO RITUAL',W/2,40);
+  ctx.fillStyle='#fff'; ctx.font='bold 19px Montserrat,sans-serif';
+  ctx.fillText(nome.toUpperCase(),W/2,64);
+  ctx.font='10px Montserrat,sans-serif'; ctx.fillStyle='rgba(255,255,255,.75)';
+  ctx.fillText(`${MESES[mes2]} ${ano2}`,W/2,80);
+  ctx.fillStyle='#f5f3ff'; ctx.fillRect(0,88,W,H-116);
+  ctx.fillStyle='#8B5CF6';
+  ctx.beginPath(); ctx.roundRect?ctx.roundRect(W/2-130,110,260,52,12):ctx.rect(W/2-130,110,260,52); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.font='bold 20px Montserrat,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(`🎵 ${diaStr}`,W/2,142);
+  ctx.fillStyle='#5b21b6'; ctx.fillRect(0,H-28,W,28);
+  ctx.fillStyle='#fff'; ctx.font='9px Montserrat,sans-serif';
+  ctx.fillText('Gamúrio do Amanhecer · Fortaleza, CE · gamuriodoamanhecer.com.br',W/2,H-11);
+}
+
+function baixar2() {
+  const a=document.createElement('a');
+  a.download=`cantora_${nomeUsuario2.split(' ')[0]}_${MESES[mes2]}_${ano2}.png`;
+  a.href=document.getElementById('canvas2').toDataURL('image/png'); a.click();
+}
+
+function reset2() {
+  document.getElementById('bloco2').style.display='block';
+  document.getElementById('sucesso2').classList.remove('show');
+  document.getElementById('nome2').value='';
+  document.querySelectorAll('#mesGrid2 .mes-btn').forEach(b=>b.classList.remove('ativo','ativo-purple'));
+  mes2=null; ano2=null; dia2=null; cantorasOcupadas={};
+  document.getElementById('calCard2').style.display='none';
+  document.getElementById('diasSel2').innerHTML='<span class="dias-hint">Nenhum dia selecionado</span>';
+  document.getElementById('preview2').style.display='none';
+  document.getElementById('toast2').className='toast';
+  document.getElementById('avisoOcupado').classList.remove('show');
+}
+
+// ── Helpers ──
+function enviarPost(payload, callback) {
+  const iframeName='f_'+Date.now();
+  const iframe=document.createElement('iframe');
+  iframe.name=iframeName; iframe.style.display='none';
   document.body.appendChild(iframe);
-  const form = document.createElement('form');
-  form.method = 'POST'; form.action = SCRIPT_URL;
-  form.target = iframeName; form.style.display = 'none';
-  Object.keys(payload).forEach(key => {
-    const input = document.createElement('input');
-    input.type = 'hidden'; input.name = key; input.value = payload[key];
-    form.appendChild(input);
+  const form=document.createElement('form');
+  form.method='POST'; form.action=SCRIPT_URL; form.target=iframeName; form.style.display='none';
+  Object.keys(payload).forEach(k => {
+    const inp=document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=payload[k]; form.appendChild(inp);
   });
-  document.body.appendChild(form);
-  form.submit();
-
-  setTimeout(() => {
-    btn.classList.remove('loading'); btn.disabled = false;
-    document.body.removeChild(form);
-    document.body.removeChild(iframe);
-    mostrarSucesso(nome, diasStr);
-  }, 2000);
+  document.body.appendChild(form); form.submit();
+  setTimeout(()=>{ document.body.removeChild(form); document.body.removeChild(iframe); callback(); },2000);
 }
 
-function mostrarSucesso(nome, diasStr) {
-  document.getElementById('formSection').style.display = 'none';
-  const sec = document.getElementById('successSection');
-  sec.classList.add('show');
-  document.getElementById('successTitle').textContent = `Escala enviada, ${nome.split(' ')[0]}!`;
-  document.getElementById('successSub').textContent = `${MESES[mesSelecionado]} ${anoSelecionado} · ${diasSelecionados.length} dia(s) selecionado(s)`;
-  gerarImagem(nome);
+function showToast(id, tipo, msg) {
+  const t=document.getElementById(id); t.textContent=msg; t.className=`toast ${tipo}`;
 }
 
-function gerarImagem(nome) {
-  const canvas = document.getElementById('previewCanvas');
-  const ctx = canvas.getContext('2d');
-  const W = 600;
-  const totalDias = diasSelecionados.length;
-  const linhasPorDia = 1;
-  const alturaBase = 180;
-  const alturaItem = 52;
-  const H = alturaBase + (totalDias * alturaItem) + 40;
-  canvas.width = W;
-  canvas.height = H;
-
-  // Fundo
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(0, 0, W, H);
-
-  // Header azul
-  ctx.fillStyle = '#1B4F8A';
-  ctx.fillRect(0, 0, W, 90);
-
-  // Título
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 13px Montserrat, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE', W/2, 30);
-  ctx.font = 'bold 18px Montserrat, sans-serif';
-  ctx.fillText(nome.toUpperCase(), W/2, 58);
-  ctx.font = '12px Montserrat, sans-serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.8)';
-  ctx.fillText(`${MESES[mesSelecionado]} ${anoSelecionado} · ${totalDias} dia(s)`, W/2, 78);
-
-  // Dias
-  let y = 110;
-  diasSelecionados.forEach((d, i) => {
-    const data = new Date(anoSelecionado, mesSelecionado, d);
-    const diaSem = DIAS_SEMANA[data.getDay()];
-    const label = `${String(d).padStart(2,'0')}/${String(mesSelecionado+1).padStart(2,'0')}`;
-
-    // Linha alternada
-    ctx.fillStyle = i % 2 === 0 ? '#F5F9F8' : '#FFFFFF';
-    ctx.fillRect(0, y - 16, W, alturaItem);
-
-    // Badge data
-    ctx.fillStyle = '#1B4F8A';
-    ctx.beginPath();
-    ctx.roundRect(20, y - 12, 100, 34, 8);
-    ctx.fill();
-
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 13px Montserrat, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(label, 70, y + 4);
-    ctx.font = '10px Montserrat, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.8)';
-    ctx.fillText(diaSem.toUpperCase(), 70, y + 16);
-
-    // Linha divisória
-    ctx.strokeStyle = 'rgba(0,155,141,0.15)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(0, y + alturaItem - 16);
-    ctx.lineTo(W, y + alturaItem - 16);
-    ctx.stroke();
-
-    y += alturaItem;
-  });
-
-  // Footer
-  ctx.fillStyle = '#009B8D';
-  ctx.fillRect(0, H - 30, W, 30);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '10px Montserrat, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Gamúrio do Amanhecer · Fortaleza, CE · gamuriodoamanhecer.com.br', W/2, H - 12);
+function splitCSV(line) {
+  const res=[]; let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){inQ=!inQ;}else if(ch===','&&!inQ){res.push(cur);cur='';}else{cur+=ch;}}
+  res.push(cur); return res;
 }
-
-function downloadImagem() {
-  const canvas = document.getElementById('previewCanvas');
-  const link = document.createElement('a');
-  link.download = `escala_${nomeUsuario.split(' ')[0]}_${MESES[mesSelecionado]}_${anoSelecionado}.png`;
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+function splitCSVRows(text) {
+  const rows=[]; let cur='',inQ=false;
+  for(let i=0;i<text.length;i++){const ch=text[i];if(ch==='"'){inQ=!inQ;cur+=ch;}else if((ch==='\n'||ch==='\r')&&!inQ){if(ch==='\r'&&text[i+1]==='\n')i++;if(cur.trim())rows.push(cur);cur='';}else{cur+=ch;}}
+  if(cur.trim())rows.push(cur); return rows;
 }
-
-function novaEscala() {
-  document.getElementById('formSection').style.display = 'block';
-  document.getElementById('successSection').classList.remove('show');
-  document.getElementById('nome').value = '';
-  document.querySelectorAll('.mes-btn').forEach(b => b.classList.remove('ativo'));
-  mesSelecionado = null;
-  anoSelecionado = null;
-  diasSelecionados = [];
-  document.getElementById('calDays').innerHTML = '';
-  document.getElementById('calTitulo').textContent = 'Selecione um mês acima';
-  document.getElementById('diasSelecionados').innerHTML = '<span class="dias-hint">Nenhum dia selecionado</span>';
-  document.getElementById('previewSection').style.display = 'none';
-  document.getElementById('toast').className = 'toast';
-}
-
-function showToast(tipo, msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${tipo}`;
-}
+function clean(s=''){return s.replace(/^"|"$/g,'').trim();}
 </script>
 </body>
 </html>
