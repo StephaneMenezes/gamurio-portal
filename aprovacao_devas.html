@@ -20,29 +20,9 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;}
 
-    /* LOGIN */
-   .login-wrap{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:2rem;
-  background:url("image/estrela6.jpg") center center/cover no-repeat;
-  position:relative;
-}
-
-.login-wrap::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.55);
-  z-index:0;
-}
-
-.login-wrap>*{
-  position:relative;
-  z-index:1;
-}
+    .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;background:url("image/estrela6.jpg") center center/cover no-repeat;position:relative;}
+    .login-wrap::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.55);z-index:0;}
+    .login-wrap>*{position:relative;z-index:1;}
     .login-card{background:var(--white);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.12);width:100%;max-width:380px;overflow:hidden;}
     .login-hdr{background:linear-gradient(135deg,var(--blue),#0f3460);padding:2rem;text-align:center;}
     .login-hdr h1{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.2rem;}
@@ -57,7 +37,6 @@
     .login-err{margin-top:.8rem;padding:.7rem 1rem;background:var(--red-light);border:1px solid var(--red);border-radius:8px;font-size:.78rem;color:var(--red);font-weight:600;text-align:center;display:none;}
     .login-err.show{display:block;}
 
-    /* ADMIN */
     .admin{display:none;}
     .admin.show{display:block;}
     .header{background:linear-gradient(135deg,var(--blue),#0f3460);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(27,79,138,.2);}
@@ -79,7 +58,6 @@
     .card-hdr.teal{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
     .card-body{padding:1.5rem;}
 
-    /* FILTROS */
     .filtros{display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end;}
     .field label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
     .field select,.field input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.88rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
@@ -87,44 +65,48 @@
     .btn-buscar{padding:.75rem 1.5rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;}
     .btn-buscar:hover{background:#0f3460;}
 
-    /* STATS */
     .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
     .stat-card{background:var(--white);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);text-align:center;border-top:3px solid var(--blue);}
     .stat-num{font-size:1.8rem;font-weight:800;color:var(--blue);}
     .stat-label{font-size:.65rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;}
 
-    /* TABELA PREVIEW */
-    .escala-preview{width:100%;border-collapse:collapse;font-size:.82rem;}
-    .escala-preview th{background:var(--blue);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.7rem 1rem;text-align:left;}
-    .escala-preview tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
-    .escala-preview tbody tr:hover{background:var(--blue-light);}
-    .escala-preview td{padding:.7rem 1rem;vertical-align:top;}
-    .nome-cell{font-weight:700;color:var(--dark);}
-    .mes-cell{font-size:.72rem;color:var(--muted);}
-    .dias-cell{display:flex;flex-wrap:wrap;gap:.3rem;}
-    .dia-chip{background:var(--blue);color:#fff;font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:4px;}
-
-    /* CALENDARIO CONSOLIDADO */
     .cal-consolidado{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);}
     .cal-mes-titulo{grid-column:1/-1;background:var(--gold-light);color:var(--gold-dark);font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:.8rem 1rem;border-top:1px solid rgba(212,168,67,.35);}
-    .cal-dia-row{background:var(--white);gap:0;}
+    .cal-dia-row{background:var(--white);display:grid;grid-template-columns:120px 1fr auto;}
     .cal-dia-label{background:var(--blue);color:#fff;font-size:.82rem;font-weight:800;padding:.8rem 1rem;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
     .cal-dia-label .dia-num{font-size:1.1rem;}
     .cal-dia-label .dia-sem{font-size:.6rem;opacity:.8;text-transform:uppercase;letter-spacing:.05em;}
-    .cal-dia-nomes{padding:.7rem 1rem;font-size:.82rem;color:var(--dark);display:flex;align-items:center;flex:1;}
-    .cal-dia-row{display:grid;grid-template-columns:120px 1fr auto;}
+    .cal-dia-nomes{padding:.7rem 1rem;font-size:.82rem;color:var(--dark);display:flex;align-items:flex-start;flex-direction:column;justify-content:center;gap:.2rem;flex:1;}
     .cal-dia-row.vazio .cal-dia-label{background:#8fa8c8;}
     .cal-dia-label.vazio{background:#8fa8c8;}
     .cal-dia-count{min-width:36px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--blue);background:var(--blue-light);border-left:1px solid rgba(27,79,138,.15);padding:0 .5rem;}
-    .cal-dia-count.no-pdf{}
 
-    /* LOADING */
+    /* NOME TAG COM BOTÃO EXCLUIR */
+    .nome-tag{display:inline-flex;align-items:center;gap:.3rem;background:var(--blue-light);border:1px solid rgba(27,79,138,.2);border-radius:20px;padding:.15rem .6rem .15rem .8rem;font-size:.75rem;font-weight:600;color:var(--dark);}
+    .nome-tag.cantora{background:#f5f3ff;border-color:rgba(139,92,246,.3);color:#5b21b6;font-weight:700;}
+    .btn-excluir{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;line-height:1;padding:.1rem .2rem;border-radius:50%;transition:all .15s;display:flex;align-items:center;}
+    .btn-excluir:hover{background:#fee2e2;color:var(--red);}
+
+    /* MODAL CONFIRMAÇÃO */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;}
+    .modal-overlay.show{display:flex;}
+    .modal-box{background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+    .modal-ico{font-size:2rem;text-align:center;margin-bottom:.8rem;}
+    .modal-title{font-size:1rem;font-weight:800;color:var(--dark);text-align:center;margin-bottom:.4rem;}
+    .modal-sub{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:1.5rem;line-height:1.5;}
+    .modal-nome{font-weight:700;color:var(--blue);}
+    .modal-btns{display:flex;gap:.8rem;}
+    .btn-cancel{flex:1;padding:.75rem;background:var(--bg);border:1.5px solid var(--border);border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
+    .btn-cancel:hover{border-color:var(--muted);}
+    .btn-confirm{flex:1;padding:.75rem;background:var(--red);color:#fff;border:none;border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
+    .btn-confirm:hover{background:#a93226;}
+    .btn-confirm:disabled{opacity:.6;cursor:not-allowed;}
+
     .loading-wrap{text-align:center;padding:3rem;color:var(--muted);}
     .loading-spinner{width:32px;height:32px;border:3px solid var(--teal-mid);border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto .8rem;}
     @keyframes spin{to{transform:rotate(360deg);}}
     .empty{text-align:center;padding:3rem;color:var(--muted);font-style:italic;}
 
-    /* BOTOES ACAO */
     .acoes{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem;}
     .btn-pdf{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.8rem;background:var(--blue);color:#fff;border:none;border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
     .btn-pdf:hover{background:#0f3460;transform:translateY(-1px);}
@@ -135,10 +117,24 @@
       .filtros{grid-template-columns:1fr;}
       .stats-grid{grid-template-columns:repeat(2,1fr);}
       .cal-consolidado{grid-template-columns:1fr;}
+      .cal-dia-row{grid-template-columns:86px 1fr auto;}
     }
   </style>
 </head>
 <body>
+
+<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
+<div class="modal-overlay" id="modalExcluir">
+  <div class="modal-box">
+    <div class="modal-ico">🗑️</div>
+    <div class="modal-title">Confirmar exclusão</div>
+    <div class="modal-sub" id="modalSub">Tem certeza que deseja remover <span class="modal-nome" id="modalNome"></span> do dia <span class="modal-nome" id="modalDia"></span>?</div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+      <button class="btn-confirm" id="btnConfirmarExclusao" onclick="confirmarExclusao()">🗑️ Remover</button>
+    </div>
+  </div>
+</div>
 
 <!-- LOGIN -->
 <div class="login-wrap" id="loginWrap">
@@ -160,7 +156,6 @@
 
 <!-- ADMIN -->
 <div class="admin" id="adminPanel">
-
   <header class="header">
     <div>
       <div class="header-title">📋 Coordenação · Escala Mensal</div>
@@ -172,13 +167,11 @@
   </header>
 
   <main class="main">
-
     <div class="page-title">
       <div class="page-label">Painel do Coordenador</div>
       <h1>Escalas Entrega de Energias</h1>
     </div>
 
-    <!-- FILTROS -->
     <div class="card">
       <div class="card-hdr blue">🔍 Filtrar por Mês</div>
       <div class="card-body">
@@ -204,7 +197,6 @@
       </div>
     </div>
 
-    <!-- STATS -->
     <div class="stats-grid" id="statsGrid" style="display:none">
       <div class="stat-card"><div class="stat-num" id="statPessoas">0</div><div class="stat-label">Pessoas escaladas</div></div>
       <div class="stat-card"><div class="stat-num" id="statDias">0</div><div class="stat-label">Dias cobertos</div></div>
@@ -212,7 +204,6 @@
       <div class="stat-card" style="border-top-color:var(--gold)"><div class="stat-num" style="color:var(--gold-dark)" id="statMedia">0</div><div class="stat-label">Média dias/pessoa</div></div>
     </div>
 
-    <!-- CALENDARIO CONSOLIDADO -->
     <div class="card" id="calCard" style="display:none">
       <div class="card-hdr blue">📅 Escala Consolidada</div>
       <div class="card-body" style="padding:0">
@@ -226,45 +217,22 @@
       </div>
     </div>
 
-    <!-- LISTA INDIVIDUAL -->
-    <div class="card" id="listaCard" style="display:none">
-      <div class="card-hdr teal">👥 Inscrições Individuais</div>
-      <div class="card-body" style="padding:0">
-        <div style="overflow-x:auto">
-          <table class="escala-preview">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Mês</th>
-                <th>Dias selecionados</th>
-                <th>Enviado em</th>
-              </tr>
-            </thead>
-            <tbody id="tabelaBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- LOADING -->
     <div id="loadingWrap" style="display:none">
       <div class="loading-wrap">
         <div class="loading-spinner"></div>
         Carregando escalas...
       </div>
     </div>
-
     <div id="emptyWrap" style="display:none">
       <div class="empty">📭 Nenhuma escala encontrada para o período selecionado.</div>
     </div>
-
   </main>
 </div>
 
 <script>
-const SHEET_ID = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
+const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfR8xHjkG5TCIvzeeuxOMcOvuFr6s1XDSuF0iMVIX-Q8w1S1GOtn1BH8xMUBCtAfJi/exec';
 const SENHA_ADMIN = 'coordenador2026';
-
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 
@@ -272,14 +240,14 @@ let dadosCarregados = [];
 let mesFiltrado = '';
 let anoFiltrado = '2026';
 
-function fazerLogin() {
-  const senha = document.getElementById('senhaInput').value.trim();
+// Exclusão
+let exclusaoPendente = null; // { linhaIdx, nome, dia, mes }
 
-  if (senha === SENHA_ADMIN) {
+// ── LOGIN ──
+function fazerLogin() {
+  if (document.getElementById('senhaInput').value.trim() === SENHA_ADMIN) {
     document.getElementById('loginWrap').style.display = 'none';
     document.getElementById('adminPanel').classList.add('show');
-    document.getElementById('loginErr').classList.remove('show');
-
     const agora = new Date();
     document.getElementById('filtroMes').value = MESES[agora.getMonth()];
     document.getElementById('filtroAno').value = agora.getFullYear();
@@ -288,66 +256,43 @@ function fazerLogin() {
     document.getElementById('loginErr').classList.add('show');
   }
 }
-
 function logout() {
   document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('adminPanel').classList.remove('show');
   document.getElementById('senhaInput').value = '';
 }
 
+// ── DADOS ──
 async function carregarDados() {
   mesFiltrado = document.getElementById('filtroMes').value;
   anoFiltrado = document.getElementById('filtroAno').value;
-
+  ['calCard','statsGrid','emptyWrap'].forEach(id => document.getElementById(id).style.display='none');
   document.getElementById('loadingWrap').style.display = 'block';
-  document.getElementById('calCard').style.display = 'none';
-  document.getElementById('listaCard').style.display = 'none';
-  document.getElementById('statsGrid').style.display = 'none';
-  document.getElementById('emptyWrap').style.display = 'none';
 
   try {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=escala_entrega_de_energias&t=${Date.now()}`;
-    const res  = await fetch(url);
-    const text = await res.text();
-
+    const text = await (await fetch(url)).text();
     const linhas = splitCSVRows(text);
-    const headers = splitCSV(linhas[0] || '').map(h => normalizarTexto(clean(h)));
 
-    const idx = {
-      timestamp: headers.findIndex(h => h.includes('timestamp')),
-      nome: headers.findIndex(h => h === 'nome'),
-      mes: headers.findIndex(h => h === 'mes'),
-      dias: headers.findIndex(h => h === 'dias'),
-      dias_num: headers.findIndex(h => h.includes('dias numeros')),
-      cantora: headers.findIndex(h => h === 'cantora'),
-      dia_cantora: headers.findIndex(h => h.includes('dia cantora'))
-    };
-
-    dadosCarregados = linhas.slice(1).map(l => {
+    dadosCarregados = linhas.slice(1).map((l, i) => {
       const c = splitCSV(l);
       return {
-        timestamp: clean(c[idx.timestamp] || ''),
-        nome: clean(c[idx.nome] || ''),
-        mes: clean(c[idx.mes] || ''),
-        dias: clean(c[idx.dias] || ''),
-        dias_num: clean(c[idx.dias_num] || ''),
-        cantora: clean(c[idx.cantora] || ''),
-        dia_cantora: clean(c[idx.dia_cantora] || '')
+        linhaIdx: i + 2, // linha real na planilha (1=cabeçalho, +1 offset)
+        timestamp:   clean(c[0]||''),
+        nome:        clean(c[1]||''),
+        mes:         clean(c[2]||''),
+        dias:        clean(c[3]||''),
+        dias_num:    clean(c[4]||''),
+        cantora:     clean(c[5]||''),
+        dia_cantora: clean(c[6]||'')
       };
     }).filter(r => r.nome && r.mes);
 
     const filtrados = filtrarDados(dadosCarregados);
-
     document.getElementById('loadingWrap').style.display = 'none';
-
     renderStats(filtrados);
     renderCalendario(filtrados);
-
-    if (filtrados.length > 0) {
-      renderTabela(filtrados);
-    } else {
-      document.getElementById('emptyWrap').style.display = 'block';
-    }
+    if (filtrados.length === 0) document.getElementById('emptyWrap').style.display = 'block';
   } catch(e) {
     document.getElementById('loadingWrap').style.display = 'none';
     document.getElementById('emptyWrap').style.display = 'block';
@@ -357,452 +302,405 @@ async function carregarDados() {
 
 function filtrarDados(dados) {
   return dados.filter(r => {
-    const mesRegistro = normalizarTexto(r.mes);
-    const mesOk = !mesFiltrado || mesRegistro.includes(normalizarTexto(mesFiltrado));
-    const anoOk = !anoFiltrado || mesRegistro.includes(String(anoFiltrado).toLowerCase());
-    return mesOk && anoOk;
+    const m = normalizarTexto(r.mes);
+    return (!mesFiltrado || m.includes(normalizarTexto(mesFiltrado))) &&
+           (!anoFiltrado  || m.includes(String(anoFiltrado)));
   });
 }
 
+// ── STATS ──
 function renderStats(dados) {
   const pessoas = new Set(dados.map(d => d.nome)).size;
   const diasSet = new Set();
-  let totalInscricoes = 0;
-
+  let total = 0;
   dados.forEach(d => {
-    extrairDias(d.dias_num, d.dias).forEach(dia => {
-      const chaveMes = obterIndiceMesDoRegistro(d.mes);
-      diasSet.add(`${chaveMes}-${dia}`);
-      totalInscricoes++;
-    });
+    extrairDias(d.dias_num, d.dias).forEach(dia => { diasSet.add(dia); total++; });
   });
-
   document.getElementById('statPessoas').textContent = pessoas;
-  document.getElementById('statDias').textContent = diasSet.size;
-  document.getElementById('statTotal').textContent = totalInscricoes;
-  document.getElementById('statMedia').textContent = pessoas > 0 ? (totalInscricoes / pessoas).toFixed(1) : '0';
+  document.getElementById('statDias').textContent    = diasSet.size;
+  document.getElementById('statTotal').textContent   = total;
+  document.getElementById('statMedia').textContent   = pessoas ? (total/pessoas).toFixed(1) : '0';
   document.getElementById('statsGrid').style.display = 'grid';
 }
 
+// ── CALENDÁRIO ──
 function renderCalendario(dados) {
-  const porMesDia = consolidarPorMesDia(dados);
+  const porMesDia      = consolidarPorMesDia(dados);
   const cantorasPorMesDia = consolidarCantorasPorMesDia(dados);
-  const ano = parseInt(anoFiltrado, 10);
-  const mesesParaRenderizar = mesFiltrado
-    ? [MESES.indexOf(mesFiltrado)]
-    : MESES.map((_, index) => index);
+  // Mapa: mesIndex -> dia -> array de {nome, linhaIdx}
+  const porMesDiaInfo  = consolidarPorMesDiaInfo(dados);
+  const cantoraInfo    = consolidarCantoraInfo(dados);
 
+  const ano = parseInt(anoFiltrado, 10);
+  const meses = mesFiltrado ? [MESES.indexOf(mesFiltrado)] : MESES.map((_,i)=>i);
   const container = document.getElementById('calConsolidado');
   container.innerHTML = '';
 
-  mesesParaRenderizar.forEach(mesIndex => {
-    if (mesIndex < 0) return;
-
-    if (mesesParaRenderizar.length > 1) {
-      const titulo = document.createElement('div');
-      titulo.className = 'cal-mes-titulo';
-      titulo.textContent = `${MESES[mesIndex]} ${anoFiltrado}`;
-      container.appendChild(titulo);
+  meses.forEach(mi => {
+    if (mi < 0) return;
+    if (meses.length > 1) {
+      const t = document.createElement('div');
+      t.className = 'cal-mes-titulo';
+      t.textContent = `${MESES[mi]} ${anoFiltrado}`;
+      container.appendChild(t);
     }
 
-    const totalDias = new Date(ano, mesIndex + 1, 0).getDate();
+    const totalDias = new Date(ano, mi+1, 0).getDate();
+    const dias = Array.from({length:totalDias},(_,i)=>i+1);
+    const metade = Math.ceil(dias.length/2);
+    const col1 = dias.slice(0, metade);
+    const col2 = dias.slice(metade);
 
-    for (let d = 1; d <= totalDias; d++) {
-      const nomes = porMesDia[mesIndex]?.[d] || [];
-      const cantora = cantorasPorMesDia[mesIndex]?.[d] || '';
-      const data = new Date(ano, mesIndex, d);
-      const diaSem = DIAS_SEM[data.getDay()];
-      const mesNum = String(mesIndex + 1).padStart(2,'0');
-      const vazio = nomes.length === 0 && !cantora;
+    function criarRow(d) {
+      const nomes   = porMesDia[mi]?.[d] || [];
+      const cantora = cantorasPorMesDia[mi]?.[d] || '';
+      const diaSem  = DIAS_SEM[new Date(ano,mi,d).getDay()];
+      const mesNum  = String(mi+1).padStart(2,'0');
+      const vazio   = nomes.length===0 && !cantora;
 
       const row = document.createElement('div');
-      row.className = 'cal-dia-row' + (vazio ? ' vazio' : '');
-      row.innerHTML = `
-        <div class="cal-dia-label${vazio ? ' vazio' : ''}">
-          <span class="dia-num">${String(d).padStart(2,'0')}/${mesNum}</span>
-          <span class="dia-sem">${diaSem}</span>
-        </div>
-        <div class="cal-dia-nomes" style="flex-direction:column;align-items:flex-start;justify-content:center;gap:.2rem;">
-          ${cantora ? `<span style="font-weight:700;color:#1B4F8A;">♪ Cantora: ${cantora}</span>` : ''}
-          ${nomes.length ? `<span>${nomes.join(', ')}</span>` : (!cantora ? '<span style="color:var(--muted);font-style:italic;font-size:.78rem;">—</span>' : '')}
-        </div>
-        <div class="cal-dia-count no-pdf" title="${nomes.length} pessoa(s)">${nomes.length}</div>
-      `;
-      container.appendChild(row);
+      row.className = 'cal-dia-row' + (vazio?' vazio':'');
+
+      // Label data
+      const label = document.createElement('div');
+      label.className = 'cal-dia-label' + (vazio?' vazio':'');
+      label.innerHTML = `<span class="dia-num">${String(d).padStart(2,'0')}/${mesNum}</span><span class="dia-sem">${diaSem}</span>`;
+
+      // Área nomes
+      const nomesDiv = document.createElement('div');
+      nomesDiv.className = 'cal-dia-nomes';
+
+      // Cantora
+      if (cantora) {
+        const cInfo = cantoraInfo[mi]?.[d];
+        const tag = document.createElement('span');
+        tag.className = 'nome-tag cantora';
+        tag.innerHTML = `♪ ${cantora} <button class="btn-excluir" title="Remover cantora" onclick="abrirModal(${cInfo?.linhaIdx||0},'${cantora}','${String(d).padStart(2,'0')}/${mesNum}','cantora')">✕</button>`;
+        nomesDiv.appendChild(tag);
+      }
+
+      // Ajudantes
+      const infos = porMesDiaInfo[mi]?.[d] || [];
+      if (infos.length > 0) {
+        infos.forEach(info => {
+          const tag = document.createElement('span');
+          tag.className = 'nome-tag';
+          tag.innerHTML = `${info.nome} <button class="btn-excluir" title="Remover escalado" onclick="abrirModal(${info.linhaIdx},'${info.nome}','${String(d).padStart(2,'0')}/${mesNum}','ajudante')">✕</button>`;
+          nomesDiv.appendChild(tag);
+        });
+      }
+
+      if (vazio) {
+        nomesDiv.innerHTML = '<span style="color:var(--muted);font-style:italic;font-size:.78rem;">—</span>';
+      }
+
+      // Contador
+      const count = document.createElement('div');
+      count.className = 'cal-dia-count';
+      count.textContent = nomes.length;
+
+      row.appendChild(label);
+      row.appendChild(nomesDiv);
+      row.appendChild(count);
+      return row;
+    }
+
+    const maxLen = Math.max(col1.length, col2.length);
+    for (let i = 0; i < maxLen; i++) {
+      if (i < col1.length) container.appendChild(criarRow(col1[i]));
+      if (i < col2.length) container.appendChild(criarRow(col2[i]));
     }
   });
 
   document.getElementById('calCard').style.display = 'block';
 }
 
-function renderTabela(dados) {
-  const tbody = document.getElementById('tabelaBody');
-
-  tbody.innerHTML = dados.map(d => {
-    const dias = extrairDias(d.dias_num, d.dias);
-
-    return `
-      <tr>
-        <td class="nome-cell">${d.nome}</td>
-        <td class="mes-cell">${d.mes}</td>
-        <td><div class="dias-cell">${
-          dias.length
-            ? dias.map(n => `<span class="dia-chip">${String(n).padStart(2,'0')}</span>`).join('')
-            : '—'
-        }</div></td>
-        <td class="mes-cell">${d.timestamp}</td>
-      </tr>
-    `;
-  }).join('');
-
-  document.getElementById('listaCard').style.display = 'block';
+// ── EXCLUSÃO ──
+function abrirModal(linhaIdx, nome, dia, tipo) {
+  exclusaoPendente = { linhaIdx, nome, dia, tipo };
+  document.getElementById('modalNome').textContent = nome;
+  document.getElementById('modalDia').textContent = dia;
+  document.getElementById('modalExcluir').classList.add('show');
 }
 
-async function gerarPDF() {
-  if (!window.jspdf) {
-    alert('Não foi possível carregar a biblioteca de PDF. Verifique sua conexão e tente novamente.');
-    return;
-  }
-
-  if (!dadosCarregados.length) {
-    alert('Carregue uma escala antes de gerar o PDF.');
-    return;
-  }
-
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
-  const W = 210, H = 297;
-  const MARGIN = 7;
-  const HEADER_H = 24;
-  const FOOTER_H = 7;
-  const TOP_Y = HEADER_H + 4;
-  const BOTTOM_Y = H - FOOTER_H - 4;
-  const AVAILABLE_H = BOTTOM_Y - TOP_Y;
-  const COL_GAP = 3;
-  const ROW_GAP = 0.65;
-  const COL_W = (W - MARGIN * 2 - COL_GAP) / 2;
-  const X1 = MARGIN;
-  const X2 = MARGIN + COL_W + COL_GAP;
-  const CELL_PAD = 1.1;
-  const LABEL_W = 19;
-  const ano = parseInt(anoFiltrado, 10);
-  const mesesParaRenderizar = mesFiltrado
-    ? [MESES.indexOf(mesFiltrado)]
-    : MESES.map((_, index) => index);
-  const dadosFiltrados = filtrarDados(dadosCarregados);
-  const porMesDia = consolidarPorMesDia(dadosFiltrados);
-  const cantorasPorMesDia = consolidarCantorasPorMesDia(dadosFiltrados);
-
-  async function carregarImagemBase64(caminhos) {
-    for (const src of caminhos) {
-      const imgData = await new Promise(resolve => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-
-        img.onload = () => {
-          try {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.naturalWidth || img.width;
-            canvas.height = img.naturalHeight || img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            resolve(canvas.toDataURL('image/png'));
-          } catch(e) {
-            resolve(null);
-          }
-        };
-
-        img.onerror = () => resolve(null);
-        img.src = src;
-      });
-
-      if (imgData) return imgData;
-    }
-
-    return null;
-  }
-
-  const simboloDevas = await carregarImagemBase64([
-    'image/Imagem 1 gerada.png',
-    'castelo-dos-devas-4k-transparente-4096.png'
-  ]);
-
-  function renderHeader(titulo) {
-    doc.setFillColor(27, 79, 138);
-    doc.rect(0, 0, W, HEADER_H, 'F');
-
-    if (simboloDevas) {
-      doc.addImage(simboloDevas, 'PNG', 9, 2.2, 21, 21);
-    }
-
-    doc.setTextColor(255, 255, 255);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10.5);
-    doc.text('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE', W / 2, 8, { align:'center' });
-
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'normal');
-    doc.text(titulo, W / 2, 14.5, { align:'center' });
-    doc.text('Gamúrio do Amanhecer - Fortaleza, CE', W / 2, 20, { align:'center' });
-  }
-
-  function calcularLayoutMes(mesIndex) {
-    const totalDiasMes = new Date(ano, mesIndex + 1, 0).getDate();
-    const maxRows = Math.ceil(totalDiasMes / 2);
-    const cellH = (AVAILABLE_H - (maxRows - 1) * ROW_GAP) / maxRows;
-    const contentW = COL_W - LABEL_W - CELL_PAD * 2;
-    const dias = Array.from({ length: totalDiasMes }, (_, i) => i + 1);
-
-    for (let fs = 7.2; fs >= 3.2; fs -= 0.2) {
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(fs);
-      const lineH = fs * 0.36;
-
-      const cabe = dias.every(dia => {
-        const nomes = porMesDia[mesIndex]?.[dia] || [];
-        const cantora = cantorasPorMesDia[mesIndex]?.[dia] || '';
-        const linhasCantora = cantora ? doc.splitTextToSize(`Cantora: ${cantora}`, contentW) : [];
-        const linhasNomes = nomes.length ? doc.splitTextToSize(nomes.join(', '), contentW) : [];
-        const totalLinhas = linhasCantora.length + linhasNomes.length || 1;
-        const alturaTexto = totalLinhas * lineH + CELL_PAD * 2 + 1.2;
-        return alturaTexto <= cellH;
-      });
-
-      if (cabe) {
-        return { fontSize: Number(fs.toFixed(1)), cellH, lineH };
-      }
-    }
-
-    return { fontSize: 3.2, cellH, lineH: 3.2 * 0.36 };
-  }
-
-  function renderDiaCell(x, y, mesIndex, dia, nomes, cantora, layout) {
-    const mesNum = String(mesIndex + 1).padStart(2,'0');
-    const data = new Date(ano, mesIndex, dia);
-    const diaSem = DIAS_SEM[data.getDay()];
-    const vazio = (!nomes || nomes.length === 0) && !cantora;
-    const contentW = COL_W - LABEL_W - CELL_PAD * 2;
-    const cantoraLines = cantora ? doc.splitTextToSize(`Cantora: ${cantora}`, contentW) : [];
-    const nomesLines = nomes && nomes.length ? doc.splitTextToSize(nomes.join(', '), contentW) : [];
-
-    doc.setFillColor(vazio ? 143 : 27, vazio ? 168 : 79, vazio ? 200 : 138);
-    doc.rect(x, y, LABEL_W, layout.cellH, 'F');
-
-    doc.setTextColor(255, 255, 255);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(Math.max(4.8, layout.fontSize + 0.8));
-    doc.text(`${String(dia).padStart(2,'0')}/${mesNum}`, x + LABEL_W / 2, y + layout.cellH / 2 - 1.2, { align:'center' });
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(Math.max(3.8, layout.fontSize - 0.2));
-    doc.text(diaSem, x + LABEL_W / 2, y + layout.cellH / 2 + 2.4, { align:'center' });
-
-    doc.setFillColor(vazio ? 245 : 248, vazio ? 245 : 252, vazio ? 245 : 252);
-    doc.rect(x + LABEL_W, y, COL_W - LABEL_W, layout.cellH, 'F');
-
-    doc.setDrawColor(200, 220, 230);
-    doc.rect(x, y, COL_W, layout.cellH, 'S');
-
-    if (vazio) {
-      doc.setTextColor(122, 146, 163);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(layout.fontSize);
-      doc.text('-', x + LABEL_W + CELL_PAD, y + CELL_PAD + layout.lineH);
-      return;
-    }
-
-    let textY = y + CELL_PAD + layout.lineH;
-    doc.setFontSize(layout.fontSize);
-
-    if (cantoraLines.length) {
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(27, 79, 138);
-      doc.text(cantoraLines, x + LABEL_W + CELL_PAD, textY);
-      textY += cantoraLines.length * layout.lineH + 0.9;
-    }
-
-    if (nomesLines.length) {
-      doc.setTextColor(27, 43, 58);
-      doc.setFont('helvetica', 'normal');
-      doc.text(nomesLines, x + LABEL_W + CELL_PAD, textY);
-    }
-  }
-
-  mesesParaRenderizar.forEach((mesIndex, idx) => {
-    if (mesIndex < 0) return;
-    if (idx > 0) doc.addPage();
-
-    const titulo = mesFiltrado
-      ? `ESCALA ${mesFiltrado.toUpperCase()} ${anoFiltrado}`
-      : `ESCALA ${MESES[mesIndex].toUpperCase()} ${anoFiltrado}`;
-    renderHeader(titulo);
-
-    const totalDiasMes = new Date(ano, mesIndex + 1, 0).getDate();
-    const dias = Array.from({ length: totalDiasMes }, (_, i) => i + 1);
-    const metade = Math.ceil(dias.length / 2);
-    const col1 = dias.slice(0, metade);
-    const col2 = dias.slice(metade);
-    const layout = calcularLayoutMes(mesIndex);
-
-    let y1 = TOP_Y;
-    let y2 = TOP_Y;
-    const maxDias = Math.max(col1.length, col2.length);
-
-    for (let i = 0; i < maxDias; i++) {
-      if (i < col1.length) {
-        const dia = col1[i];
-        renderDiaCell(X1, y1, mesIndex, dia, porMesDia[mesIndex]?.[dia] || [], cantorasPorMesDia[mesIndex]?.[dia] || '', layout);
-        y1 += layout.cellH + ROW_GAP;
-      }
-
-      if (i < col2.length) {
-        const dia = col2[i];
-        renderDiaCell(X2, y2, mesIndex, dia, porMesDia[mesIndex]?.[dia] || [], cantorasPorMesDia[mesIndex]?.[dia] || '', layout);
-        y2 += layout.cellH + ROW_GAP;
-      }
-    }
-  });
-
-  const totalPages = doc.internal.getNumberOfPages();
-
-  for (let i = 1; i <= totalPages; i++) {
-    doc.setPage(i);
-    doc.setFillColor(27, 79, 138);
-    doc.rect(0, H - FOOTER_H, W, FOOTER_H, 'F');
-
-    doc.setTextColor(255,255,255);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6);
-    doc.text(`Gamúrio do Amanhecer - Fortaleza, CE - gamuriodoamanhecer.com.br | Pag ${i}/${totalPages}`, W / 2, H - 2.7, { align:'center' });
-  }
-
-  const nomeMesArquivo = mesFiltrado ? mesFiltrado : 'ano_completo';
-  doc.save(`escala_entrega_energias_${nomeMesArquivo}_${anoFiltrado}.pdf`);
+function fecharModal() {
+  document.getElementById('modalExcluir').classList.remove('show');
+  exclusaoPendente = null;
 }
 
+async function confirmarExclusao() {
+  if (!exclusaoPendente) return;
+  const btn = document.getElementById('btnConfirmarExclusao');
+  btn.disabled = true;
+  btn.textContent = 'Removendo...';
+
+  const { linhaIdx, nome, dia, tipo } = exclusaoPendente;
+
+  try {
+    // Enviar para Apps Script deletar a linha
+    await new Promise(resolve => {
+      const iframeName = 'del_' + Date.now();
+      const iframe = document.createElement('iframe');
+      iframe.name = iframeName; iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      const form = document.createElement('form');
+      form.method = 'POST'; form.action = SCRIPT_URL; form.target = iframeName; form.style.display='none';
+      [
+        ['aba', 'deletar_linha'],
+        ['sheet_name', 'escala_entrega_de_energias'],
+        ['linha_idx', String(linhaIdx)]
+      ].forEach(([k,v]) => {
+        const inp = document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=v; form.appendChild(inp);
+      });
+      document.body.appendChild(form);
+      form.submit();
+      setTimeout(() => {
+        try{document.body.removeChild(form);}catch(e){}
+        try{document.body.removeChild(iframe);}catch(e){}
+        resolve();
+      }, 2500);
+    });
+
+    fecharModal();
+    btn.disabled = false;
+    btn.textContent = '🗑️ Remover';
+
+    // Recarregar dados
+    await carregarDados();
+
+  } catch(e) {
+    console.error(e);
+    btn.disabled = false;
+    btn.textContent = '🗑️ Remover';
+    alert('Erro ao remover. Tente novamente.');
+  }
+}
+
+// ── CONSOLIDADORES ──
 function consolidarPorMesDia(dados) {
-  const porMesDia = {};
-  const cantorasSelecionadas = consolidarCantorasPorMesDia(dados);
-
+  const r = {};
   dados.forEach(d => {
-    const mesIndex = obterIndiceMesDoRegistro(d.mes);
-    if (mesIndex < 0) return;
-
-    const cantoraSelecionada = normalizarTexto(d.cantora) === 'sim'
-      && extrairDias(d.dia_cantora).some(dia => cantorasSelecionadas[mesIndex]?.[dia] === d.nome);
-
-    if (cantoraSelecionada) return;
-
+    if (normalizarTexto(d.cantora) === 'sim') return;
+    const mi = obterIndiceMes(d.mes);
+    if (mi < 0) return;
     extrairDias(d.dias_num, d.dias).forEach(dia => {
-      if (!porMesDia[mesIndex]) porMesDia[mesIndex] = {};
-      if (!porMesDia[mesIndex][dia]) porMesDia[mesIndex][dia] = [];
-      if (!porMesDia[mesIndex][dia].includes(d.nome)) porMesDia[mesIndex][dia].push(d.nome);
+      if (!r[mi]) r[mi]={};
+      if (!r[mi][dia]) r[mi][dia]=[];
+      if (!r[mi][dia].includes(d.nome)) r[mi][dia].push(d.nome);
     });
   });
+  return r;
+}
 
-  return porMesDia;
+function consolidarPorMesDiaInfo(dados) {
+  // Retorna {linhaIdx, nome} por dia — para botão excluir
+  const r = {};
+  dados.forEach(d => {
+    if (normalizarTexto(d.cantora) === 'sim') return;
+    const mi = obterIndiceMes(d.mes);
+    if (mi < 0) return;
+    extrairDias(d.dias_num, d.dias).forEach(dia => {
+      if (!r[mi]) r[mi]={};
+      if (!r[mi][dia]) r[mi][dia]=[];
+      if (!r[mi][dia].find(x => x.nome===d.nome)) {
+        r[mi][dia].push({ nome: d.nome, linhaIdx: d.linhaIdx });
+      }
+    });
+  });
+  return r;
 }
 
 function consolidarCantorasPorMesDia(dados) {
-  const porMesDia = {};
-
+  const r = {};
   dados.forEach(d => {
-    const mesIndex = obterIndiceMesDoRegistro(d.mes);
-    if (mesIndex < 0 || normalizarTexto(d.cantora) !== 'sim') return;
-
+    if (normalizarTexto(d.cantora) !== 'sim') return;
+    const mi = obterIndiceMes(d.mes);
+    if (mi < 0) return;
     extrairDias(d.dia_cantora).forEach(dia => {
-      if (!porMesDia[mesIndex]) porMesDia[mesIndex] = {};
-      if (!porMesDia[mesIndex][dia]) porMesDia[mesIndex][dia] = d.nome;
+      if (!r[mi]) r[mi]={};
+      if (!r[mi][dia]) r[mi][dia] = d.nome;
     });
   });
-
-  return porMesDia;
+  return r;
 }
 
-function obterIndiceMesDoRegistro(valor = '') {
-  const mesNormalizado = normalizarTexto(valor);
-  return MESES.findIndex(mes => mesNormalizado.includes(normalizarTexto(mes)));
+function consolidarCantoraInfo(dados) {
+  const r = {};
+  dados.forEach(d => {
+    if (normalizarTexto(d.cantora) !== 'sim') return;
+    const mi = obterIndiceMes(d.mes);
+    if (mi < 0) return;
+    extrairDias(d.dia_cantora).forEach(dia => {
+      if (!r[mi]) r[mi]={};
+      if (!r[mi][dia]) r[mi][dia] = { nome: d.nome, linhaIdx: d.linhaIdx };
+    });
+  });
+  return r;
 }
 
-function extrairDias(valor = '', textoDias = '') {
-  const dias = new Set();
+// ── PDF ──
+async function gerarPDF() {
+  if (!window.jspdf || !dadosCarregados.length) { alert('Carregue os dados primeiro.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  const W=210, H=297, MARGIN=7, HEADER_H=24, FOOTER_H=7;
+  const TOP_Y=HEADER_H+4, BOTTOM_Y=H-FOOTER_H-4, AVAILABLE_H=BOTTOM_Y-TOP_Y;
+  const COL_GAP=3, ROW_GAP=0.65;
+  const COL_W=(W-MARGIN*2-COL_GAP)/2;
+  const X1=MARGIN, X2=MARGIN+COL_W+COL_GAP;
+  const CELL_PAD=1.1, LABEL_W=19;
+  const ano=parseInt(anoFiltrado,10);
+  const meses = mesFiltrado ? [MESES.indexOf(mesFiltrado)] : MESES.map((_,i)=>i);
+  const filtrados = filtrarDados(dadosCarregados);
+  const porMesDia = consolidarPorMesDia(filtrados);
+  const cantorasPorMesDia = consolidarCantorasPorMesDia(filtrados);
 
-  String(valor)
-    .split(',')
-    .map(n => parseInt(String(n).trim(), 10))
-    .filter(n => Number.isInteger(n) && n >= 1 && n <= 31)
-    .forEach(n => dias.add(n));
-
-  if (dias.size === 0 && textoDias) {
-    const encontrados = String(textoDias).match(/\b\d{1,2}(?=\/\d{1,2})/g) || [];
-
-    encontrados
-      .map(n => parseInt(n, 10))
-      .filter(n => Number.isInteger(n) && n >= 1 && n <= 31)
-      .forEach(n => dias.add(n));
+  function renderHeader(titulo) {
+    doc.setFillColor(27,79,138); doc.rect(0,0,W,HEADER_H,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold'); doc.setFontSize(10.5);
+    doc.text('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE', W/2, 8, {align:'center'});
+    doc.setFont('helvetica','normal'); doc.setFontSize(8);
+    doc.text(titulo, W/2, 14.5, {align:'center'});
+    doc.text('Gamúrio do Amanhecer - Fortaleza, CE', W/2, 20, {align:'center'});
   }
 
-  return [...dias].sort((a,b) => a-b);
+  function calcLayout(mi) {
+    const totalDias = new Date(ano,mi+1,0).getDate();
+    const maxRows = Math.ceil(totalDias/2);
+    const cellH = (AVAILABLE_H-(maxRows-1)*ROW_GAP)/maxRows;
+    const contentW = COL_W-LABEL_W-CELL_PAD*2;
+    const dias = Array.from({length:totalDias},(_,i)=>i+1);
+    for (let fs=7.2; fs>=3.2; fs-=0.2) {
+      doc.setFont('helvetica','normal'); doc.setFontSize(fs);
+      const lineH = fs*0.36;
+      const cabe = dias.every(dia => {
+        const nomes = porMesDia[mi]?.[dia]||[];
+        const cantora = cantorasPorMesDia[mi]?.[dia]||'';
+        const lC = cantora ? doc.splitTextToSize(`Cantora: ${cantora}`, contentW) : [];
+        const lN = nomes.length ? doc.splitTextToSize(nomes.join(', '), contentW) : [];
+        return (lC.length+lN.length||1)*lineH+CELL_PAD*2+1.2 <= cellH;
+      });
+      if (cabe) return { fontSize:parseFloat(fs.toFixed(1)), cellH, lineH };
+    }
+    return { fontSize:3.2, cellH, lineH:3.2*0.36 };
+  }
+
+  function drawCell(x, y, mi, dia, layout) {
+    const nomes   = porMesDia[mi]?.[dia]||[];
+    const cantora = cantorasPorMesDia[mi]?.[dia]||'';
+    const mesNum  = String(mi+1).padStart(2,'0');
+    const diaSem  = DIAS_SEM[new Date(ano,mi,dia).getDay()];
+    const vazio   = nomes.length===0 && !cantora;
+    const contentW = COL_W-LABEL_W-CELL_PAD*2;
+    const cL = cantora ? doc.splitTextToSize(`Cantora: ${cantora}`, contentW) : [];
+    const nL = nomes.length ? doc.splitTextToSize(nomes.join(', '), contentW) : [];
+    doc.setFillColor(vazio?143:27,vazio?168:79,vazio?200:138);
+    doc.rect(x,y,LABEL_W,layout.cellH,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold'); doc.setFontSize(Math.max(4.8,layout.fontSize+0.8));
+    doc.text(`${String(dia).padStart(2,'0')}/${mesNum}`, x+LABEL_W/2, y+layout.cellH/2-1.2, {align:'center'});
+    doc.setFont('helvetica','normal'); doc.setFontSize(Math.max(3.8,layout.fontSize-0.2));
+    doc.text(diaSem, x+LABEL_W/2, y+layout.cellH/2+2.4, {align:'center'});
+    doc.setFillColor(vazio?245:248,vazio?245:252,vazio?245:252);
+    doc.rect(x+LABEL_W,y,COL_W-LABEL_W,layout.cellH,'F');
+    doc.setDrawColor(200,220,230); doc.rect(x,y,COL_W,layout.cellH,'S');
+    if (vazio) {
+      doc.setTextColor(122,146,163); doc.setFont('helvetica','normal'); doc.setFontSize(layout.fontSize);
+      doc.text('-', x+LABEL_W+CELL_PAD, y+CELL_PAD+layout.lineH); return;
+    }
+    let textY = y+CELL_PAD+layout.lineH;
+    doc.setFontSize(layout.fontSize);
+    if (cL.length) {
+      doc.setFont('helvetica','bold'); doc.setTextColor(27,79,138);
+      doc.text(cL, x+LABEL_W+CELL_PAD, textY); textY += cL.length*layout.lineH+0.9;
+    }
+    if (nL.length) {
+      doc.setTextColor(27,43,58); doc.setFont('helvetica','normal');
+      doc.text(nL, x+LABEL_W+CELL_PAD, textY);
+    }
+  }
+
+  meses.forEach((mi,idx) => {
+    if (mi<0) return;
+    if (idx>0) doc.addPage();
+    renderHeader(mesFiltrado ? `ESCALA ${mesFiltrado.toUpperCase()} ${anoFiltrado}` : `ESCALA ${MESES[mi].toUpperCase()} ${anoFiltrado}`);
+    const totalDias = new Date(ano,mi+1,0).getDate();
+    const dias = Array.from({length:totalDias},(_,i)=>i+1);
+    const metade = Math.ceil(dias.length/2);
+    const col1 = dias.slice(0,metade), col2 = dias.slice(metade);
+    const layout = calcLayout(mi);
+    let y1=TOP_Y, y2=TOP_Y;
+    Math.max(col1.length,col2.length);
+    col1.forEach(dia => { drawCell(X1,y1,mi,dia,layout); y1+=layout.cellH+ROW_GAP; });
+    col2.forEach(dia => { drawCell(X2,y2,mi,dia,layout); y2+=layout.cellH+ROW_GAP; });
+  });
+
+  const total = doc.internal.getNumberOfPages();
+  for (let i=1;i<=total;i++) {
+    doc.setPage(i);
+    doc.setFillColor(27,79,138); doc.rect(0,H-FOOTER_H,W,FOOTER_H,'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','normal'); doc.setFontSize(6);
+    doc.text(`Gamúrio do Amanhecer - Fortaleza, CE | Pag ${i}/${total}`, W/2, H-2.7, {align:'center'});
+  }
+  doc.save(`escala_${mesFiltrado||'todos'}_${anoFiltrado}.pdf`);
 }
 
-function normalizarTexto(valor = '') {
-  return String(valor)
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .trim();
+// ── HELPERS ──
+function consolidarPorMesDia(dados) {
+  const r = {};
+  dados.forEach(d => {
+    if (normalizarTexto(d.cantora)==='sim') return;
+    const mi = obterIndiceMes(d.mes); if (mi<0) return;
+    extrairDias(d.dias_num,d.dias).forEach(dia => {
+      if (!r[mi]) r[mi]={}; if (!r[mi][dia]) r[mi][dia]=[];
+      if (!r[mi][dia].includes(d.nome)) r[mi][dia].push(d.nome);
+    });
+  });
+  return r;
+}
+
+function obterIndiceMes(val='') {
+  const n = normalizarTexto(val);
+  return MESES.findIndex(m => n.includes(normalizarTexto(m)));
+}
+
+function extrairDias(val='', texto='') {
+  const dias = new Set();
+  String(val).split(',').map(n=>parseInt(n.trim(),10)).filter(n=>n>=1&&n<=31).forEach(n=>dias.add(n));
+  if (dias.size===0 && texto) {
+    (String(texto).match(/\b\d{1,2}(?=\/\d{1,2})/g)||[]).map(n=>parseInt(n,10)).filter(n=>n>=1&&n<=31).forEach(n=>dias.add(n));
+  }
+  return [...dias].sort((a,b)=>a-b);
+}
+
+function normalizarTexto(val='') {
+  return String(val).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 }
 
 function splitCSVRows(text) {
-  const rows = [];
-  let cur = '';
-  let inQ = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-
-    if (ch === '"') {
-      inQ = !inQ;
-      cur += ch;
-    } else if ((ch === '\n' || ch === '\r') && !inQ) {
-      if (ch === '\r' && text[i + 1] === '\n') i++;
-      if (cur.trim()) rows.push(cur);
-      cur = '';
-    } else {
-      cur += ch;
-    }
+  const rows=[]; let cur='',inQ=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(ch==='"'){inQ=!inQ;cur+=ch;}
+    else if((ch==='\n'||ch==='\r')&&!inQ){if(ch==='\r'&&text[i+1]==='\n')i++;if(cur.trim())rows.push(cur);cur='';}
+    else{cur+=ch;}
   }
-
-  if (cur.trim()) rows.push(cur);
-  return rows;
+  if(cur.trim())rows.push(cur); return rows;
 }
 
 function splitCSV(line) {
-  const res = [];
-  let cur = '';
-  let inQ = false;
-
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-
-    if (ch === '"') {
-      inQ = !inQ;
-    } else if (ch === ',' && !inQ) {
-      res.push(cur);
-      cur = '';
-    } else {
-      cur += ch;
-    }
+  const res=[]; let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){inQ=!inQ;}
+    else if(ch===','&&!inQ){res.push(cur);cur='';}
+    else{cur+=ch;}
   }
-
-  res.push(cur);
-  return res;
+  res.push(cur); return res;
 }
 
-function clean(s = '') {
-  return String(s).replace(/^"|"$/g, '').trim();
-}
+function clean(s=''){return String(s).replace(/^"|"$/g,'').trim();}
 </script>
 </body>
 </html>

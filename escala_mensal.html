@@ -12,7 +12,7 @@
       --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
       --blue:#1B4F8A; --blue-light:#E8F0FB;
       --purple:#8B5CF6; --purple-dark:#5b21b6; --purple-light:#f5f3ff;
-      --red:#8d2010; --red-light:#FDECEA;
+      --red:#C0392B; --red-light:#FDECEA;
       --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
       --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
       --radius:12px; --shadow:0 8px 32px rgba(0,0,0,0.15);
@@ -60,8 +60,8 @@
     .cal-day.sel{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700;}
     .cal-day.hoje{border-color:var(--gold);}
     /* Dia lotado — vermelho, bloqueado */
-    .cal-day.lotado{background:#4174ae;color:#ffffff;border-color:#1B4F8A;cursor:not-allowed;}
-    .cal-day.lotado:hover{background:#fee2e2;color:#1B4F8A;border-color:#fca5a5;}
+    .cal-day.lotado{background:var(--blue);color:#fff;border-color:var(--blue);cursor:not-allowed;opacity:.75;}
+    .cal-day.lotado:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
     /* Cantora */
     .cal-day.purple:hover{border-color:var(--purple);color:var(--purple);}
     .cal-day.sel-purple{background:var(--purple);color:#fff;border-color:var(--purple);font-weight:700;}
@@ -258,7 +258,7 @@
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwF0beNA1ubSoOHBDFC41REq1NrUjCCZCXAsxAqMJt7lR9Y0OUbqqRebHDynq0_p9sN/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxPGIO2rq_LyXDd71zX1fdz9aU_7OSVyxzUSvcD6K2_KzFNlk6dozfo56v9TfihDqq1/exec';
 const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -266,7 +266,7 @@ const MAX_POR_DIA = 4;
 
 // ── Estado ──
 let mes1=null, ano1=null, dias1=[];
-let mes2=null, ano2=null, dia2=null;
+let mes2=null, ano2=null, dias2=[];
 let diasLotados = {};     // dia -> true se >= 4 pessoas únicas (bloco 1)
 let cantorasOcupadas = {}; // dia -> nome cantora (bloco 2)
 let nomeUsuario1='', nomeUsuario2='';
@@ -409,7 +409,7 @@ function atualizarPreview1() {
 
 document.getElementById('nome1').addEventListener('input', atualizarPreview1);
 
-function enviar1() {
+async function enviar1() {
   const nome = document.getElementById('nome1').value.trim();
   if (!nome) { showToast('toast1','err','⚠️ Digite seu nome.'); return; }
   if (mes1===null) { showToast('toast1','err','⚠️ Selecione um mês.'); return; }
@@ -421,20 +421,19 @@ function enviar1() {
     const ds = DIAS_SEM[new Date(ano1,mes1,d).getDay()];
     return `${String(d).padStart(2,'0')}/${String(mes1+1).padStart(2,'0')} (${ds})`;
   }).join(', ');
-  enviarPost({
+  await enviarPost({
     aba:'escala_entrega_de_energias',
     timestamp: new Date().toLocaleString('pt-BR'),
     nome, mes:`${MESES[mes1].toLowerCase()} ${ano1}`,
     dias:diasStr, dias_numeros:dias1.join(','),
     cantora:'', dia_cantora:''
-  }, () => {
-    btn.classList.remove('loading'); btn.disabled=false;
-    document.getElementById('bloco1').style.display='none';
-    document.getElementById('sucesso1').classList.add('show');
-    document.getElementById('sTitle1').textContent=`Escala enviada, ${nome.split(' ')[0]}!`;
-    document.getElementById('sSub1').textContent=`${MESES[mes1]} ${ano1} · ${dias1.length} dia(s)`;
-    gerarImagem1(nome);
-  });
+  }, ()=>{});
+  btn.classList.remove('loading'); btn.disabled=false;
+  document.getElementById('bloco1').style.display='none';
+  document.getElementById('sucesso1').classList.add('show');
+  document.getElementById('sTitle1').textContent=`Escala enviada, ${nome.split(' ')[0]}!`;
+  document.getElementById('sSub1').textContent=`${MESES[mes1]} ${ano1} · ${dias1.length} dia(s)`;
+  gerarImagem1(nome);
 }
 
 function gerarImagem1(nome) {
@@ -494,6 +493,7 @@ async function selecionarMes2(mes, ano, btn) {
   btn.classList.add('ativo-purple');
   document.getElementById('calTitulo2').textContent=`${MESES[mes]} ${ano}`;
   document.getElementById('calCard2').style.display='block';
+  dias2=[];
   document.getElementById('avisoOcupado').classList.remove('show');
   document.getElementById('diasSel2').innerHTML='<span class="dias-hint">Nenhum dia selecionado</span>';
   document.getElementById('preview2').style.display='none';
@@ -536,7 +536,7 @@ function renderCal2() {
       el.title=`Cantora: ${cantorasOcupadas[d]}`;
     }
     if (d===hoje.getDate()&&mes2===hoje.getMonth()&&ano2===hoje.getFullYear()) el.classList.add('hoje');
-    if (dia2===d) el.classList.add('sel-purple');
+    if (dias2.includes(d)) el.classList.add('sel-purple');
     el.onclick=()=>selecionarDia2(d,el);
     container.appendChild(el);
   }
@@ -545,62 +545,89 @@ function renderCal2() {
 function selecionarDia2(d, el) {
   if (el.classList.contains('passado')) return;
   document.getElementById('avisoOcupado').classList.remove('show');
-  if (cantorasOcupadas[d]) {
+  if (cantorasOcupadas[d] && !dias2.includes(d)) {
     document.getElementById('avisoOcupado').classList.add('show');
-    dia2=null; atualizarPreview2(); return;
+    atualizarPreview2(); return;
   }
-  document.querySelectorAll('#calDays2 .cal-day').forEach(x=>x.classList.remove('sel-purple'));
-  el.classList.add('sel-purple');
-  dia2=d;
-  const ds=DIAS_SEM[new Date(ano2,mes2,d).getDay()];
-  document.getElementById('diasSel2').innerHTML=
-    `<span class="dia-badge dia-badge-purple">🎵 ${String(d).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})</span>`;
+  const idx = dias2.indexOf(d);
+  if (idx === -1) {
+    dias2.push(d); dias2.sort((a,b)=>a-b);
+    el.classList.add('sel-purple');
+  } else {
+    dias2.splice(idx, 1);
+    el.classList.remove('sel-purple');
+  }
+  atualizarBadges2();
   atualizarPreview2();
+}
+
+function atualizarBadges2() {
+  const c = document.getElementById('diasSel2');
+  if (dias2.length===0) { c.innerHTML='<span class="dias-hint">Nenhum dia selecionado</span>'; return; }
+  c.innerHTML = dias2.map(d => {
+    const ds = DIAS_SEM[new Date(ano2,mes2,d).getDay()];
+    return `<span class="dia-badge dia-badge-purple">🎵 ${String(d).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds}) <button onclick="remover2(${d})">×</button></span>`;
+  }).join('');
+}
+
+function remover2(d) {
+  dias2.splice(dias2.indexOf(d), 1);
+  renderCal2(); atualizarBadges2(); atualizarPreview2();
 }
 
 function atualizarPreview2() {
   const nome=document.getElementById('nome2').value.trim();
   const p=document.getElementById('preview2');
-  if (!nome||dia2===null||mes2===null) { p.style.display='none'; return; }
+  if (!nome||dias2.length===0||mes2===null) { p.style.display='none'; return; }
   p.style.display='block';
   setTimeout(()=>p.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
   document.getElementById('pNome2').textContent=nome.toUpperCase();
-  const ds=DIAS_SEM[new Date(ano2,mes2,dia2).getDay()];
-  document.getElementById('pDias2').innerHTML=
-    `<span class="preview-dia purple">🎵 ${String(dia2).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})</span>`;
+  document.getElementById('pDias2').innerHTML = dias2.map(d => {
+    const ds = DIAS_SEM[new Date(ano2,mes2,d).getDay()];
+    return `<span class="preview-dia purple">🎵 ${String(d).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} · ${ds}</span>`;
+  }).join('');
 }
 
 document.getElementById('nome2').addEventListener('input', atualizarPreview2);
 
-function enviar2() {
+async function enviar2() {
   const nome=document.getElementById('nome2').value.trim();
   if (!nome) { showToast('toast2','err','⚠️ Digite seu nome.'); return; }
   if (mes2===null) { showToast('toast2','err','⚠️ Selecione um mês.'); return; }
-  if (dia2===null) { showToast('toast2','err','⚠️ Selecione um dia.'); return; }
+  if (dias2.length===0) { showToast('toast2','err','⚠️ Selecione pelo menos um dia.'); return; }
   nomeUsuario2=nome;
   const btn=document.getElementById('btnEnviar2');
   btn.classList.add('loading'); btn.disabled=true;
-  const ds=DIAS_SEM[new Date(ano2,mes2,dia2).getDay()];
-  const diaStr=`${String(dia2).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})`;
-  enviarPost({
+
+  // Enviar um registro por dia selecionado
+  let enviados = 0;
+  const total2 = dias2.length;
+  const mesStr = `${MESES[mes2].toLowerCase()} ${ano2}`;
+
+  // Enviar todos os dias de uma vez num único POST
+  await enviarPost({
     aba:'escala_entrega_de_energias',
     timestamp:new Date().toLocaleString('pt-BR'),
-    nome, mes:`${MESES[mes2].toLowerCase()} ${ano2}`,
+    nome, mes: mesStr,
     dias:'', dias_numeros:'',
-    cantora:'Sim', dia_cantora:String(dia2)
-  }, () => {
-    btn.classList.remove('loading'); btn.disabled=false;
-    document.getElementById('bloco2').style.display='none';
-    document.getElementById('sucesso2').classList.add('show');
-    document.getElementById('sTitle2').textContent=`Escala confirmada, ${nome.split(' ')[0]}!`;
-    document.getElementById('sSub2').textContent=`🎵 Cantora do ritual — ${diaStr}`;
-    gerarImagem2(nome, diaStr);
-  });
+    cantora:'Sim', dia_cantora: dias2.join(',')
+  }, ()=>{});
+
+  btn.classList.remove('loading'); btn.disabled=false;
+  document.getElementById('bloco2').style.display='none';
+  document.getElementById('sucesso2').classList.add('show');
+  document.getElementById('sTitle2').textContent=`Escala confirmada, ${nome.split(' ')[0]}!`;
+  const diasStr2 = dias2.map(d => {
+    const ds = DIAS_SEM[new Date(ano2,mes2,d).getDay()];
+    return `${String(d).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})`;
+  }).join(', ');
+  document.getElementById('sSub2').textContent=`🎵 Cantora do ritual — ${diasStr2}`;
+  gerarImagem2(nome);
 }
 
-function gerarImagem2(nome, diaStr) {
+function gerarImagem2(nome) {
   const canvas=document.getElementById('canvas2'), ctx=canvas.getContext('2d');
-  const W=600,H=260; canvas.width=W; canvas.height=H;
+  const W=600,H=Math.max(260, 88+dias2.length*44+40); canvas.width=W; canvas.height=H;
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
   ctx.fillStyle='#5b21b6'; ctx.fillRect(0,0,W,88);
   ctx.fillStyle='#fff'; ctx.font='bold 11px Montserrat,sans-serif'; ctx.textAlign='center';
@@ -610,12 +637,18 @@ function gerarImagem2(nome, diaStr) {
   ctx.fillStyle='#fff'; ctx.font='bold 19px Montserrat,sans-serif';
   ctx.fillText(nome.toUpperCase(),W/2,64);
   ctx.font='10px Montserrat,sans-serif'; ctx.fillStyle='rgba(255,255,255,.75)';
-  ctx.fillText(`${MESES[mes2]} ${ano2}`,W/2,80);
+  ctx.fillText(`${MESES[mes2]} ${ano2} · ${dias2.length} dia(s)`,W/2,80);
   ctx.fillStyle='#f5f3ff'; ctx.fillRect(0,88,W,H-116);
-  ctx.fillStyle='#8B5CF6';
-  ctx.beginPath(); ctx.roundRect?ctx.roundRect(W/2-130,110,260,52,12):ctx.rect(W/2-130,110,260,52); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='bold 20px Montserrat,sans-serif'; ctx.textAlign='center';
-  ctx.fillText(`🎵 ${diaStr}`,W/2,142);
+  let ty=110;
+  dias2.forEach(d => {
+    const ds=DIAS_SEM[new Date(ano2,mes2,d).getDay()];
+    const lbl=`🎵 ${String(d).padStart(2,'0')}/${String(mes2+1).padStart(2,'0')} (${ds})`;
+    ctx.fillStyle='#8B5CF6';
+    ctx.beginPath(); ctx.roundRect?ctx.roundRect(W/2-130,ty,260,36,10):ctx.rect(W/2-130,ty,260,36); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='bold 14px Montserrat,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(lbl,W/2,ty+23);
+    ty+=44;
+  });
   ctx.fillStyle='#5b21b6'; ctx.fillRect(0,H-28,W,28);
   ctx.fillStyle='#fff'; ctx.font='9px Montserrat,sans-serif';
   ctx.fillText('Gamúrio do Amanhecer · Fortaleza, CE · gamuriodoamanhecer.com.br',W/2,H-11);
@@ -632,7 +665,7 @@ function reset2() {
   document.getElementById('sucesso2').classList.remove('show');
   document.getElementById('nome2').value='';
   document.querySelectorAll('#mesGrid2 .mes-btn').forEach(b=>b.classList.remove('ativo','ativo-purple'));
-  mes2=null; ano2=null; dia2=null; cantorasOcupadas={};
+  mes2=null; ano2=null; dias2=[]; cantorasOcupadas={};
   document.getElementById('calCard2').style.display='none';
   document.getElementById('diasSel2').innerHTML='<span class="dias-hint">Nenhum dia selecionado</span>';
   document.getElementById('preview2').style.display='none';
@@ -641,18 +674,47 @@ function reset2() {
 }
 
 // ── Helpers ──
-function enviarPost(payload, callback) {
-  const iframeName='f_'+Date.now();
-  const iframe=document.createElement('iframe');
-  iframe.name=iframeName; iframe.style.display='none';
-  document.body.appendChild(iframe);
-  const form=document.createElement('form');
-  form.method='POST'; form.action=SCRIPT_URL; form.target=iframeName; form.style.display='none';
-  Object.keys(payload).forEach(k => {
-    const inp=document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=payload[k]; form.appendChild(inp);
+async function enviarPost(payload, callback) {
+  return new Promise(resolve => {
+    // Usar GET com parâmetros via imagem — contorna CORS e bloqueios
+    // O Apps Script doGet não salva dados, então usamos POST via form normalmente
+    // mas com iframe único e nome único para evitar conflitos
+    const uid = Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    const iframeName = 'frame_' + uid;
+
+    const iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.cssText = 'position:absolute;width:1px;height:1px;left:-9999px;top:-9999px;';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = iframeName;
+    form.style.display = 'none';
+
+    // Adicionar todos os campos
+    Object.entries(payload).forEach(([k, v]) => {
+      const inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.name = k;
+      inp.value = String(v);
+      form.appendChild(inp);
+    });
+
+    document.body.appendChild(form);
+
+    // Aguardar iframe carregar antes de submeter
+    setTimeout(() => {
+      form.submit();
+      setTimeout(() => {
+        try { document.body.removeChild(form); } catch(e) {}
+        try { document.body.removeChild(iframe); } catch(e) {}
+        callback();
+        resolve();
+      }, 3000);
+    }, 100);
   });
-  document.body.appendChild(form); form.submit();
-  setTimeout(()=>{ document.body.removeChild(form); document.body.removeChild(iframe); callback(); },2000);
 }
 
 function showToast(id, tipo, msg) {
