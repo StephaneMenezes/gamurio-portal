@@ -113,6 +113,22 @@
     .btn-refresh{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.5rem;background:var(--teal-light);color:var(--teal-dark);border:1.5px solid var(--teal-mid);border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
     .btn-refresh:hover{background:var(--teal);color:#fff;}
 
+
+    /* TABELA MEMBROS */
+    .membros-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+    .membros-table th{background:var(--blue);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1rem;text-align:left;}
+    .membros-table th:last-child{text-align:center;}
+    .membros-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+    .membros-table tbody tr:hover{background:var(--blue-light);}
+    .membros-table td{padding:.55rem 1rem;vertical-align:middle;}
+    .membros-table td:last-child{text-align:center;}
+    .count-badge{display:inline-block;font-size:.72rem;font-weight:800;padding:.2rem .7rem;border-radius:20px;min-width:36px;text-align:center;}
+    .count-zero{background:#fee2e2;color:#991b1b;}
+    .count-low{background:var(--gold-light);color:var(--gold-dark);}
+    .count-ok{background:#e6f9f0;color:#1a7a4a;}
+    .count-high{background:#dcfce7;color:#166534;}
+    .membro-nome{font-weight:600;color:var(--dark);}
+
     @media(max-width:768px){
       .filtros{grid-template-columns:1fr;}
       .stats-grid{grid-template-columns:repeat(2,1fr);}
@@ -217,6 +233,25 @@
       </div>
     </div>
 
+
+    <div class="card" id="membrosCard" style="display:none">
+      <div class="card-hdr teal">👥 Participação dos Membros</div>
+      <div class="card-body" style="padding:0">
+        <div style="overflow-x:auto">
+          <table class="membros-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Escalas no mês</th>
+              </tr>
+            </thead>
+            <tbody id="membrosBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div id="loadingWrap" style="display:none">
       <div class="loading-wrap">
         <div class="loading-spinner"></div>
@@ -231,7 +266,7 @@
 
 <script>
 const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfR8xHjkG5TCIvzeeuxOMcOvuFr6s1XDSuF0iMVIX-Q8w1S1GOtn1BH8xMUBCtAfJi/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxPGIO2rq_LyXDd71zX1fdz9aU_7OSVyxzUSvcD6K2_KzFNlk6dozfo56v9TfihDqq1/exec';
 const SENHA_ADMIN = 'coordenador2026';
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -292,6 +327,7 @@ async function carregarDados() {
     document.getElementById('loadingWrap').style.display = 'none';
     renderStats(filtrados);
     renderCalendario(filtrados);
+    renderMembros(filtrados);
     if (filtrados.length === 0) document.getElementById('emptyWrap').style.display = 'block';
   } catch(e) {
     document.getElementById('loadingWrap').style.display = 'none';
@@ -375,7 +411,7 @@ function renderCalendario(dados) {
         const cInfo = cantoraInfo[mi]?.[d];
         const tag = document.createElement('span');
         tag.className = 'nome-tag cantora';
-        tag.innerHTML = `♪ ${cantora} <button class="btn-excluir" title="Remover cantora" onclick="abrirModal(${cInfo?.linhaIdx||0},'${cantora}','${String(d).padStart(2,'0')}/${mesNum}','cantora')">✕</button>`;
+        tag.innerHTML = `♪ ${primeirosNomes(cantora)} <button class="btn-excluir" title="Remover cantora" onclick="abrirModal(${cInfo?.linhaIdx||0},'${cantora}','${String(d).padStart(2,'0')}/${mesNum}','cantora')">✕</button>`;
         nomesDiv.appendChild(tag);
       }
 
@@ -385,7 +421,7 @@ function renderCalendario(dados) {
         infos.forEach(info => {
           const tag = document.createElement('span');
           tag.className = 'nome-tag';
-          tag.innerHTML = `${info.nome} <button class="btn-excluir" title="Remover escalado" onclick="abrirModal(${info.linhaIdx},'${info.nome}','${String(d).padStart(2,'0')}/${mesNum}','ajudante')">✕</button>`;
+          tag.innerHTML = `${primeirosNomes(info.nome)} <button class="btn-excluir" title="Remover escalado" onclick="abrirModal(${info.linhaIdx},'${info.nome}','${String(d).padStart(2,'0')}/${mesNum}','ajudante')">✕</button>`;
           nomesDiv.appendChild(tag);
         });
       }
@@ -593,8 +629,8 @@ async function gerarPDF() {
     const diaSem  = DIAS_SEM[new Date(ano,mi,dia).getDay()];
     const vazio   = nomes.length===0 && !cantora;
     const contentW = COL_W-LABEL_W-CELL_PAD*2;
-    const cL = cantora ? doc.splitTextToSize(`Cantora: ${cantora}`, contentW) : [];
-    const nL = nomes.length ? doc.splitTextToSize(nomes.join(', '), contentW) : [];
+    const cL = cantora ? doc.splitTextToSize(`Cantora: ${primeirosNomes(cantora)}`, contentW) : [];
+    const nL = nomes.length ? doc.splitTextToSize(nomes.map(primeirosNomes).join(', '), contentW) : [];
     doc.setFillColor(vazio?143:27,vazio?168:79,vazio?200:138);
     doc.rect(x,y,LABEL_W,layout.cellH,'F');
     doc.setTextColor(255,255,255);
@@ -701,6 +737,80 @@ function splitCSV(line) {
 }
 
 function clean(s=''){return String(s).replace(/^"|"$/g,'').trim();}
+
+
+const MEMBROS = [
+  'Adria','Aline Braga','Ana Roseno','Branda Bayma','Cássia',
+  'Christian','Cleanderson','Daniele Azevedo','Daniele Morais',
+  'Danielle Andrade','Davi Diniz','Débora','Ednardo','Elisangela',
+  'Erisvaldo','Fábio','Felipe Correia','Felipe Rômulo',
+  'Fernando Cavalcanti','Fernando Filho','George Andrade',
+  'Gessyca','Helena Ramos','Helena Xavier','Homero','Ivo Melo',
+  'Jéssica H','Judite Barros','Kairon','Karol Costa',
+  'Kettlen Araújo','Lincoln','Luan Vieira','Luiziane','Mara',
+  'Michele Borges','Milene Lima','Neiva Rodrigues','Nila de Quiroz',
+  'Nívia','Priscilla','Rafael Viana','Ravena Melo','Regilane',
+  'Rodolfo','Roseli','Rozi','Stephane','Suely',
+  'Tabatha Arruda','Thales','Tila Carolina'
+];
+
+function matchMembro(nomeMembro, nomePlanilha) {
+  // Normalizar os dois
+  const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+  const partesM = norm(nomeMembro).split(/\s+/);
+  const partesP = norm(nomePlanilha).split(/\s+/);
+
+  if (partesM.length === 1) {
+    // Lista só tem primeiro nome — compara só o primeiro
+    return partesP[0] === partesM[0];
+  } else {
+    // Lista tem dois nomes — compara primeiros dois
+    return partesP[0] === partesM[0] && partesP[1] === partesM[1];
+  }
+}
+
+function renderMembros(dados) {
+  const tbody = document.getElementById('membrosBody');
+  if (!tbody) return;
+
+  // Contar escalas por membro (excluindo cantoras)
+  const contagem = {};
+  MEMBROS.forEach(m => contagem[m] = 0);
+
+  dados.forEach(d => {
+    if (d.cantora === 'Sim') return; // cantoras não contam aqui
+    const dias = extrairDias(d.dias_num, d.dias);
+    if (dias.length === 0) return;
+    // Ver qual membro corresponde
+    MEMBROS.forEach(m => {
+      if (matchMembro(m, d.nome)) {
+        contagem[m] += dias.length;
+      }
+    });
+  });
+
+  // Ordem alfabética
+  const ordenados = [...MEMBROS].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+  tbody.innerHTML = ordenados.map((m, i) => {
+    const n = contagem[m];
+    const cls = n === 0 ? 'count-zero' : n <= 2 ? 'count-low' : n <= 4 ? 'count-ok' : 'count-high';
+    const label = n === 0 ? '—' : String(n);
+    return `<tr>
+      <td style="color:var(--muted);font-size:.72rem;width:32px;">${i+1}</td>
+      <td class="membro-nome">${m}</td>
+      <td><span class="count-badge ${cls}">${label}</span></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('membrosCard').style.display = 'block';
+}
+
+function primeirosNomes(nome) {
+  const partes = nome.trim().split(/\s+/);
+  return partes.slice(0, 2).join(' ');
+}
+
 </script>
 </body>
 </html>

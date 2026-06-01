@@ -417,17 +417,20 @@ async function enviar1() {
   nomeUsuario1 = nome;
   const btn = document.getElementById('btnEnviar1');
   btn.classList.add('loading'); btn.disabled=true;
-  const diasStr = dias1.map(d => {
+  // Um POST por dia
+  const mesStr1 = `${MESES[mes1].toLowerCase()} ${ano1}`;
+  for (const d of dias1) {
     const ds = DIAS_SEM[new Date(ano1,mes1,d).getDay()];
-    return `${String(d).padStart(2,'0')}/${String(mes1+1).padStart(2,'0')} (${ds})`;
-  }).join(', ');
-  await enviarPost({
-    aba:'escala_entrega_de_energias',
-    timestamp: new Date().toLocaleString('pt-BR'),
-    nome, mes:`${MESES[mes1].toLowerCase()} ${ano1}`,
-    dias:diasStr, dias_numeros:dias1.join(','),
-    cantora:'', dia_cantora:''
-  }, ()=>{});
+    const diaStr = `${String(d).padStart(2,'0')}/${String(mes1+1).padStart(2,'0')} (${ds})`;
+    await enviarPost({
+      aba:'escala_entrega_de_energias',
+      timestamp: new Date().toLocaleString('pt-BR'),
+      nome, mes: mesStr1,
+      dias: diaStr,
+      dias_numeros: String(d),
+      cantora:'', dia_cantora:''
+    }, ()=>{});
+  }
   btn.classList.remove('loading'); btn.disabled=false;
   document.getElementById('bloco1').style.display='none';
   document.getElementById('sucesso1').classList.add('show');
