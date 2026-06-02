@@ -129,6 +129,38 @@
     .count-high{background:#dcfce7;color:#166534;}
     .membro-nome{font-weight:600;color:var(--dark);}
 
+        /* ADICIONAR ESCALA */
+    .add-body{padding:.8rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
+    .add-field input{padding:.45rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;width:180px;}
+    .add-field input:focus{border-color:var(--teal);}
+    .add-cal-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+    .add-cal-wd{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px;}
+    .add-cal-wd span{font-size:.42rem;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;}
+    .add-day{width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:.58rem;font-weight:600;cursor:pointer;border:1px solid transparent;background:var(--bg);color:var(--dark);transition:all .12s;}
+    .add-day:hover{border-color:var(--teal);color:var(--teal);}
+    .add-day.vazio{visibility:hidden;pointer-events:none;}
+    .add-day.sel{background:var(--teal);color:#fff;border-color:var(--teal);}
+    .add-day.passado{opacity:.3;pointer-events:none;}
+    .add-badge{background:var(--teal);color:#fff;font-size:.58rem;font-weight:700;padding:.1rem .4rem;border-radius:10px;display:inline-flex;align-items:center;gap:.2rem;}
+    .add-badge button{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:.65rem;line-height:1;}
+    .add-dias-sel{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.4rem;min-height:18px;}
+    .btn-add-escala{padding:.45rem 1rem;background:var(--teal);color:#fff;border:none;border-radius:16px;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s;margin-top:auto;}
+    .btn-add-escala:hover{background:var(--teal-dark);}
+    .btn-add-escala:disabled{opacity:.6;cursor:not-allowed;}
+    .add-toast{padding:.4rem .7rem;border-radius:6px;font-size:.68rem;font-weight:600;display:none;margin-top:.4rem;}
+    .add-toast.ok{background:#e6f9f0;border:1px solid #34c77b;color:#1a7a4a;display:block;}
+    .add-toast.err{background:var(--red-light);border:1px solid var(--red);color:var(--red);display:block;}
+    .add-dropdown{position:relative;width:200px;}
+    .add-dropdown-input{width:100%;padding:.45rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;color:var(--dark);background:var(--bg);outline:none;cursor:pointer;transition:border-color .2s;}
+    .add-dropdown-input:focus{border-color:var(--teal);}
+    .add-dropdown-list{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--teal);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:200;max-height:200px;overflow-y:auto;margin-top:2px;}
+    .add-dropdown-list.open{display:block;}
+    .add-dropdown-search{padding:.4rem .6rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;}
+    .add-dropdown-search input{width:100%;border:1px solid var(--border);border-radius:6px;padding:.3rem .5rem;font-family:'Montserrat',sans-serif;font-size:.75rem;outline:none;}
+    .add-dropdown-search input:focus{border-color:var(--teal);}
+    .add-dropdown-item{padding:.4rem .8rem;font-size:.78rem;cursor:pointer;color:var(--dark);transition:background .1s;}
+    .add-dropdown-item:hover,.add-dropdown-item.ativo{background:var(--teal-light);color:var(--teal-dark);font-weight:600;}
+
     @media(max-width:768px){
       .filtros{grid-template-columns:1fr;}
       .stats-grid{grid-template-columns:repeat(2,1fr);}
@@ -233,6 +265,32 @@
       </div>
     </div>
 
+    <!-- ADICIONAR À ESCALA -->
+    <div class="card" id="addEscalaCard" style="display:none">
+      <div class="card-hdr teal">➕ Adicionar à Escala</div>
+      <div class="add-body">
+        <div class="add-field">
+          <div class="add-dropdown" id="addDropdown">
+            <div class="add-dropdown-input" id="addMembroDisplay" onclick="toggleDropdown()">Selecione o membro...</div>
+            <div class="add-dropdown-list" id="addDropdownList">
+              <div class="add-dropdown-search">
+                <input type="text" id="addBusca" placeholder="🔍 Buscar..." oninput="filtrarMembros()"/>
+              </div>
+              <div id="addDropdownItems"></div>
+            </div>
+          </div>
+          <input type="hidden" id="addMembro"/>
+          <div class="add-toast" id="addToast"></div>
+        </div>
+        <div>
+          <div class="add-cal-wd"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+          <div class="add-cal-mini" id="addCalDays"></div>
+          <div class="add-dias-sel" id="addDiasSel"><span style="font-size:.58rem;color:var(--muted);font-style:italic;">Nenhum dia</span></div>
+        </div>
+        <button class="btn-add-escala" id="btnAddEscala" onclick="adicionarEscala()">✦ Adicionar</button>
+      </div>
+    </div>
+
 
     <div class="card" id="membrosCard" style="display:none">
       <div class="card-hdr teal">👥 Participação dos Membros</div>
@@ -266,8 +324,8 @@
 
 <script>
 const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxPGIO2rq_LyXDd71zX1fdz9aU_7OSVyxzUSvcD6K2_KzFNlk6dozfo56v9TfihDqq1/exec';
-const SENHA_ADMIN = 'coordenador2026';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyK6xeSc4TWfrLqWb9CNjfpWFzpN-QU49HsJtR43F7Rxkp9oEv9OC0mhpB4Sj7-zbgf/exec';
+const SENHA_ADMIN = 'devas2026';
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 
@@ -328,6 +386,9 @@ async function carregarDados() {
     renderStats(filtrados);
     renderCalendario(filtrados);
     renderMembros(filtrados);
+    document.getElementById("addEscalaCard").style.display="block";
+    addDiasSel=[];
+    initAddEscala();
     if (filtrados.length === 0) document.getElementById('emptyWrap').style.display = 'block';
   } catch(e) {
     document.getElementById('loadingWrap').style.display = 'none';
@@ -421,7 +482,7 @@ function renderCalendario(dados) {
         infos.forEach(info => {
           const tag = document.createElement('span');
           tag.className = 'nome-tag';
-          tag.innerHTML = `${primeirosNomes(info.nome)} <button class="btn-excluir" title="Remover escalado" onclick="abrirModal(${info.linhaIdx},'${info.nome}','${String(d).padStart(2,'0')}/${mesNum}','ajudante')">✕</button>`;
+          tag.innerHTML = `${primeirosNomes(info.nome)} <button class="btn-excluir" title="Remover escalado" onclick="abrirModal(${info.linhaIdx},'${info.nome}','${String(d).padStart(2,'0')}/${mesNum}','ajudante',${info.multiDia})">✕</button>`;
           nomesDiv.appendChild(tag);
         });
       }
@@ -452,10 +513,15 @@ function renderCalendario(dados) {
 }
 
 // ── EXCLUSÃO ──
-function abrirModal(linhaIdx, nome, dia, tipo) {
+function abrirModal(linhaIdx, nome, dia, tipo, multiDia) {
   exclusaoPendente = { linhaIdx, nome, dia, tipo };
   document.getElementById('modalNome').textContent = nome;
   document.getElementById('modalDia').textContent = dia;
+  const aviso = multiDia
+    ? `<br><span style="color:var(--red);font-size:.75rem;font-weight:700;">⚠️ Este registro contém múltiplos dias — a exclusão removerá todos os dias desta pessoa.</span>`
+    : '';
+  document.getElementById('modalSub').innerHTML =
+    `Tem certeza que deseja remover <span class="modal-nome">${nome}</span> do dia <span class="modal-nome">${dia}</span>?${aviso}`;
   document.getElementById('modalExcluir').classList.add('show');
 }
 
@@ -539,7 +605,8 @@ function consolidarPorMesDiaInfo(dados) {
       if (!r[mi]) r[mi]={};
       if (!r[mi][dia]) r[mi][dia]=[];
       if (!r[mi][dia].find(x => x.nome===d.nome)) {
-        r[mi][dia].push({ nome: d.nome, linhaIdx: d.linhaIdx });
+        const totalDiasLinha = extrairDias(d.dias_num, d.dias).length;
+        r[mi][dia].push({ nome: d.nome, linhaIdx: d.linhaIdx, multiDia: totalDiasLinha > 1 });
       }
     });
   });
@@ -579,106 +646,223 @@ async function gerarPDF() {
   if (!window.jspdf || !dadosCarregados.length) { alert('Carregue os dados primeiro.'); return; }
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-  const W=210, H=297, MARGIN=7, HEADER_H=24, FOOTER_H=7;
-  const TOP_Y=HEADER_H+4, BOTTOM_Y=H-FOOTER_H-4, AVAILABLE_H=BOTTOM_Y-TOP_Y;
-  const COL_GAP=3, ROW_GAP=0.65;
-  const COL_W=(W-MARGIN*2-COL_GAP)/2;
-  const X1=MARGIN, X2=MARGIN+COL_W+COL_GAP;
-  const CELL_PAD=1.1, LABEL_W=19;
-  const ano=parseInt(anoFiltrado,10);
+
+  const W=210, H=297, MARGIN=12;
+  const ano = parseInt(anoFiltrado, 10);
   const meses = mesFiltrado ? [MESES.indexOf(mesFiltrado)] : MESES.map((_,i)=>i);
   const filtrados = filtrarDados(dadosCarregados);
   const porMesDia = consolidarPorMesDia(filtrados);
   const cantorasPorMesDia = consolidarCantorasPorMesDia(filtrados);
 
-  function renderHeader(titulo) {
-    doc.setFillColor(27,79,138); doc.rect(0,0,W,HEADER_H,'F');
-    doc.setTextColor(255,255,255);
-    doc.setFont('helvetica','bold'); doc.setFontSize(10.5);
-    doc.text('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE', W/2, 8, {align:'center'});
-    doc.setFont('helvetica','normal'); doc.setFontSize(8);
-    doc.text(titulo, W/2, 14.5, {align:'center'});
-    doc.text('Gamúrio do Amanhecer - Fortaleza, CE', W/2, 20, {align:'center'});
-  }
+  // Carregar logo — tenta via img oculta pré-carregada
+  let logoData = null;
+  try {
+    // Criar img oculta e aguardar carregamento
+    const imgEl = await new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = 'image/Imagem 1 gerada.png';
+    });
+    if (imgEl) {
+      const cv = document.createElement('canvas');
+      cv.width = imgEl.naturalWidth || 80;
+      cv.height = imgEl.naturalHeight || 80;
+      cv.getContext('2d').drawImage(imgEl, 0, 0);
+      logoData = cv.toDataURL('image/png');
+    }
+  } catch(e) {}
 
-  function calcLayout(mi) {
-    const totalDias = new Date(ano,mi+1,0).getDate();
-    const maxRows = Math.ceil(totalDias/2);
-    const cellH = (AVAILABLE_H-(maxRows-1)*ROW_GAP)/maxRows;
-    const contentW = COL_W-LABEL_W-CELL_PAD*2;
-    const dias = Array.from({length:totalDias},(_,i)=>i+1);
-    for (let fs=7.2; fs>=3.2; fs-=0.2) {
-      doc.setFont('helvetica','normal'); doc.setFontSize(fs);
-      const lineH = fs*0.36;
-      const cabe = dias.every(dia => {
-        const nomes = porMesDia[mi]?.[dia]||[];
-        const cantora = cantorasPorMesDia[mi]?.[dia]||'';
-        const lC = cantora ? doc.splitTextToSize(`Cantora: ${cantora}`, contentW) : [];
-        const lN = nomes.length ? doc.splitTextToSize(nomes.join(', '), contentW) : [];
-        return (lC.length+lN.length||1)*lineH+CELL_PAD*2+1.2 <= cellH;
-      });
-      if (cabe) return { fontSize:parseFloat(fs.toFixed(1)), cellH, lineH };
-    }
-    return { fontSize:3.2, cellH, lineH:3.2*0.36 };
-  }
+  
 
-  function drawCell(x, y, mi, dia, layout) {
-    const nomes   = porMesDia[mi]?.[dia]||[];
-    const cantora = cantorasPorMesDia[mi]?.[dia]||'';
-    const mesNum  = String(mi+1).padStart(2,'0');
-    const diaSem  = DIAS_SEM[new Date(ano,mi,dia).getDay()];
-    const vazio   = nomes.length===0 && !cantora;
-    const contentW = COL_W-LABEL_W-CELL_PAD*2;
-    const cL = cantora ? doc.splitTextToSize(`Cantora: ${primeirosNomes(cantora)}`, contentW) : [];
-    const nL = nomes.length ? doc.splitTextToSize(nomes.map(primeirosNomes).join(', '), contentW) : [];
-    doc.setFillColor(vazio?143:27,vazio?168:79,vazio?200:138);
-    doc.rect(x,y,LABEL_W,layout.cellH,'F');
-    doc.setTextColor(255,255,255);
-    doc.setFont('helvetica','bold'); doc.setFontSize(Math.max(4.8,layout.fontSize+0.8));
-    doc.text(`${String(dia).padStart(2,'0')}/${mesNum}`, x+LABEL_W/2, y+layout.cellH/2-1.2, {align:'center'});
-    doc.setFont('helvetica','normal'); doc.setFontSize(Math.max(3.8,layout.fontSize-0.2));
-    doc.text(diaSem, x+LABEL_W/2, y+layout.cellH/2+2.4, {align:'center'});
-    doc.setFillColor(vazio?245:248,vazio?245:252,vazio?245:252);
-    doc.rect(x+LABEL_W,y,COL_W-LABEL_W,layout.cellH,'F');
-    doc.setDrawColor(200,220,230); doc.rect(x,y,COL_W,layout.cellH,'S');
-    if (vazio) {
-      doc.setTextColor(122,146,163); doc.setFont('helvetica','normal'); doc.setFontSize(layout.fontSize);
-      doc.text('-', x+LABEL_W+CELL_PAD, y+CELL_PAD+layout.lineH); return;
-    }
-    let textY = y+CELL_PAD+layout.lineH;
-    doc.setFontSize(layout.fontSize);
-    if (cL.length) {
-      doc.setFont('helvetica','bold'); doc.setTextColor(27,79,138);
-      doc.text(cL, x+LABEL_W+CELL_PAD, textY); textY += cL.length*layout.lineH+0.9;
-    }
-    if (nL.length) {
-      doc.setTextColor(27,43,58); doc.setFont('helvetica','normal');
-      doc.text(nL, x+LABEL_W+CELL_PAD, textY);
-    }
+  let logoRodape = null;
+try {
+  const imgR = await new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = 'image/gamurio_amanhecer.png';
+  });
+  if (imgR) {
+    const cv = document.createElement('canvas');
+    cv.width = imgR.naturalWidth || 200;
+    cv.height = imgR.naturalHeight || 60;
+    cv.getContext('2d').drawImage(imgR, 0, 0);
+    logoRodape = cv.toDataURL('image/png');
   }
+} catch(e) {}
 
-  meses.forEach((mi,idx) => {
-    if (mi<0) return;
-    if (idx>0) doc.addPage();
-    renderHeader(mesFiltrado ? `ESCALA ${mesFiltrado.toUpperCase()} ${anoFiltrado}` : `ESCALA ${MESES[mi].toUpperCase()} ${anoFiltrado}`);
-    const totalDias = new Date(ano,mi+1,0).getDate();
+  function renderPagina(mesIndex) {
+    const mesNome = MESES[mesIndex];
+    const totalDias = new Date(ano, mesIndex+1, 0).getDate();
     const dias = Array.from({length:totalDias},(_,i)=>i+1);
     const metade = Math.ceil(dias.length/2);
-    const col1 = dias.slice(0,metade), col2 = dias.slice(metade);
-    const layout = calcLayout(mi);
-    let y1=TOP_Y, y2=TOP_Y;
-    Math.max(col1.length,col2.length);
-    col1.forEach(dia => { drawCell(X1,y1,mi,dia,layout); y1+=layout.cellH+ROW_GAP; });
-    col2.forEach(dia => { drawCell(X2,y2,mi,dia,layout); y2+=layout.cellH+ROW_GAP; });
+    const col1 = dias.slice(0, metade);
+    const col2 = dias.slice(metade);
+
+    // ── CABEÇALHO ──
+    let yTop = MARGIN;
+
+    // Logo centralizado
+    if (logoData) {
+      doc.addImage(logoData, 'PNG', W/2-15, yTop, 30, 30);
+      yTop += 34;
+    }
+
+    // Título
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(13);
+    doc.setTextColor(27,79,138);
+    doc.text('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE', W/2, yTop, {align:'center'});
+    yTop += 6;
+
+    doc.setFontSize(11);
+    doc.setTextColor(27,79,138);
+    doc.text(`ESCALA ${mesNome.toUpperCase()} ${anoFiltrado}`, W/2, yTop, {align:'center'});
+    yTop += 3;
+
+    // Linha separadora
+    doc.setDrawColor(27,79,138);
+    doc.setLineWidth(0.5);
+    doc.line(MARGIN, yTop, W-MARGIN, yTop);
+    yTop += 4;
+
+    // ── CALCULAR LAYOUT UNIFORME ──
+    const FOOTER_H = 30;
+    const AVAILABLE_H = H - yTop - FOOTER_H;
+    const GAP_ROW = 1;
+    const COL_GAP = 4;
+    const COL_W = (W - MARGIN*2 - COL_GAP) / 2;
+    const LABEL_W = 20;
+    const CELL_PAD = 1.5;
+
+    // Achar fontSize e cellH uniforme que caiba tudo
+    let fontSize = 8;
+    let cellH = 10;
+
+    for (let fs = 18; fs >= 4; fs -= 0.25) {
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(fs);
+      const lh = fs * 0.38;
+      const contentW = COL_W - LABEL_W - CELL_PAD*2;
+
+      // Achar o dia com mais linhas
+      let maxLinhas = 1;
+      dias.forEach(dia => {
+        const nomes = porMesDia[mesIndex]?.[dia]||[];
+        const cantora = cantorasPorMesDia[mesIndex]?.[dia]||'';
+        const linhasCantora = cantora ? doc.splitTextToSize(`Cantora: ${primeirosNomes(cantora)}`, contentW).length : 0;
+        const linhasNomes = nomes.length ? doc.splitTextToSize(nomes.map(primeirosNomes).join(', '), contentW).length : (cantora ? 0 : 1);
+        const total = linhasCantora + linhasNomes;
+        if (total > maxLinhas) maxLinhas = total;
+      });
+
+      // cellH uniforme baseado no dia mais cheio
+      const ch = maxLinhas * lh + CELL_PAD*2 + 1;
+      // Total da coluna maior
+      const totalH = metade * (ch + GAP_ROW);
+
+      if (totalH <= AVAILABLE_H) {
+        fontSize = parseFloat(fs.toFixed(2));
+        cellH = ch;
+        break;
+      }
+    }
+
+    doc.setFontSize(fontSize);
+    const lineH = fontSize * 0.38;
+    const contentW = COL_W - LABEL_W - CELL_PAD*2;
+
+    function getCellH(dia) { return cellH; }
+
+    function drawCell(x, y, dia) {
+      const nomes   = porMesDia[mesIndex]?.[dia]||[];
+      const cantora = cantorasPorMesDia[mesIndex]?.[dia]||'';
+      const mesNum  = String(mesIndex+1).padStart(2,'0');
+      const diaSem  = DIAS_SEM[new Date(ano,mesIndex,dia).getDay()];
+      const vazio   = nomes.length===0 && !cantora;
+      const cellH   = getCellH(dia);
+
+      // Badge data — azul escuro com texto branco
+      doc.setFillColor(27,79,138);
+      doc.rect(x, y, LABEL_W, cellH, 'F');
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(fontSize + 0.5);
+      doc.text(`${String(dia).padStart(2,'0')}/${mesNum}`, x+LABEL_W/2, y+cellH/2-lineH*0.3, {align:'center'});
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(fontSize - 0.5);
+      doc.text(diaSem.toUpperCase(), x+LABEL_W/2, y+cellH/2+lineH*0.8, {align:'center'});
+
+      // Área de conteúdo — fundo branco com borda
+      doc.setFillColor(255,255,255);
+      doc.rect(x+LABEL_W, y, COL_W-LABEL_W, cellH, 'F');
+      doc.setDrawColor(200,210,225);
+      doc.setLineWidth(0.2);
+      doc.rect(x, y, COL_W, cellH, 'S');
+
+      let textY = y + CELL_PAD + lineH;
+      doc.setFontSize(fontSize);
+
+      if (cantora) {
+        // Cantora em negrito azul
+        doc.setFont('helvetica','bold');
+        doc.setTextColor(27,79,138);
+        const cLines = doc.splitTextToSize(`Cantora: ${primeirosNomes(cantora)}`, contentW);
+        doc.text(cLines, x+LABEL_W+CELL_PAD, textY);
+        textY += cLines.length * lineH;
+      }
+
+      if (nomes.length > 0) {
+        doc.setFont('helvetica','normal');
+        doc.setTextColor(40,40,40);
+        const nLines = doc.splitTextToSize(nomes.map(primeirosNomes).join(', '), contentW);
+        doc.text(nLines, x+LABEL_W+CELL_PAD, textY);
+      } else if (!cantora) {
+        doc.setFont('helvetica','normal');
+        doc.setTextColor(160,160,160);
+        doc.text('—', x+LABEL_W+CELL_PAD, textY);
+      }
+    }
+
+    // ── RENDERIZAR COLUNAS ──
+    const X1 = MARGIN;
+    const X2 = MARGIN + COL_W + COL_GAP;
+    let y1 = yTop, y2 = yTop;
+    const maxLen = Math.max(col1.length, col2.length);
+
+    for (let i = 0; i < maxLen; i++) {
+      if (i < col1.length) {
+        drawCell(X1, y1, col1[i]);
+        y1 += getCellH(col1[i]) + GAP_ROW;
+      }
+      if (i < col2.length) {
+        drawCell(X2, y2, col2[i]);
+        y2 += getCellH(col2[i]) + GAP_ROW;
+      }
+    }
+
+    // ── RODAPÉ ──
+    const footerY = H - FOOTER_H + 2;
+    doc.setDrawColor(27,79,138);
+    doc.setLineWidth(0.4);
+    doc.line(MARGIN, footerY-2, W-MARGIN, footerY-2);
+
+    if (logoRodape) {
+      // Imagem centralizada, larga o suficiente para ficar legível
+      const imgW = 55;
+      const imgH = 25;
+      doc.addImage(logoRodape, 'PNG', W/2 - imgW/2, footerY + 3, imgW, imgH);
+    }
+  }
+
+  // Renderizar cada mês
+  meses.forEach((mi, idx) => {
+    if (mi < 0) return;
+    if (idx > 0) doc.addPage();
+    renderPagina(mi);
   });
 
-  const total = doc.internal.getNumberOfPages();
-  for (let i=1;i<=total;i++) {
-    doc.setPage(i);
-    doc.setFillColor(27,79,138); doc.rect(0,H-FOOTER_H,W,FOOTER_H,'F');
-    doc.setTextColor(255,255,255); doc.setFont('helvetica','normal'); doc.setFontSize(6);
-    doc.text(`Gamúrio do Amanhecer - Fortaleza, CE | Pag ${i}/${total}`, W/2, H-2.7, {align:'center'});
-  }
   doc.save(`escala_${mesFiltrado||'todos'}_${anoFiltrado}.pdf`);
 }
 
@@ -740,18 +924,18 @@ function clean(s=''){return String(s).replace(/^"|"$/g,'').trim();}
 
 
 const MEMBROS = [
-  'Adria','Aline Braga','Ana Roseno','Brenda Bayma','Cássia',
+  'Adria','Aline Braga','Ana Lúcia','Ana Roseno','Brenda Bayma','Cássia',
   'Christian','Cleanderson','Daniele Azevedo','Daniele Morais',
   'Danielle Andrade','Davi Diniz','Débora','Ednardo','Elisangela',
-  'Erisvaldo','Fábio','Felipe Correia','Felipe Rômulo',
+  'Erisvaldo','Felipe Correia','Felipe Rômulo',
   'Fernando Cavalcanti','Fernando Filho','George Andrade',
   'Gessyca','Helena Ramos','Helena Xavier','Homero','Ivo',
   'Jéssica','Judite Barros','Kairon','Karol Costa',
-  'Kettlen Araújo','Lincoln','Luan','Luiziane','Mara',
-  'Michele Borges','Milene','Neiva Rodrigues','Nila de Quiroz',
+  'Lincoln','Luan','Luiziane','Mara',
+  'Michele Borges','Milene','Neiva Rodrigues','Nila de Queiroz',
   'Nívia','Priscilla','Rafael Viana','Ravena Melo','Regilane',
-  'Rodolfo','Roseli','Rozi','Stephane','Suely',
-  'Tabatha Arruda','Thales','Tila Carolina'
+  'Rodolfo','Roseli','Rozi','Stephane',
+  'Tabatha Arruda'
 ];
 
 function matchMembro(nomeMembro, nomePlanilha) {
@@ -806,6 +990,156 @@ function renderMembros(dados) {
   document.getElementById('membrosCard').style.display = 'block';
 }
 
+const MEMBROS_ADD = [
+  'Adria','Aline Braga','Ana Lúcia','Ana Roseno','Brenda Bayma','Cássia',
+  'Christian','Cleanderson','Daniele Azevedo','Daniele Morais',
+  'Danielle Andrade','Davi Diniz','Débora','Ednardo','Elisangela',
+  'Erisvaldo','Felipe Correia','Felipe Rômulo',
+  'Fernando Cavalcanti','Fernando Filho','George Andrade',
+  'Gessyca','Helena Ramos','Helena Xavier','Homero','Ivo',
+  'Jéssica','Judite Barros','Kairon','Karol Costa',
+  'Lincoln','Luan','Luiziane','Mara',
+  'Michele Borges','Milene','Neiva Rodrigues','Nila de Queiroz',
+  'Nívia','Priscilla','Rafael Viana','Ravena Melo','Regilane',
+  'Rodolfo','Roseli','Rozi','Stephane','Tabatha Arruda'
+];
+
+let addDiasSel = [];
+
+function initAddEscala() {
+  renderDropdownItems(MEMBROS_ADD);
+  renderAddCal();
+}
+
+function renderDropdownItems(lista) {
+  const container = document.getElementById('addDropdownItems');
+  if (!container) return;
+  container.innerHTML = lista.map(m =>
+    `<div class="add-dropdown-item" onclick="selecionarMembro('${m}')">${m}</div>`
+  ).join('');
+}
+
+function filtrarMembros() {
+  const q = document.getElementById('addBusca').value.toLowerCase();
+  const filtrados = MEMBROS_ADD.filter(m => m.toLowerCase().includes(q));
+  renderDropdownItems(filtrados);
+}
+
+function toggleDropdown() {
+  const list = document.getElementById('addDropdownList');
+  const isOpen = list.classList.contains('open');
+  document.querySelectorAll('.add-dropdown-list').forEach(l => l.classList.remove('open'));
+  if (!isOpen) {
+    list.classList.add('open');
+    document.getElementById('addBusca').value = '';
+    renderDropdownItems(MEMBROS_ADD);
+    setTimeout(() => document.getElementById('addBusca').focus(), 50);
+  }
+}
+
+function selecionarMembro(nome) {
+  document.getElementById('addMembro').value = nome;
+  document.getElementById('addMembroDisplay').textContent = nome;
+  document.getElementById('addMembroDisplay').style.color = 'var(--dark)';
+  document.getElementById('addDropdownList').classList.remove('open');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#addDropdown')) {
+    const list = document.getElementById('addDropdownList');
+    if (list) list.classList.remove('open');
+  }
+});
+
+function renderAddCal() {
+  const container = document.getElementById('addCalDays');
+  if (!container || !mesFiltrado || !anoFiltrado) return;
+  container.innerHTML = '';
+  const mi = MESES.indexOf(mesFiltrado);
+  const ano = parseInt(anoFiltrado);
+  if (mi < 0) return;
+  const primeiro = new Date(ano, mi, 1).getDay();
+  const total = new Date(ano, mi+1, 0).getDate();
+  const hoje = new Date();
+  for (let i=0; i<primeiro; i++) {
+    const el = document.createElement('div'); el.className='add-day vazio'; container.appendChild(el);
+  }
+  for (let d=1; d<=total; d++) {
+    const el = document.createElement('div');
+    el.className = 'add-day' + (addDiasSel.includes(d) ? ' sel' : '');
+    el.textContent = d;
+    const passado = mi===hoje.getMonth() && ano===hoje.getFullYear() &&
+      new Date(ano,mi,d) < new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate());
+    if (passado) el.classList.add('passado');
+    el.onclick = () => toggleAddDia(d, el);
+    container.appendChild(el);
+  }
+}
+
+function toggleAddDia(d, el) {
+  const idx = addDiasSel.indexOf(d);
+  if (idx===-1) { addDiasSel.push(d); addDiasSel.sort((a,b)=>a-b); el.classList.add('sel'); }
+  else { addDiasSel.splice(idx,1); el.classList.remove('sel'); }
+  atualizarAddBadges();
+}
+
+function atualizarAddBadges() {
+  const c = document.getElementById('addDiasSel');
+  if (!c) return;
+  if (addDiasSel.length===0) { c.innerHTML='<span style="font-size:.65rem;color:var(--muted);font-style:italic;">Nenhum dia</span>'; return; }
+  const mi = MESES.indexOf(mesFiltrado);
+  const ano = parseInt(anoFiltrado);
+  c.innerHTML = addDiasSel.map(d => {
+    const ds = DIAS_SEM[new Date(ano,mi,d).getDay()];
+    return `<span class="add-badge">${String(d).padStart(2,'0')}/${String(mi+1).padStart(2,'0')} (${ds}) <button onclick="removerAddDia(${d})">×</button></span>`;
+  }).join('');
+}
+
+function removerAddDia(d) {
+  addDiasSel.splice(addDiasSel.indexOf(d),1);
+  renderAddCal(); atualizarAddBadges();
+}
+
+async function adicionarEscala() {
+  const nome = document.getElementById('addMembro').value.trim();
+  if (!nome) { showAddToast('err','⚠️ Selecione um membro.'); return; }
+  if (addDiasSel.length===0) { showAddToast('err','⚠️ Selecione pelo menos um dia.'); return; }
+  if (!mesFiltrado) { showAddToast('err','⚠️ Filtre um mês primeiro.'); return; }
+  const btn = document.getElementById('btnAddEscala');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  const mi = MESES.indexOf(mesFiltrado);
+  const ano = parseInt(anoFiltrado);
+  const mesStr = `${mesFiltrado.toLowerCase()} ${anoFiltrado}`;
+  for (const d of addDiasSel) {
+    const ds = DIAS_SEM[new Date(ano,mi,d).getDay()];
+    const diaStr = `${String(d).padStart(2,'0')}/${String(mi+1).padStart(2,'0')} (${ds})`;
+    await new Promise(resolve => {
+      const iframeName = 'add_' + Date.now() + '_' + d;
+      const iframe = document.createElement('iframe');
+      iframe.name = iframeName; iframe.style.display='none';
+      document.body.appendChild(iframe);
+      const form = document.createElement('form');
+      form.method='POST'; form.action=SCRIPT_URL; form.target=iframeName; form.style.display='none';
+      [['aba','escala_entrega_de_energias'],['timestamp',new Date().toLocaleString('pt-BR')],
+       ['nome',nome],['mes',mesStr],['dias',diaStr],['dias_numeros',String(d)],['cantora',''],['dia_cantora','']
+      ].forEach(([k,v]) => {
+        const inp=document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=v; form.appendChild(inp);
+      });
+      document.body.appendChild(form); form.submit();
+      setTimeout(() => { try{document.body.removeChild(form);}catch(e){} try{document.body.removeChild(iframe);}catch(e){} resolve(); }, 2500);
+    });
+  }
+  btn.disabled = false; btn.textContent = '✦ Adicionar';
+  showAddToast('ok', `✅ ${nome} adicionado(a) em ${addDiasSel.length} dia(s)!`);
+  document.getElementById('addMembro').value = '';
+  addDiasSel = []; renderAddCal(); atualizarAddBadges();
+}
+
+function showAddToast(tipo, msg) {
+  const t = document.getElementById('addToast');
+  t.textContent = msg; t.className = `add-toast ${tipo}`;
+  setTimeout(() => t.className='add-toast', 4000);
+}
 function primeirosNomes(nome) {
   const partes = nome.trim().split(/\s+/);
   return partes.slice(0, 2).join(' ');
