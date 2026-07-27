@@ -337,23 +337,38 @@ let anoFiltrado = '2026';
 let exclusaoPendente = null; // { linhaIdx, nome, dia, mes }
 
 // ── LOGIN ──
+const LOGIN_KEY = 'devas_admin_logado';
+
+function entrarAdmin() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('adminPanel').classList.add('show');
+  const agora = new Date();
+  document.getElementById('filtroMes').value = MESES[agora.getMonth()];
+  document.getElementById('filtroAno').value = agora.getFullYear();
+  carregarDados();
+}
+
 function fazerLogin() {
   if (document.getElementById('senhaInput').value.trim() === SENHA_ADMIN) {
-    document.getElementById('loginWrap').style.display = 'none';
-    document.getElementById('adminPanel').classList.add('show');
-    const agora = new Date();
-    document.getElementById('filtroMes').value = MESES[agora.getMonth()];
-    document.getElementById('filtroAno').value = agora.getFullYear();
-    carregarDados();
+    try { localStorage.setItem(LOGIN_KEY, '1'); } catch(e) {}
+    entrarAdmin();
   } else {
     document.getElementById('loginErr').classList.add('show');
   }
 }
 function logout() {
+  try { localStorage.removeItem(LOGIN_KEY); } catch(e) {}
   document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('adminPanel').classList.remove('show');
   document.getElementById('senhaInput').value = '';
 }
+
+// Mantém a sessão ao recarregar a página (não pede senha de novo)
+window.addEventListener('DOMContentLoaded', () => {
+  let logado = false;
+  try { logado = localStorage.getItem(LOGIN_KEY) === '1'; } catch(e) {}
+  if (logado) entrarAdmin();
+});
 
 // ── DADOS ──
 async function carregarDados() {
@@ -555,12 +570,23 @@ async function confirmarExclusao() {
         const inp = document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=v; form.appendChild(inp);
       });
       document.body.appendChild(form);
-      form.submit();
-      setTimeout(() => {
+
+      let done = false, submetido = false;
+      const finalizar = () => {
+        if (done) return; done = true;
         try{document.body.removeChild(form);}catch(e){}
         try{document.body.removeChild(iframe);}catch(e){}
         resolve();
-      }, 2500);
+      };
+      // Espera a resposta REAL do servidor (load do iframe) e dá um pequeno buffer
+      // para a planilha propagar a alteração antes de recarregar.
+      iframe.addEventListener('load', () => {
+        if (!submetido) return;      // ignora o load inicial (about:blank)
+        setTimeout(finalizar, 1200);
+      });
+      submetido = true;
+      form.submit();
+      setTimeout(finalizar, 9000);   // fallback de segurança se o load não disparar
     });
 
     fecharModal();
@@ -1125,14 +1151,33 @@ async function adicionarEscala() {
       ].forEach(([k,v]) => {
         const inp=document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=v; form.appendChild(inp);
       });
-      document.body.appendChild(form); form.submit();
-      setTimeout(() => { try{document.body.removeChild(form);}catch(e){} try{document.body.removeChild(iframe);}catch(e){} resolve(); }, 2500);
+      document.body.appendChild(form);
+
+      let done = false, submetido = false;
+      const finalizar = () => {
+        if (done) return; done = true;
+        try{document.body.removeChild(form);}catch(e){}
+        try{document.body.removeChild(iframe);}catch(e){}
+        resolve();
+      };
+      iframe.addEventListener('load', () => {
+        if (!submetido) return;      // ignora o load inicial (about:blank)
+        setTimeout(finalizar, 1200);
+      });
+      submetido = true;
+      form.submit();
+      setTimeout(finalizar, 9000);   // fallback de segurança
     });
   }
-  btn.disabled = false; btn.textContent = '✦ Adicionar';
-  showAddToast('ok', `✅ ${nome} adicionado(a) em ${addDiasSel.length} dia(s)!`);
+  const totalDias = addDiasSel.length;
+  showAddToast('ok', `✅ ${nome} adicionado(a) em ${totalDias} dia(s)!`);
   document.getElementById('addMembro').value = '';
+  document.getElementById('addMembroDisplay').textContent = 'Selecione o membro...';
   addDiasSel = []; renderAddCal(); atualizarAddBadges();
+
+  // Recarrega a escala automaticamente para já mostrar a adição
+  await carregarDados();
+  btn.disabled = false; btn.textContent = '✦ Adicionar';
 }
 
 function showAddToast(tipo, msg) {
