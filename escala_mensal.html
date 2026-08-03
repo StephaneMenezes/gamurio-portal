@@ -40,8 +40,11 @@
     .field{margin-bottom:1.2rem;}
     .field:last-child{margin-bottom:0;}
     .field label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
-    .field input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.9rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
-    .field input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,155,141,.08);}
+    .field input,.field select{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.9rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
+    .field input:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,155,141,.08);}
+    /* Seletor de nome (dropdown) */
+   .field select{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;font-size:1.15rem;padding-right:2.4rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A92A3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 1rem center;}
+    .field select:invalid{color:var(--muted);}
 
     .mes-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.2rem;}
     .mes-btn{padding:.65rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:600;color:var(--mid);background:var(--bg);cursor:pointer;transition:all .2s;text-align:center;}
@@ -138,7 +141,9 @@
       <div class="card-body">
         <div class="field">
           <label>Nome e Sobrenome <span style="color:var(--red)">*</span></label>
-          <input type="text" id="nome1" placeholder="Nome"/>
+          <select id="nome1" required>
+            <option value="" disabled selected>Selecione seu nome...</option>
+          </select>
         </div>
         <div class="field">
           <label>Mês da escala <span style="color:var(--red)">*</span></label>
@@ -264,6 +269,31 @@ const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Ag
 const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const MAX_POR_DIA = 4;
 
+// ── Lista de membros autorizados a dar escala (Entrega de Energias) ──
+const MEMBROS_ADD = [
+  'Adria','Ana Lúcia','Ana Roseno','Ana Judite','Ana Sara','Brenda Bayma','Cássia',
+  'Christian','Cleanderson','Daniele Azevedo','Daniele Morais',
+  'Davi Diniz','Débora Sabino','Ednardo','Elisangela',
+  'Erisvaldo','Fábio','Felipe Correia','Felipe Rômulo',
+  'Fernando Cavalcanti','George Andrade',
+  'Gessyca','Helena Ramos','Helena Xavier','Homero',' Ivo Melo',
+  'Jéssica H.','Judite Barros','Karol Costa',
+  'Lincoln','Luan Vieira','Luiziane','Mara',
+  'Michele Borges','Milene Lima','Nila de Queiroz',
+  'Nívea','Rafael Viana','Ravena Melo','Regilane',
+  'Roseli','Rozi','Stephane','Tabatha Arruda','Valber'
+];
+
+// Popular o seletor de nomes do Bloco 1 (ordem alfabética)
+(function popularNomes1(){
+  const sel = document.getElementById('nome1');
+  [...MEMBROS_ADD].sort((a,b)=>a.localeCompare(b,'pt-BR')).forEach(nome => {
+    const opt = document.createElement('option');
+    opt.value = nome; opt.textContent = nome;
+    sel.appendChild(opt);
+  });
+})();
+
 // ── Estado ──
 let mes1=null, ano1=null, dias1=[];
 let mes2=null, ano2=null, dias2=[];
@@ -276,9 +306,20 @@ const agora = new Date();
 const mesAtual = agora.getMonth();
 const anoAtual = agora.getFullYear();
 
+// Retorna o dia (número) do 4º domingo do mês
+function quartoDomingo(ano, mes) {
+  const primeiroDow = new Date(ano, mes, 1).getDay();   // 0 = Domingo
+  const primeiroDomingo = 1 + ((7 - primeiroDow) % 7);  // dia do 1º domingo
+  return primeiroDomingo + 21;                          // 4º domingo = 1º + 3 semanas
+}
+
+// O mês seguinte só aparece a partir do 4º domingo do mês atual
+const mostrarProximo = agora.getDate() >= quartoDomingo(anoAtual, mesAtual);
+const numMeses = mostrarProximo ? 2 : 1;
+
 ['mesGrid1','mesGrid2'].forEach((gridId, idx) => {
   const grid = document.getElementById(gridId);
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < numMeses; i++) {
     let m = (mesAtual + i) % 12;
     let a = anoAtual + Math.floor((mesAtual + i) / 12);
     const btn = document.createElement('button');
@@ -407,11 +448,11 @@ function atualizarPreview1() {
   }).join('');
 }
 
-document.getElementById('nome1').addEventListener('input', atualizarPreview1);
+document.getElementById('nome1').addEventListener('change', atualizarPreview1);
 
 async function enviar1() {
   const nome = document.getElementById('nome1').value.trim();
-  if (!nome) { showToast('toast1','err','⚠️ Digite seu nome.'); return; }
+  if (!nome) { showToast('toast1','err','⚠️ Selecione seu nome na lista.'); return; }
   if (mes1===null) { showToast('toast1','err','⚠️ Selecione um mês.'); return; }
   if (dias1.length===0) { showToast('toast1','err','⚠️ Selecione pelo menos um dia.'); return; }
   nomeUsuario1 = nome;
@@ -479,7 +520,7 @@ function baixar1() {
 function reset1() {
   document.getElementById('bloco1').style.display='block';
   document.getElementById('sucesso1').classList.remove('show');
-  document.getElementById('nome1').value='';
+  document.getElementById('nome1').selectedIndex=0;
   document.querySelectorAll('#mesGrid1 .mes-btn').forEach(b=>b.classList.remove('ativo'));
   mes1=null; ano1=null; dias1=[]; diasLotados={};
   document.getElementById('calCard1').style.display='none';
