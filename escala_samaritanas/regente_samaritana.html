@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Escala Entrega de Energias</title>
+  <title>Admin - Escala Samaritanas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -11,10 +11,10 @@
     :root {
       --teal:#009B8D; --teal-dark:#007A6E; --teal-light:#E6F5F4; --teal-mid:#C8ECEA;
       --gold:#D4A843; --gold-dark:#a07a1e; --gold-light:#FDF3DC;
-      --blue:#1B4F8A; --blue-light:#E8F0FB;
+      --pink:#C2447A; --pink-dark:#8a2d56; --pink-light:#fbe9f0;
       --red:#C0392B; --red-light:#FDECEA;
       --dark:#1B2B3A; --mid:#3D5166; --muted:#7A92A3;
-      --white:#fff; --bg:#F5F9F8; --border:rgba(0,155,141,0.15);
+      --white:#fff; --bg:#F5F9F8; --border:rgba(194,68,122,0.15);
       --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.08);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -24,22 +24,22 @@
     .login-wrap::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.55);z-index:0;}
     .login-wrap>*{position:relative;z-index:1;}
     .login-card{background:var(--white);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.12);width:100%;max-width:380px;overflow:hidden;}
-    .login-hdr{background:linear-gradient(135deg,var(--blue),#0f3460);padding:2rem;text-align:center;}
+    .login-hdr{background:linear-gradient(135deg,var(--pink),var(--pink-dark));padding:2rem;text-align:center;}
     .login-hdr h1{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.2rem;}
     .login-hdr p{font-size:.72rem;color:rgba(255,255,255,.7);}
     .login-body{padding:2rem;}
     .login-field{margin-bottom:1rem;}
     .login-field label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
     .login-field input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.9rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
-    .login-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,79,138,.08);}
-    .btn-login{width:100%;padding:.9rem;background:var(--blue);color:#fff;border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:.5rem;}
-    .btn-login:hover{background:#0f3460;transform:translateY(-1px);}
+    .login-field input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(194,68,122,.08);}
+    .btn-login{width:100%;padding:.9rem;background:var(--pink);color:#fff;border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:.5rem;}
+    .btn-login:hover{background:var(--pink-dark);transform:translateY(-1px);}
     .login-err{margin-top:.8rem;padding:.7rem 1rem;background:var(--red-light);border:1px solid var(--red);border-radius:8px;font-size:.78rem;color:var(--red);font-weight:600;text-align:center;display:none;}
     .login-err.show{display:block;}
 
     .admin{display:none;}
     .admin.show{display:block;}
-    .header{background:linear-gradient(135deg,var(--blue),#0f3460);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(27,79,138,.2);}
+    .header{background:linear-gradient(135deg,var(--pink),var(--pink-dark));padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(194,68,122,.2);}
     .header-title{font-size:.95rem;font-weight:800;color:#fff;}
     .header-sub{font-size:.65rem;color:rgba(255,255,255,.7);font-style:italic;}
     .header-right{display:flex;align-items:center;gap:.8rem;}
@@ -48,53 +48,53 @@
 
     .main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 5rem;}
     .page-title{margin-bottom:1.5rem;}
-    .page-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;}
-    .page-label::before{content:'';width:16px;height:2px;background:var(--blue);}
+    .page-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--pink);margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;}
+    .page-label::before{content:'';width:16px;height:2px;background:var(--pink);}
     .page-title h1{font-size:1.5rem;font-weight:800;color:var(--dark);}
 
     .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.2rem;}
     .card-hdr{padding:.9rem 1.5rem;display:flex;align-items:center;gap:.6rem;font-size:.68rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#fff;}
-    .card-hdr.blue{background:linear-gradient(135deg,#0f3460,var(--blue));}
+    .card-hdr.pink{background:linear-gradient(135deg,var(--pink-dark),var(--pink));}
     .card-hdr.teal{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
     .card-body{padding:1.5rem;}
 
     .filtros{display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end;}
     .field label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
     .field select,.field input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.88rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;}
-    .field select:focus,.field input:focus{border-color:var(--blue);}
-    .btn-buscar{padding:.75rem 1.5rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;}
-    .btn-buscar:hover{background:#0f3460;}
+    .field select:focus,.field input:focus{border-color:var(--pink);}
+    .btn-buscar{padding:.75rem 1.5rem;background:var(--pink);color:#fff;border:none;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;}
+    .btn-buscar:hover{background:var(--pink-dark);}
 
     .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
-    .stat-card{background:var(--white);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);text-align:center;border-top:3px solid var(--blue);}
-    .stat-num{font-size:1.8rem;font-weight:800;color:var(--blue);}
+    .stat-card{background:var(--white);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);text-align:center;border-top:3px solid var(--pink);}
+    .stat-num{font-size:1.8rem;font-weight:800;color:var(--pink);}
     .stat-label{font-size:.65rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;}
 
     .cal-consolidado{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);}
     .cal-mes-titulo{grid-column:1/-1;background:var(--gold-light);color:var(--gold-dark);font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:.8rem 1rem;border-top:1px solid rgba(212,168,67,.35);}
     .cal-dia-row{background:var(--white);display:grid;grid-template-columns:120px 1fr auto;}
-    .cal-dia-label{background:var(--blue);color:#fff;font-size:.82rem;font-weight:800;padding:.8rem 1rem;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
+    .cal-dia-label{background:var(--pink);color:#fff;font-size:.82rem;font-weight:800;padding:.8rem 1rem;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
+    .cal-dia-label.necessitado{background:var(--red);}
     .cal-dia-label .dia-num{font-size:1.1rem;}
     .cal-dia-label .dia-sem{font-size:.6rem;opacity:.8;text-transform:uppercase;letter-spacing:.05em;}
-    .cal-dia-nomes{padding:.7rem 1rem;font-size:.82rem;color:var(--dark);display:flex;align-items:flex-start;flex-direction:column;justify-content:center;gap:.2rem;flex:1;}
-    .cal-dia-row.vazio .cal-dia-label{background:#8fa8c8;}
-    .cal-dia-label.vazio{background:#8fa8c8;}
-    .cal-dia-count{min-width:36px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--blue);background:var(--blue-light);border-left:1px solid rgba(27,79,138,.15);padding:0 .5rem;}
+    .cal-dia-nomes{padding:.7rem 1rem;font-size:.82rem;color:var(--dark);display:flex;align-items:flex-start;flex-direction:column;justify-content:center;gap:.3rem;flex:1;}
+    .cal-dia-row.vazio .cal-dia-label{background:#d99bb6;}
+    .cal-dia-label.vazio{background:#d99bb6;}
+    .cal-dia-count{min-width:36px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--pink);background:var(--pink-light);border-left:1px solid rgba(194,68,122,.15);padding:0 .5rem;}
+    .cal-dia-count.necessitado{color:var(--red);background:var(--red-light);}
+    .obs-text{font-size:.68rem;color:var(--muted);font-style:italic;}
 
-    /* NOME TAG COM BOTÃO EXCLUIR */
-    .nome-tag{display:inline-flex;align-items:center;gap:.3rem;background:var(--blue-light);border:1px solid rgba(27,79,138,.2);border-radius:20px;padding:.15rem .6rem .15rem .8rem;font-size:.75rem;font-weight:600;color:var(--dark);}
-    .nome-tag.cantora{background:#f5f3ff;border-color:rgba(139,92,246,.3);color:#5b21b6;font-weight:700;}
+    .nome-tag{display:inline-flex;align-items:center;gap:.3rem;background:var(--pink-light);border:1px solid rgba(194,68,122,.2);border-radius:20px;padding:.15rem .6rem .15rem .8rem;font-size:.75rem;font-weight:600;color:var(--dark);}
     .btn-excluir{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;line-height:1;padding:.1rem .2rem;border-radius:50%;transition:all .15s;display:flex;align-items:center;}
     .btn-excluir:hover{background:#fee2e2;color:var(--red);}
 
-    /* MODAL CONFIRMAÇÃO */
     .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;}
     .modal-overlay.show{display:flex;}
     .modal-box{background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.2);}
     .modal-ico{font-size:2rem;text-align:center;margin-bottom:.8rem;}
     .modal-title{font-size:1rem;font-weight:800;color:var(--dark);text-align:center;margin-bottom:.4rem;}
     .modal-sub{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:1.5rem;line-height:1.5;}
-    .modal-nome{font-weight:700;color:var(--blue);}
+    .modal-nome{font-weight:700;color:var(--pink);}
     .modal-btns{display:flex;gap:.8rem;}
     .btn-cancel{flex:1;padding:.75rem;background:var(--bg);border:1.5px solid var(--border);border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
     .btn-cancel:hover{border-color:var(--muted);}
@@ -103,23 +103,21 @@
     .btn-confirm:disabled{opacity:.6;cursor:not-allowed;}
 
     .loading-wrap{text-align:center;padding:3rem;color:var(--muted);}
-    .loading-spinner{width:32px;height:32px;border:3px solid var(--teal-mid);border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto .8rem;}
+    .loading-spinner{width:32px;height:32px;border:3px solid var(--pink-light);border-top-color:var(--pink);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto .8rem;}
     @keyframes spin{to{transform:rotate(360deg);}}
     .empty{text-align:center;padding:3rem;color:var(--muted);font-style:italic;}
 
     .acoes{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem;}
-    .btn-pdf{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.8rem;background:var(--blue);color:#fff;border:none;border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
-    .btn-pdf:hover{background:#0f3460;transform:translateY(-1px);}
+    .btn-pdf{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.8rem;background:var(--pink);color:#fff;border:none;border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .btn-pdf:hover{background:var(--pink-dark);transform:translateY(-1px);}
     .btn-refresh{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.5rem;background:var(--teal-light);color:var(--teal-dark);border:1.5px solid var(--teal-mid);border-radius:20px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
     .btn-refresh:hover{background:var(--teal);color:#fff;}
 
-
-    /* TABELA MEMBROS */
     .membros-table{width:100%;border-collapse:collapse;font-size:.82rem;}
-    .membros-table th{background:var(--blue);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1rem;text-align:left;}
+    .membros-table th{background:var(--pink);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1rem;text-align:left;}
     .membros-table th:last-child{text-align:center;}
     .membros-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
-    .membros-table tbody tr:hover{background:var(--blue-light);}
+    .membros-table tbody tr:hover{background:var(--pink-light);}
     .membros-table td{padding:.55rem 1rem;vertical-align:middle;}
     .membros-table td:last-child{text-align:center;}
     .count-badge{display:inline-block;font-size:.72rem;font-weight:800;padding:.2rem .7rem;border-radius:20px;min-width:36px;text-align:center;}
@@ -129,37 +127,38 @@
     .count-high{background:#dcfce7;color:#166534;}
     .membro-nome{font-weight:600;color:var(--dark);}
 
-        /* ADICIONAR ESCALA */
     .add-body{padding:.8rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
     .add-field input{padding:.45rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s;width:180px;}
-    .add-field input:focus{border-color:var(--teal);}
+    .add-field input:focus{border-color:var(--pink);}
     .add-cal-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
     .add-cal-wd{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px;}
     .add-cal-wd span{font-size:.42rem;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;}
     .add-day{width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:.58rem;font-weight:600;cursor:pointer;border:1px solid transparent;background:var(--bg);color:var(--dark);transition:all .12s;}
-    .add-day:hover{border-color:var(--teal);color:var(--teal);}
+    .add-day:hover{border-color:var(--pink);color:var(--pink);}
     .add-day.vazio{visibility:hidden;pointer-events:none;}
-    .add-day.sel{background:var(--teal);color:#fff;border-color:var(--teal);}
+    .add-day.sel{background:var(--pink);color:#fff;border-color:var(--pink);}
     .add-day.passado{opacity:.3;pointer-events:none;}
-    .add-badge{background:var(--teal);color:#fff;font-size:.58rem;font-weight:700;padding:.1rem .4rem;border-radius:10px;display:inline-flex;align-items:center;gap:.2rem;}
+    .add-badge{background:var(--pink);color:#fff;font-size:.58rem;font-weight:700;padding:.1rem .4rem;border-radius:10px;display:inline-flex;align-items:center;gap:.2rem;}
     .add-badge button{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:.65rem;line-height:1;}
     .add-dias-sel{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.4rem;min-height:18px;}
-    .btn-add-escala{padding:.45rem 1rem;background:var(--teal);color:#fff;border:none;border-radius:16px;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s;margin-top:auto;}
-    .btn-add-escala:hover{background:var(--teal-dark);}
+    .btn-add-escala{padding:.45rem 1rem;background:var(--pink);color:#fff;border:none;border-radius:16px;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s;margin-top:auto;}
+    .btn-add-escala:hover{background:var(--pink-dark);}
     .btn-add-escala:disabled{opacity:.6;cursor:not-allowed;}
     .add-toast{padding:.4rem .7rem;border-radius:6px;font-size:.68rem;font-weight:600;display:none;margin-top:.4rem;}
     .add-toast.ok{background:#e6f9f0;border:1px solid #34c77b;color:#1a7a4a;display:block;}
     .add-toast.err{background:var(--red-light);border:1px solid var(--red);color:var(--red);display:block;}
     .add-dropdown{position:relative;width:200px;}
     .add-dropdown-input{width:100%;padding:.45rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;color:var(--dark);background:var(--bg);outline:none;cursor:pointer;transition:border-color .2s;}
-    .add-dropdown-input:focus{border-color:var(--teal);}
-    .add-dropdown-list{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--teal);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:200;max-height:200px;overflow-y:auto;margin-top:2px;}
+    .add-dropdown-input:focus{border-color:var(--pink);}
+    .add-dropdown-list{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--pink);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:200;max-height:200px;overflow-y:auto;margin-top:2px;}
     .add-dropdown-list.open{display:block;}
     .add-dropdown-search{padding:.4rem .6rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;}
     .add-dropdown-search input{width:100%;border:1px solid var(--border);border-radius:6px;padding:.3rem .5rem;font-family:'Montserrat',sans-serif;font-size:.75rem;outline:none;}
-    .add-dropdown-search input:focus{border-color:var(--teal);}
+    .add-dropdown-search input:focus{border-color:var(--pink);}
     .add-dropdown-item{padding:.4rem .8rem;font-size:.78rem;cursor:pointer;color:var(--dark);transition:background .1s;}
-    .add-dropdown-item:hover,.add-dropdown-item.ativo{background:var(--teal-light);color:var(--teal-dark);font-weight:600;}
+    .add-dropdown-item:hover,.add-dropdown-item.ativo{background:var(--pink-light);color:var(--pink-dark);font-weight:600;}
+    .add-obs textarea{width:100%;min-width:200px;padding:.45rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.75rem;color:var(--dark);background:var(--bg);outline:none;resize:vertical;min-height:36px;}
+    .add-obs textarea:focus{border-color:var(--pink);}
 
     @media(max-width:768px){
       .filtros{grid-template-columns:1fr;}
@@ -171,7 +170,6 @@
 </head>
 <body>
 
-<!-- MODAL CONFIRMAÇÃO EXCLUSÃO -->
 <div class="modal-overlay" id="modalExcluir">
   <div class="modal-box">
     <div class="modal-ico">🗑️</div>
@@ -184,12 +182,11 @@
   </div>
 </div>
 
-<!-- LOGIN -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-card">
     <div class="login-hdr">
-      <h1>🔒 Área do Coordenador</h1>
-      <p>Escala Entrega de Energias · Gamúrio do Amanhecer</p>
+      <h1>🔒 Área da Coordenação</h1>
+      <p>Escala Samaritanas · Gamúrio do Amanhecer</p>
     </div>
     <div class="login-body">
       <div class="login-field">
@@ -202,12 +199,11 @@
   </div>
 </div>
 
-<!-- ADMIN -->
 <div class="admin" id="adminPanel">
   <header class="header">
     <div>
-      <div class="header-title">📋 Coordenação · Escala Mensal</div>
-      <div class="header-sub">Entrega de Energias · Gamúrio do Amanhecer</div>
+      <div class="header-title">📋 Coordenação · Escala Samaritanas</div>
+      <div class="header-sub">Gamúrio do Amanhecer</div>
     </div>
     <div class="header-right">
       <button class="logout-btn" onclick="logout()">Sair</button>
@@ -216,12 +212,12 @@
 
   <main class="main">
     <div class="page-title">
-      <div class="page-label">Painel do Coordenador</div>
-      <h1>Escalas Entrega de Energias</h1>
+      <div class="page-label">Painel da Coordenação</div>
+      <h1>Escala de Samaritanas</h1>
     </div>
 
     <div class="card">
-      <div class="card-hdr blue">🔍 Filtrar por Mês</div>
+      <div class="card-hdr pink">🔍 Filtrar por Mês</div>
       <div class="card-body">
         <div class="filtros">
           <div class="field">
@@ -246,14 +242,14 @@
     </div>
 
     <div class="stats-grid" id="statsGrid" style="display:none">
-      <div class="stat-card"><div class="stat-num" id="statPessoas">0</div><div class="stat-label">Pessoas escaladas</div></div>
+      <div class="stat-card"><div class="stat-num" id="statPessoas">0</div><div class="stat-label">Samaritanas escaladas</div></div>
       <div class="stat-card"><div class="stat-num" id="statDias">0</div><div class="stat-label">Dias cobertos</div></div>
       <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total inscrições</div></div>
-      <div class="stat-card" style="border-top-color:var(--gold)"><div class="stat-num" style="color:var(--gold-dark)" id="statMedia">0</div><div class="stat-label">Média dias/pessoa</div></div>
+      <div class="stat-card" style="border-top-color:var(--red)"><div class="stat-num" style="color:var(--red)" id="statNecessitados">0</div><div class="stat-label">Dias necessitados</div></div>
     </div>
 
     <div class="card" id="calCard" style="display:none">
-      <div class="card-hdr blue">📅 Escala Consolidada</div>
+      <div class="card-hdr pink">📅 Escala Consolidada</div>
       <div class="card-body" style="padding:0">
         <div class="cal-consolidado" id="calConsolidado"></div>
       </div>
@@ -265,13 +261,12 @@
       </div>
     </div>
 
-    <!-- ADICIONAR À ESCALA -->
     <div class="card" id="addEscalaCard" style="display:none">
-      <div class="card-hdr teal">➕ Adicionar à Escala</div>
+      <div class="card-hdr pink">➕ Adicionar à Escala</div>
       <div class="add-body">
         <div class="add-field">
           <div class="add-dropdown" id="addDropdown">
-            <div class="add-dropdown-input" id="addMembroDisplay" onclick="toggleDropdown()">Selecione o membro...</div>
+            <div class="add-dropdown-input" id="addMembroDisplay" onclick="toggleDropdown()">Selecione a Samaritana...</div>
             <div class="add-dropdown-list" id="addDropdownList">
               <div class="add-dropdown-search">
                 <input type="text" id="addBusca" placeholder="🔍 Buscar..." oninput="filtrarMembros()"/>
@@ -287,13 +282,15 @@
           <div class="add-cal-mini" id="addCalDays"></div>
           <div class="add-dias-sel" id="addDiasSel"><span style="font-size:.58rem;color:var(--muted);font-style:italic;">Nenhum dia</span></div>
         </div>
+        <div class="add-obs">
+          <textarea id="addObs" placeholder="Observação (opcional)" rows="1"></textarea>
+        </div>
         <button class="btn-add-escala" id="btnAddEscala" onclick="adicionarEscala()">✦ Adicionar</button>
       </div>
     </div>
 
-
     <div class="card" id="membrosCard" style="display:none">
-      <div class="card-hdr teal">👥 Participação dos Membros</div>
+      <div class="card-hdr teal">👥 Participação das Samaritanas</div>
       <div class="card-body" style="padding:0">
         <div style="overflow-x:auto">
           <table class="membros-table">
@@ -323,55 +320,42 @@
 </div>
 
 <script>
-const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyK6xeSc4TWfrLqWb9CNjfpWFzpN-QU49HsJtR43F7Rxkp9oEv9OC0mhpB4Sj7-zbgf/exec';
-// Senhas de acesso válidas — devas2026 (geral) · 130501# (Michele)
-const SENHAS_ADMIN = ['devas2026', '130501#'];
+const SHEET_ID   = '1ddBkGjjA15LM4HvWv2SyZfnYst4qTWP7H-8chD88tjw';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAUlE40hZ_vE2Q6az145ZpB5jxtqk4MokKgk5oI9tgZQ8XDNofWWB-9vyJQlMEZ1to/exec';
+const SENHA_ADMIN = 'samas';
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DIAS_NECESSITADOS = [0, 3, 6];
+const MIN_NECESSITADO = 6;
+
+const MEMBROS = [
+  'Samaritana 1','Samaritana 2','Samaritana 3'
+];
 
 let dadosCarregados = [];
 let mesFiltrado = '';
 let anoFiltrado = '2026';
-
-// Exclusão
-let exclusaoPendente = null; // { linhaIdx, nome, dia, mes }
-
-// ── LOGIN ──
-const LOGIN_KEY = 'devas_admin_logado';
-
-function entrarAdmin() {
-  document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('adminPanel').classList.add('show');
-  const agora = new Date();
-  document.getElementById('filtroMes').value = MESES[agora.getMonth()];
-  document.getElementById('filtroAno').value = agora.getFullYear();
-  carregarDados();
-}
+let exclusaoPendente = null;
+let addDiasSel = [];
 
 function fazerLogin() {
-  if (SENHAS_ADMIN.includes(document.getElementById('senhaInput').value.trim())) {
-    try { localStorage.setItem(LOGIN_KEY, '1'); } catch(e) {}
-    entrarAdmin();
+  if (document.getElementById('senhaInput').value.trim() === SENHA_ADMIN) {
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('adminPanel').classList.add('show');
+    const agora = new Date();
+    document.getElementById('filtroMes').value = MESES[agora.getMonth()];
+    document.getElementById('filtroAno').value = agora.getFullYear();
+    carregarDados();
   } else {
     document.getElementById('loginErr').classList.add('show');
   }
 }
 function logout() {
-  try { localStorage.removeItem(LOGIN_KEY); } catch(e) {}
   document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('adminPanel').classList.remove('show');
   document.getElementById('senhaInput').value = '';
 }
 
-// Mantém a sessão ao recarregar a página (não pede senha de novo)
-window.addEventListener('DOMContentLoaded', () => {
-  let logado = false;
-  try { logado = localStorage.getItem(LOGIN_KEY) === '1'; } catch(e) {}
-  if (logado) entrarAdmin();
-});
-
-// ── DADOS ──
 async function carregarDados() {
   mesFiltrado = document.getElementById('filtroMes').value;
   anoFiltrado = document.getElementById('filtroAno').value;
@@ -379,21 +363,20 @@ async function carregarDados() {
   document.getElementById('loadingWrap').style.display = 'block';
 
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=escala_entrega_de_energias&t=${Date.now()}`;
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=escala_samaritanas&t=${Date.now()}`;
     const text = await (await fetch(url)).text();
     const linhas = splitCSVRows(text);
 
     dadosCarregados = linhas.slice(1).map((l, i) => {
       const c = splitCSV(l);
       return {
-        linhaIdx: i + 2, // linha real na planilha (1=cabeçalho, +1 offset)
+        linhaIdx: i + 2,
         timestamp:   clean(c[0]||''),
         nome:        clean(c[1]||''),
         mes:         clean(c[2]||''),
         dias:        clean(c[3]||''),
         dias_num:    clean(c[4]||''),
-        cantora:     clean(c[5]||''),
-        dia_cantora: clean(c[6]||'')
+        observacao:  clean(c[5]||'')
       };
     }).filter(r => r.nome && r.mes);
 
@@ -402,8 +385,8 @@ async function carregarDados() {
     renderStats(filtrados);
     renderCalendario(filtrados);
     renderMembros(filtrados);
-    document.getElementById("addEscalaCard").style.display="block";
-    addDiasSel=[];
+    document.getElementById('addEscalaCard').style.display = 'block';
+    addDiasSel = [];
     initAddEscala();
     if (filtrados.length === 0) document.getElementById('emptyWrap').style.display = 'block';
   } catch(e) {
@@ -421,28 +404,44 @@ function filtrarDados(dados) {
   });
 }
 
-// ── STATS ──
 function renderStats(dados) {
   const pessoas = new Set(dados.map(d => d.nome)).size;
   const diasSet = new Set();
   let total = 0;
+  const porDia = {};
   dados.forEach(d => {
-    extrairDias(d.dias_num, d.dias).forEach(dia => { diasSet.add(dia); total++; });
+    extrairDias(d.dias_num, d.dias).forEach(dia => {
+      diasSet.add(dia); total++;
+      if (!porDia[dia]) porDia[dia] = new Set();
+      porDia[dia].add(d.nome);
+    });
   });
+
+  let necessitados = 0;
+  const ano = parseInt(anoFiltrado, 10);
+  const meses = mesFiltrado ? [MESES.indexOf(mesFiltrado)] : MESES.map((_,i)=>i);
+  meses.forEach(mi => {
+    if (mi < 0) return;
+    const totalDias = new Date(ano, mi+1, 0).getDate();
+    for (let d=1; d<=totalDias; d++) {
+      const diaSemana = new Date(ano,mi,d).getDay();
+      if (DIAS_NECESSITADOS.includes(diaSemana)) {
+        const qtd = porDia[d]?.size || 0;
+        if (qtd < MIN_NECESSITADO) necessitados++;
+      }
+    }
+  });
+
   document.getElementById('statPessoas').textContent = pessoas;
   document.getElementById('statDias').textContent    = diasSet.size;
   document.getElementById('statTotal').textContent   = total;
-  document.getElementById('statMedia').textContent   = pessoas ? (total/pessoas).toFixed(1) : '0';
+  document.getElementById('statNecessitados').textContent = necessitados;
   document.getElementById('statsGrid').style.display = 'grid';
 }
 
-// ── CALENDÁRIO ──
 function renderCalendario(dados) {
   const porMesDia      = consolidarPorMesDia(dados);
-  const cantorasPorMesDia = consolidarCantorasPorMesDia(dados);
-  // Mapa: mesIndex -> dia -> array de {nome, linhaIdx}
   const porMesDiaInfo  = consolidarPorMesDiaInfo(dados);
-  const cantoraInfo    = consolidarCantoraInfo(dados);
 
   const ano = parseInt(anoFiltrado, 10);
   const meses = mesFiltrado ? [MESES.indexOf(mesFiltrado)] : MESES.map((_,i)=>i);
@@ -466,51 +465,48 @@ function renderCalendario(dados) {
 
     function criarRow(d) {
       const nomes   = porMesDia[mi]?.[d] || [];
-      const cantora = cantorasPorMesDia[mi]?.[d] || '';
       const diaSem  = DIAS_SEM[new Date(ano,mi,d).getDay()];
       const mesNum  = String(mi+1).padStart(2,'0');
-      const vazio   = nomes.length===0 && !cantora;
+      const vazio   = nomes.length===0;
+      const diaSemana = new Date(ano,mi,d).getDay();
+      const ehNecessitado = DIAS_NECESSITADOS.includes(diaSemana) && nomes.length < MIN_NECESSITADO;
 
       const row = document.createElement('div');
       row.className = 'cal-dia-row' + (vazio?' vazio':'');
 
-      // Label data
       const label = document.createElement('div');
-      label.className = 'cal-dia-label' + (vazio?' vazio':'');
+      label.className = 'cal-dia-label' + (vazio?' vazio':'') + (ehNecessitado?' necessitado':'');
       label.innerHTML = `<span class="dia-num">${String(d).padStart(2,'0')}/${mesNum}</span><span class="dia-sem">${diaSem}</span>`;
 
-      // Área nomes
       const nomesDiv = document.createElement('div');
       nomesDiv.className = 'cal-dia-nomes';
 
-      // Cantora
-      if (cantora) {
-        const cInfo = cantoraInfo[mi]?.[d];
-        const tag = document.createElement('span');
-        tag.className = 'nome-tag cantora';
-        tag.innerHTML = `♪ ${primeirosNomes(cantora)} <button class="btn-excluir" title="Remover cantora" onclick="abrirModal(${cInfo?.linhaIdx||0},'${cantora}','${String(d).padStart(2,'0')}/${mesNum}','cantora')">✕</button>`;
-        nomesDiv.appendChild(tag);
-      }
-
-      // Ajudantes
       const infos = porMesDiaInfo[mi]?.[d] || [];
       if (infos.length > 0) {
+        const tagsWrap = document.createElement('div');
+        tagsWrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:.3rem;';
         infos.forEach(info => {
           const tag = document.createElement('span');
           tag.className = 'nome-tag';
-          tag.innerHTML = `${primeirosNomes(info.nome)} <button class="btn-excluir" title="Remover escalado" onclick="abrirModal(${info.linhaIdx},'${info.nome}','${String(d).padStart(2,'0')}/${mesNum}','ajudante',${info.multiDia})">✕</button>`;
-          nomesDiv.appendChild(tag);
+          tag.innerHTML = `${primeirosNomes(info.nome)} <button class="btn-excluir" title="Remover escalada" onclick="abrirModal(${info.linhaIdx},'${info.nome}','${String(d).padStart(2,'0')}/${mesNum}',${info.multiDia})">✕</button>`;
+          tagsWrap.appendChild(tag);
         });
-      }
+        nomesDiv.appendChild(tagsWrap);
 
-      if (vazio) {
+        const obsLinhas = infos.filter(i => i.obs).map(i => `${primeirosNomes(i.nome)}: ${i.obs}`);
+        if (obsLinhas.length) {
+          const obsDiv = document.createElement('div');
+          obsDiv.className = 'obs-text';
+          obsDiv.textContent = '📝 ' + obsLinhas.join(' · ');
+          nomesDiv.appendChild(obsDiv);
+        }
+      } else {
         nomesDiv.innerHTML = '<span style="color:var(--muted);font-style:italic;font-size:.78rem;">—</span>';
       }
 
-      // Contador
       const count = document.createElement('div');
-      count.className = 'cal-dia-count';
-      count.textContent = nomes.length;
+      count.className = 'cal-dia-count' + (ehNecessitado?' necessitado':'');
+      count.textContent = ehNecessitado ? `${nomes.length}/${MIN_NECESSITADO}` : nomes.length;
 
       row.appendChild(label);
       row.appendChild(nomesDiv);
@@ -528,9 +524,8 @@ function renderCalendario(dados) {
   document.getElementById('calCard').style.display = 'block';
 }
 
-// ── EXCLUSÃO ──
-function abrirModal(linhaIdx, nome, dia, tipo, multiDia) {
-  exclusaoPendente = { linhaIdx, nome, dia, tipo };
+function abrirModal(linhaIdx, nome, dia, multiDia) {
+  exclusaoPendente = { linhaIdx, nome, dia };
   document.getElementById('modalNome').textContent = nome;
   document.getElementById('modalDia').textContent = dia;
   const aviso = multiDia
@@ -551,11 +546,9 @@ async function confirmarExclusao() {
   const btn = document.getElementById('btnConfirmarExclusao');
   btn.disabled = true;
   btn.textContent = 'Removendo...';
-
-  const { linhaIdx, nome, dia, tipo } = exclusaoPendente;
+  const { linhaIdx } = exclusaoPendente;
 
   try {
-    // Enviar para Apps Script deletar a linha
     await new Promise(resolve => {
       const iframeName = 'del_' + Date.now();
       const iframe = document.createElement('iframe');
@@ -565,38 +558,23 @@ async function confirmarExclusao() {
       form.method = 'POST'; form.action = SCRIPT_URL; form.target = iframeName; form.style.display='none';
       [
         ['aba', 'deletar_linha'],
-        ['sheet_name', 'escala_entrega_de_energias'],
+        ['sheet_name', 'escala_samaritanas'],
         ['linha_idx', String(linhaIdx)]
       ].forEach(([k,v]) => {
         const inp = document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=v; form.appendChild(inp);
       });
       document.body.appendChild(form);
-
-      let done = false, submetido = false;
-      const finalizar = () => {
-        if (done) return; done = true;
+      form.submit();
+      setTimeout(() => {
         try{document.body.removeChild(form);}catch(e){}
         try{document.body.removeChild(iframe);}catch(e){}
         resolve();
-      };
-      // Espera a resposta REAL do servidor (load do iframe) e dá um pequeno buffer
-      // para a planilha propagar a alteração antes de recarregar.
-      iframe.addEventListener('load', () => {
-        if (!submetido) return;      // ignora o load inicial (about:blank)
-        setTimeout(finalizar, 1200);
-      });
-      submetido = true;
-      form.submit();
-      setTimeout(finalizar, 9000);   // fallback de segurança se o load não disparar
+      }, 2500);
     });
-
     fecharModal();
     btn.disabled = false;
     btn.textContent = '🗑️ Remover';
-
-    // Recarregar dados
     await carregarDados();
-
   } catch(e) {
     console.error(e);
     btn.disabled = false;
@@ -605,11 +583,9 @@ async function confirmarExclusao() {
   }
 }
 
-// ── CONSOLIDADORES ──
 function consolidarPorMesDia(dados) {
   const r = {};
   dados.forEach(d => {
-    if (normalizarTexto(d.cantora) === 'sim') return;
     const mi = obterIndiceMes(d.mes);
     if (mi < 0) return;
     extrairDias(d.dias_num, d.dias).forEach(dia => {
@@ -622,10 +598,8 @@ function consolidarPorMesDia(dados) {
 }
 
 function consolidarPorMesDiaInfo(dados) {
-  // Retorna {linhaIdx, nome} por dia — para botão excluir
   const r = {};
   dados.forEach(d => {
-    if (normalizarTexto(d.cantora) === 'sim') return;
     const mi = obterIndiceMes(d.mes);
     if (mi < 0) return;
     extrairDias(d.dias_num, d.dias).forEach(dia => {
@@ -633,42 +607,13 @@ function consolidarPorMesDiaInfo(dados) {
       if (!r[mi][dia]) r[mi][dia]=[];
       if (!r[mi][dia].find(x => x.nome===d.nome)) {
         const totalDiasLinha = extrairDias(d.dias_num, d.dias).length;
-        r[mi][dia].push({ nome: d.nome, linhaIdx: d.linhaIdx, multiDia: totalDiasLinha > 1 });
+        r[mi][dia].push({ nome: d.nome, linhaIdx: d.linhaIdx, multiDia: totalDiasLinha > 1, obs: d.observacao });
       }
     });
   });
   return r;
 }
 
-function consolidarCantorasPorMesDia(dados) {
-  const r = {};
-  dados.forEach(d => {
-    if (normalizarTexto(d.cantora) !== 'sim') return;
-    const mi = obterIndiceMes(d.mes);
-    if (mi < 0) return;
-    extrairDias(d.dia_cantora).forEach(dia => {
-      if (!r[mi]) r[mi]={};
-      if (!r[mi][dia]) r[mi][dia] = d.nome;
-    });
-  });
-  return r;
-}
-
-function consolidarCantoraInfo(dados) {
-  const r = {};
-  dados.forEach(d => {
-    if (normalizarTexto(d.cantora) !== 'sim') return;
-    const mi = obterIndiceMes(d.mes);
-    if (mi < 0) return;
-    extrairDias(d.dia_cantora).forEach(dia => {
-      if (!r[mi]) r[mi]={};
-      if (!r[mi][dia]) r[mi][dia] = { nome: d.nome, linhaIdx: d.linhaIdx };
-    });
-  });
-  return r;
-}
-
-// ── PDF ──
 async function gerarPDF() {
   if (!window.jspdf || !dadosCarregados.length) { alert('Carregue os dados primeiro.'); return; }
   const { jsPDF } = window.jspdf;
@@ -679,12 +624,9 @@ async function gerarPDF() {
   const meses = mesFiltrado ? [MESES.indexOf(mesFiltrado)] : MESES.map((_,i)=>i);
   const filtrados = filtrarDados(dadosCarregados);
   const porMesDia = consolidarPorMesDia(filtrados);
-  const cantorasPorMesDia = consolidarCantorasPorMesDia(filtrados);
 
-  // Carregar logo — tenta via img oculta pré-carregada
   let logoData = null;
   try {
-    // Criar img oculta e aguardar carregamento
     const imgEl = await new Promise(resolve => {
       const img = new Image();
       img.onload = () => resolve(img);
@@ -700,24 +642,22 @@ async function gerarPDF() {
     }
   } catch(e) {}
 
-  
-
   let logoRodape = null;
-try {
-  const imgR = await new Promise(resolve => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => resolve(null);
-    img.src = 'image/gamurio_amanhecer.png';
-  });
-  if (imgR) {
-    const cv = document.createElement('canvas');
-    cv.width = imgR.naturalWidth || 200;
-    cv.height = imgR.naturalHeight || 60;
-    cv.getContext('2d').drawImage(imgR, 0, 0);
-    logoRodape = cv.toDataURL('image/png');
-  }
-} catch(e) {}
+  try {
+    const imgR = await new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = 'image/gamurio_amanhecer.png';
+    });
+    if (imgR) {
+      const cv = document.createElement('canvas');
+      cv.width = imgR.naturalWidth || 200;
+      cv.height = imgR.naturalHeight || 60;
+      cv.getContext('2d').drawImage(imgR, 0, 0);
+      logoRodape = cv.toDataURL('image/png');
+    }
+  } catch(e) {}
 
   function renderPagina(mesIndex) {
     const mesNome = MESES[mesIndex];
@@ -727,34 +667,24 @@ try {
     const col1 = dias.slice(0, metade);
     const col2 = dias.slice(metade);
 
-    // ── CABEÇALHO ──
     let yTop = MARGIN;
-
-    // Logo centralizado
     if (logoData) {
       doc.addImage(logoData, 'PNG', W/2-15, yTop, 30, 30);
       yTop += 34;
     }
-
-    // Título
     doc.setFont('helvetica','bold');
     doc.setFontSize(13);
-    doc.setTextColor(27,79,138);
-    doc.text('ENTREGA DE ENERGIAS DA ESTRELA CANDENTE', W/2, yTop, {align:'center'});
+    doc.setTextColor(194,68,122);
+    doc.text('ESCALA DE SAMARITANAS', W/2, yTop, {align:'center'});
     yTop += 6;
-
     doc.setFontSize(11);
-    doc.setTextColor(27,79,138);
     doc.text(`ESCALA ${mesNome.toUpperCase()} ${anoFiltrado}`, W/2, yTop, {align:'center'});
     yTop += 3;
-
-    // Linha separadora
-    doc.setDrawColor(27,79,138);
+    doc.setDrawColor(194,68,122);
     doc.setLineWidth(0.5);
     doc.line(MARGIN, yTop, W-MARGIN, yTop);
     yTop += 4;
 
-    // ── CALCULAR LAYOUT UNIFORME ──
     const FOOTER_H = 30;
     const AVAILABLE_H = H - yTop - FOOTER_H;
     const GAP_ROW = 1;
@@ -763,32 +693,22 @@ try {
     const LABEL_W = 20;
     const CELL_PAD = 1.5;
 
-    // Achar fontSize e cellH uniforme que caiba tudo
     let fontSize = 8;
     let cellH = 10;
 
-    for (let fs = 18; fs >= 4; fs -= 0.25) {
+    for (let fs = 9.5; fs >= 4; fs -= 0.25) {
       doc.setFont('helvetica','normal');
       doc.setFontSize(fs);
       const lh = fs * 0.38;
       const contentW = COL_W - LABEL_W - CELL_PAD*2;
-
-      // Achar o dia com mais linhas
       let maxLinhas = 1;
       dias.forEach(dia => {
         const nomes = porMesDia[mesIndex]?.[dia]||[];
-        const cantora = cantorasPorMesDia[mesIndex]?.[dia]||'';
-        const linhasCantora = cantora ? doc.splitTextToSize(`Cantora: ${primeirosNomes(cantora)}`, contentW).length : 0;
-        const linhasNomes = nomes.length ? doc.splitTextToSize(nomes.map(primeirosNomes).join(', '), contentW).length : (cantora ? 0 : 1);
-        const total = linhasCantora + linhasNomes;
-        if (total > maxLinhas) maxLinhas = total;
+        const linhasNomes = nomes.length ? doc.splitTextToSize(nomes.map(primeirosNomes).join(', '), contentW).length : 1;
+        if (linhasNomes > maxLinhas) maxLinhas = linhasNomes;
       });
-
-      // cellH uniforme baseado no dia mais cheio
       const ch = maxLinhas * lh + CELL_PAD*2 + 1;
-      // Total da coluna maior
       const totalH = metade * (ch + GAP_ROW);
-
       if (totalH <= AVAILABLE_H) {
         fontSize = parseFloat(fs.toFixed(2));
         cellH = ch;
@@ -800,18 +720,16 @@ try {
     const lineH = fontSize * 0.38;
     const contentW = COL_W - LABEL_W - CELL_PAD*2;
 
-    function getCellH(dia) { return cellH; }
-
     function drawCell(x, y, dia) {
       const nomes   = porMesDia[mesIndex]?.[dia]||[];
-      const cantora = cantorasPorMesDia[mesIndex]?.[dia]||'';
       const mesNum  = String(mesIndex+1).padStart(2,'0');
       const diaSem  = DIAS_SEM[new Date(ano,mesIndex,dia).getDay()];
-      const vazio   = nomes.length===0 && !cantora;
-      const cellH   = getCellH(dia);
+      const vazio   = nomes.length===0;
+      const diaSemana = new Date(ano,mesIndex,dia).getDay();
+      const ehNecessitado = DIAS_NECESSITADOS.includes(diaSemana) && nomes.length < MIN_NECESSITADO;
 
-      // Badge data — azul escuro com texto branco
-      doc.setFillColor(27,79,138);
+      const corLabel = ehNecessitado ? [192,57,43] : (vazio ? [217,155,182] : [194,68,122]);
+      doc.setFillColor(corLabel[0], corLabel[1], corLabel[2]);
       doc.rect(x, y, LABEL_W, cellH, 'F');
       doc.setTextColor(255,255,255);
       doc.setFont('helvetica','bold');
@@ -821,7 +739,6 @@ try {
       doc.setFontSize(fontSize - 0.5);
       doc.text(diaSem.toUpperCase(), x+LABEL_W/2, y+cellH/2+lineH*0.8, {align:'center'});
 
-      // Área de conteúdo — fundo branco com borda
       doc.setFillColor(255,255,255);
       doc.rect(x+LABEL_W, y, COL_W-LABEL_W, cellH, 'F');
       doc.setDrawColor(200,210,225);
@@ -831,88 +748,55 @@ try {
       let textY = y + CELL_PAD + lineH;
       doc.setFontSize(fontSize);
 
-      if (cantora) {
-        // Cantora em negrito azul
-        doc.setFont('helvetica','bold');
-        doc.setTextColor(27,79,138);
-        const cLines = doc.splitTextToSize(`Cantora: ${primeirosNomes(cantora)}`, contentW);
-        doc.text(cLines, x+LABEL_W+CELL_PAD, textY);
-        textY += cLines.length * lineH;
-      }
-
       if (nomes.length > 0) {
         doc.setFont('helvetica','normal');
         doc.setTextColor(40,40,40);
         const nLines = doc.splitTextToSize(nomes.map(primeirosNomes).join(', '), contentW);
         doc.text(nLines, x+LABEL_W+CELL_PAD, textY);
-      } else if (!cantora) {
+      } else {
         doc.setFont('helvetica','normal');
         doc.setTextColor(160,160,160);
         doc.text('—', x+LABEL_W+CELL_PAD, textY);
       }
     }
 
-    // ── RENDERIZAR COLUNAS ──
     const X1 = MARGIN;
     const X2 = MARGIN + COL_W + COL_GAP;
     let y1 = yTop, y2 = yTop;
     const maxLen = Math.max(col1.length, col2.length);
 
     for (let i = 0; i < maxLen; i++) {
-      if (i < col1.length) {
-        drawCell(X1, y1, col1[i]);
-        y1 += getCellH(col1[i]) + GAP_ROW;
-      }
-      if (i < col2.length) {
-        drawCell(X2, y2, col2[i]);
-        y2 += getCellH(col2[i]) + GAP_ROW;
-      }
+      if (i < col1.length) { drawCell(X1, y1, col1[i]); y1 += cellH + GAP_ROW; }
+      if (i < col2.length) { drawCell(X2, y2, col2[i]); y2 += cellH + GAP_ROW; }
     }
 
-    // ── RODAPÉ ──
     const footerY = H - FOOTER_H + 2;
-    doc.setDrawColor(27,79,138);
+    doc.setDrawColor(194,68,122);
     doc.setLineWidth(0.4);
     doc.line(MARGIN, footerY-2, W-MARGIN, footerY-2);
-
     if (logoRodape) {
-      // Imagem centralizada, larga o suficiente para ficar legível
-      const imgW = 55;
-      const imgH = 25;
+      const imgW = 55, imgH = 25;
       doc.addImage(logoRodape, 'PNG', W/2 - imgW/2, footerY + 3, imgW, imgH);
     }
   }
 
-  // Renderizar cada mês
   meses.forEach((mi, idx) => {
     if (mi < 0) return;
     if (idx > 0) doc.addPage();
     renderPagina(mi);
   });
 
-  doc.save(`escala_${mesFiltrado||'todos'}_${anoFiltrado}.pdf`);
+  doc.save(`escala_samaritanas_${mesFiltrado||'todos'}_${anoFiltrado}.pdf`);
 }
 
-// ── HELPERS ──
-function consolidarPorMesDia(dados) {
-  const r = {};
-  dados.forEach(d => {
-    if (normalizarTexto(d.cantora)==='sim') return;
-    const mi = obterIndiceMes(d.mes); if (mi<0) return;
-    extrairDias(d.dias_num,d.dias).forEach(dia => {
-      if (!r[mi]) r[mi]={}; if (!r[mi][dia]) r[mi][dia]=[];
-      if (!r[mi][dia].includes(d.nome)) r[mi][dia].push(d.nome);
-    });
-  });
-  return r;
-}
-
-function obterIndiceMes(val='') {
+function obterIndiceMes(val) {
+  val = val || '';
   const n = normalizarTexto(val);
   return MESES.findIndex(m => n.includes(normalizarTexto(m)));
 }
 
-function extrairDias(val='', texto='') {
+function extrairDias(val, texto) {
+  val = val || ''; texto = texto || '';
   const dias = new Set();
   String(val).split(',').map(n=>parseInt(n.trim(),10)).filter(n=>n>=1&&n<=31).forEach(n=>dias.add(n));
   if (dias.size===0 && texto) {
@@ -921,7 +805,8 @@ function extrairDias(val='', texto='') {
   return [...dias].sort((a,b)=>a-b);
 }
 
-function normalizarTexto(val='') {
+function normalizarTexto(val) {
+  val = val || '';
   return String(val).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 }
 
@@ -947,62 +832,29 @@ function splitCSV(line) {
   res.push(cur); return res;
 }
 
-function clean(s=''){return String(s).replace(/^"|"$/g,'').trim();}
-
-
-const MEMBROS = [
-  'Adria','Ana Lúcia','Ana Roseno','Ana Judite','Ana Sara','Brenda Bayma','Cássia',
-  'Christian','Cleanderson','Daniele Azevedo','Daniele Morais',
-  'Davi Diniz','Débora Sabino','Ednardo','Elisangela',
-  'Erisvaldo','Fábio','Felipe Correia','Felipe Rômulo',
-  'Fernando Cavalcanti','George Andrade',
-  'Gessyca','Helena Ramos','Helena Xavier','Homero',' Ivo Melo',
-  'Jéssica H.','Judite Barros','Karol Costa',
-  'Lincoln','Luan Vieira','Luiziane','Mara',
-  'Michele Borges','Milene Lima','Nila de Queiroz',
-  'Nívia','Rafael Viana','Ravena Melo','Regilane',
-  'Roseli','Rozi','Stephane','Tabatha Arruda', 'Valber'
-];
-
+function clean(s){s=s||''; return String(s).replace(/^"|"$/g,'').trim();}
 
 function matchMembro(nomeMembro, nomePlanilha) {
-  // Normalizar os dois
   const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const partesM = norm(nomeMembro).split(/\s+/);
   const partesP = norm(nomePlanilha).split(/\s+/);
-
-  if (partesM.length === 1) {
-    // Lista só tem primeiro nome — compara só o primeiro
-    return partesP[0] === partesM[0];
-  } else {
-    // Lista tem dois nomes — compara primeiros dois
-    return partesP[0] === partesM[0] && partesP[1] === partesM[1];
-  }
+  if (partesM.length === 1) return partesP[0] === partesM[0];
+  return partesP[0] === partesM[0] && partesP[1] === partesM[1];
 }
 
 function renderMembros(dados) {
   const tbody = document.getElementById('membrosBody');
   if (!tbody) return;
-
-  // Contar escalas por membro (excluindo cantoras)
   const contagem = {};
   MEMBROS.forEach(m => contagem[m] = 0);
-
   dados.forEach(d => {
-    if (d.cantora === 'Sim') return; // cantoras não contam aqui
     const dias = extrairDias(d.dias_num, d.dias);
     if (dias.length === 0) return;
-    // Ver qual membro corresponde
     MEMBROS.forEach(m => {
-      if (matchMembro(m, d.nome)) {
-        contagem[m] += dias.length;
-      }
+      if (matchMembro(m, d.nome)) contagem[m] += dias.length;
     });
   });
-
-  // Ordem alfabética
   const ordenados = [...MEMBROS].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-
   tbody.innerHTML = ordenados.map((m, i) => {
     const n = contagem[m];
     const cls = n === 0 ? 'count-zero' : n <= 2 ? 'count-low' : n <= 4 ? 'count-ok' : 'count-high';
@@ -1013,28 +865,11 @@ function renderMembros(dados) {
       <td><span class="count-badge ${cls}">${label}</span></td>
     </tr>`;
   }).join('');
-
   document.getElementById('membrosCard').style.display = 'block';
 }
 
-const MEMBROS_ADD = [
-  'Adria','Ana Lúcia','Ana Roseno','Ana Judite','Ana Sara','Brenda Bayma','Cássia',
-  'Christian','Cleanderson','Daniele Azevedo','Daniele Morais',
-  'Davi Diniz','Débora Sabino','Ednardo','Elisangela',
-  'Erisvaldo','Fábio','Felipe Correia','Felipe Rômulo',
-  'Fernando Cavalcanti','George Andrade',
-  'Gessyca','Helena Ramos','Helena Xavier','Homero',' Ivo Melo',
-  'Jéssica H.','Judite Barros','Karol Costa',
-  'Lincoln','Luan Vieira','Luiziane','Mara',
-  'Michele Borges','Milene Lima','Nila de Queiroz',
-  'Nívea','Rafael Viana','Ravena Melo','Regilane',
-  'Roseli','Rozi','Stephane','Tabatha Arruda','Valber'
-];
-
-let addDiasSel = [];
-
 function initAddEscala() {
-  renderDropdownItems(MEMBROS_ADD);
+  renderDropdownItems(MEMBROS);
   renderAddCal();
 }
 
@@ -1048,7 +883,7 @@ function renderDropdownItems(lista) {
 
 function filtrarMembros() {
   const q = document.getElementById('addBusca').value.toLowerCase();
-  const filtrados = MEMBROS_ADD.filter(m => m.toLowerCase().includes(q));
+  const filtrados = MEMBROS.filter(m => m.toLowerCase().includes(q));
   renderDropdownItems(filtrados);
 }
 
@@ -1059,7 +894,7 @@ function toggleDropdown() {
   if (!isOpen) {
     list.classList.add('open');
     document.getElementById('addBusca').value = '';
-    renderDropdownItems(MEMBROS_ADD);
+    renderDropdownItems(MEMBROS);
     setTimeout(() => document.getElementById('addBusca').focus(), 50);
   }
 }
@@ -1129,7 +964,8 @@ function removerAddDia(d) {
 
 async function adicionarEscala() {
   const nome = document.getElementById('addMembro').value.trim();
-  if (!nome) { showAddToast('err','⚠️ Selecione um membro.'); return; }
+  const obs  = document.getElementById('addObs').value.trim();
+  if (!nome) { showAddToast('err','⚠️ Selecione uma Samaritana.'); return; }
   if (addDiasSel.length===0) { showAddToast('err','⚠️ Selecione pelo menos um dia.'); return; }
   if (!mesFiltrado) { showAddToast('err','⚠️ Filtre um mês primeiro.'); return; }
   const btn = document.getElementById('btnAddEscala');
@@ -1147,38 +983,26 @@ async function adicionarEscala() {
       document.body.appendChild(iframe);
       const form = document.createElement('form');
       form.method='POST'; form.action=SCRIPT_URL; form.target=iframeName; form.style.display='none';
-      [['aba','escala_entrega_de_energias'],['timestamp',new Date().toLocaleString('pt-BR')],
-       ['nome',nome],['mes',mesStr],['dias',diaStr],['dias_numeros',String(d)],['cantora',''],['dia_cantora','']
+      [
+        ['aba','escala_samaritanas'],
+        ['timestamp', new Date().toLocaleString('pt-BR')],
+        ['nome', nome],
+        ['mes', mesStr],
+        ['dias', diaStr],
+        ['dias_numeros', String(d)],
+        ['observacao', obs]
       ].forEach(([k,v]) => {
         const inp=document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=v; form.appendChild(inp);
       });
-      document.body.appendChild(form);
-
-      let done = false, submetido = false;
-      const finalizar = () => {
-        if (done) return; done = true;
-        try{document.body.removeChild(form);}catch(e){}
-        try{document.body.removeChild(iframe);}catch(e){}
-        resolve();
-      };
-      iframe.addEventListener('load', () => {
-        if (!submetido) return;      // ignora o load inicial (about:blank)
-        setTimeout(finalizar, 1200);
-      });
-      submetido = true;
-      form.submit();
-      setTimeout(finalizar, 9000);   // fallback de segurança
+      document.body.appendChild(form); form.submit();
+      setTimeout(() => { try{document.body.removeChild(form);}catch(e){} try{document.body.removeChild(iframe);}catch(e){} resolve(); }, 2500);
     });
   }
-  const totalDias = addDiasSel.length;
-  showAddToast('ok', `✅ ${nome} adicionado(a) em ${totalDias} dia(s)!`);
-  document.getElementById('addMembro').value = '';
-  document.getElementById('addMembroDisplay').textContent = 'Selecione o membro...';
-  addDiasSel = []; renderAddCal(); atualizarAddBadges();
-
-  // Recarrega a escala automaticamente para já mostrar a adição
-  await carregarDados();
   btn.disabled = false; btn.textContent = '✦ Adicionar';
+  showAddToast('ok', `✅ ${nome} adicionada em ${addDiasSel.length} dia(s)!`);
+  document.getElementById('addMembro').value = '';
+  document.getElementById('addObs').value = '';
+  addDiasSel = []; renderAddCal(); atualizarAddBadges();
 }
 
 function showAddToast(tipo, msg) {
@@ -1186,11 +1010,11 @@ function showAddToast(tipo, msg) {
   t.textContent = msg; t.className = `add-toast ${tipo}`;
   setTimeout(() => t.className='add-toast', 4000);
 }
+
 function primeirosNomes(nome) {
   const partes = nome.trim().split(/\s+/);
   return partes.slice(0, 2).join(' ');
 }
-
 </script>
 </body>
 </html>
