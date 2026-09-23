@@ -46,6 +46,38 @@
    .field select{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;font-size:1.15rem;padding-right:2.4rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A92A3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 1rem center;}
     .field select:invalid{color:var(--muted);}
 
+    /* ── Seletor de nome (mobile first) ── */
+    .avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--teal-dark),var(--teal));letter-spacing:.03em;}
+    .avatar.vazio{background:var(--teal-mid);color:var(--teal-dark);}
+    .nome-trigger{width:100%;min-height:58px;display:flex;align-items:center;gap:.75rem;padding:.6rem .9rem;border:1.5px solid var(--border);border-radius:12px;background:var(--bg);font-family:'Montserrat',sans-serif;text-align:left;cursor:pointer;transition:border-color .2s,background .2s,transform .1s;-webkit-tap-highlight-color:transparent;}
+    .nome-trigger:active{transform:scale(.98);}
+    .nome-trigger.preenchido{border-color:var(--teal);background:var(--teal-light);}
+    .nt-txt{flex:1;font-size:1rem;font-weight:700;color:var(--dark);}
+    .nt-txt.placeholder{font-weight:500;color:var(--muted);font-size:.92rem;}
+    .nt-chev{font-size:1.4rem;line-height:1;color:var(--muted);}
+
+    .sheet-overlay{position:fixed;inset:0;background:rgba(10,20,30,.55);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s;}
+    .sheet-overlay.show{opacity:1;pointer-events:auto;}
+    .sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;max-width:680px;margin:0 auto;height:85vh;height:85dvh;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -8px 32px rgba(0,0,0,.25);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);padding-bottom:env(safe-area-inset-bottom);}
+    .sheet.show{transform:translateY(0);}
+    .sheet-handle{width:42px;height:5px;border-radius:3px;background:#d5dee3;margin:.6rem auto .3rem;}
+    .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:.3rem 1.2rem .8rem;}
+    .sheet-head h3{font-size:1.05rem;font-weight:800;color:var(--dark);}
+    .sheet-close{width:36px;height:36px;border:none;border-radius:50%;background:var(--bg);color:var(--mid);font-size:1rem;cursor:pointer;}
+    .sheet-busca{padding:0 1.2rem .9rem;border-bottom:1px solid var(--border);}
+    .sheet-busca input{width:100%;padding:.8rem 1rem .8rem 2.6rem;border:1.5px solid var(--border);border-radius:12px;font-family:'Montserrat',sans-serif;font-size:16px;color:var(--dark);outline:none;background:var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237A92A3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>") no-repeat .85rem center;}
+    .sheet-busca input:focus{border-color:var(--teal);}
+    .sheet-lista{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:1rem;}
+    .sheet-letra{position:sticky;top:0;z-index:1;background:#fff;padding:.6rem 1.2rem .3rem;font-size:.66rem;font-weight:800;letter-spacing:.18em;color:var(--teal);}
+    .sheet-item{display:flex;align-items:center;gap:.85rem;min-height:58px;padding:.55rem 1.2rem;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s;}
+    .sheet-item:active{background:var(--teal-light);}
+    .sheet-item.sel{background:var(--teal-light);}
+    .si-nome{flex:1;font-size:.98rem;font-weight:600;color:var(--dark);}
+    .si-check{display:none;color:var(--teal);font-size:1.15rem;font-weight:800;}
+    .sheet-item.sel .si-check{display:block;}
+    .sheet-vazio{padding:2.5rem 1.5rem;text-align:center;font-size:.85rem;color:var(--muted);line-height:1.5;}
+    body.sheet-aberto{overflow:hidden;}
+
     .mes-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.2rem;}
     .mes-btn{padding:.65rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:600;color:var(--mid);background:var(--bg);cursor:pointer;transition:all .2s;text-align:center;}
     .mes-btn:hover{border-color:var(--teal);color:var(--teal);}
@@ -141,9 +173,14 @@
       <div class="card-body">
         <div class="field">
           <label>Nome e Sobrenome <span style="color:var(--red)">*</span></label>
-          <select id="nome1" required>
+          <select id="nome1" required style="display:none">
             <option value="" disabled selected>Selecione seu nome...</option>
           </select>
+          <button type="button" class="nome-trigger" id="nomeTrigger" onclick="abrirSheetNomes()">
+            <span class="avatar vazio" id="ntAvatar">👤</span>
+            <span class="nt-txt placeholder" id="ntTxt">Toque para selecionar seu nome</span>
+            <span class="nt-chev">›</span>
+          </button>
         </div>
         <div class="field">
           <label>Mês da escala <span style="color:var(--red)">*</span></label>
@@ -262,12 +299,33 @@
 
 </div>
 
+<!-- ══ LISTA DE NOMES (bottom sheet) ══ -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="fecharSheetNomes()"></div>
+<div class="sheet" id="sheetNomes" role="dialog" aria-modal="true" aria-labelledby="sheetTitulo">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head">
+    <h3 id="sheetTitulo">Selecione seu nome</h3>
+    <button type="button" class="sheet-close" onclick="fecharSheetNomes()" aria-label="Fechar">✕</button>
+  </div>
+  <div class="sheet-busca">
+    <input type="search" id="buscaNome" placeholder="Buscar nome..." autocomplete="off"/>
+  </div>
+  <div class="sheet-lista" id="listaNomes"></div>
+</div>
+
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxPGIO2rq_LyXDd71zX1fdz9aU_7OSVyxzUSvcD6K2_KzFNlk6dozfo56v9TfihDqq1/exec';
 const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const MAX_POR_DIA = 4;
+const MAX_QUARTA = 2;
+
+// Retorna o limite de escalas para um dia do mês selecionado no Bloco 1
+function limiteDoDia(dia) {
+  const dow = new Date(ano1, mes1, dia).getDay(); // 3 = Quarta
+  return dow === 3 ? MAX_QUARTA : MAX_POR_DIA;
+}
 
 // ── Lista de membros autorizados a dar escala (Entrega de Energias) ──
 const MEMBROS_ADD = [
@@ -285,14 +343,90 @@ const MEMBROS_ADD = [
 ];
 
 // Popular o seletor de nomes do Bloco 1 (ordem alfabética)
+const NOMES_ORD = MEMBROS_ADD.map(n => n.trim()).sort((a,b)=>a.localeCompare(b,'pt-BR'));
+
 (function popularNomes1(){
   const sel = document.getElementById('nome1');
-  [...MEMBROS_ADD].sort((a,b)=>a.localeCompare(b,'pt-BR')).forEach(nome => {
+  NOMES_ORD.forEach(nome => {
     const opt = document.createElement('option');
     opt.value = nome; opt.textContent = nome;
     sel.appendChild(opt);
   });
 })();
+
+// ── Lista de nomes estilo mobile (bottom sheet) ──
+function semAcento(s){ return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+
+function iniciais(nome){
+  const p = nome.trim().split(/\s+/);
+  return ((p[0]?.[0] || '') + (p.length > 1 ? p[p.length-1][0] : '')).toUpperCase();
+}
+
+function renderListaNomes(filtro='') {
+  const lista = document.getElementById('listaNomes');
+  const atual = document.getElementById('nome1').value;
+  const f = semAcento(filtro.trim());
+  const nomes = NOMES_ORD.filter(n => semAcento(n).includes(f));
+  if (!nomes.length) {
+    lista.innerHTML = '<div class="sheet-vazio">Nenhum nome encontrado.<br>Se o seu nome não está na lista, fale com a coordenação.</div>';
+    return;
+  }
+  let html = '', letra = '';
+  nomes.forEach(n => {
+    const l = semAcento(n[0]).toUpperCase();
+    if (l !== letra) { letra = l; html += `<div class="sheet-letra">${l}</div>`; }
+    html += `<div class="sheet-item${n===atual?' sel':''}" data-nome="${n}">
+      <span class="avatar">${iniciais(n)}</span>
+      <span class="si-nome">${n}</span>
+      <span class="si-check">✓</span>
+    </div>`;
+  });
+  lista.innerHTML = html;
+  lista.querySelectorAll('.sheet-item').forEach(el => el.onclick = () => escolherNome(el.dataset.nome));
+}
+
+function atualizarTriggerNome() {
+  const nome = document.getElementById('nome1').value;
+  const trg = document.getElementById('nomeTrigger');
+  const av  = document.getElementById('ntAvatar');
+  const txt = document.getElementById('ntTxt');
+  if (nome) {
+    trg.classList.add('preenchido');
+    av.classList.remove('vazio'); av.textContent = iniciais(nome);
+    txt.classList.remove('placeholder'); txt.textContent = nome;
+  } else {
+    trg.classList.remove('preenchido');
+    av.classList.add('vazio'); av.textContent = '?';
+    txt.classList.add('placeholder'); txt.textContent = 'Toque para selecionar seu nome';
+  }
+}
+
+function escolherNome(nome) {
+  const sel = document.getElementById('nome1');
+  sel.value = nome;
+  sel.dispatchEvent(new Event('change'));
+  atualizarTriggerNome();
+  fecharSheetNomes();
+}
+
+function abrirSheetNomes() {
+  const busca = document.getElementById('buscaNome');
+  busca.value = '';
+  renderListaNomes();
+  document.getElementById('listaNomes').scrollTop = 0;
+  document.getElementById('sheetOverlay').classList.add('show');
+  document.getElementById('sheetNomes').classList.add('show');
+  document.body.classList.add('sheet-aberto');
+}
+
+function fecharSheetNomes() {
+  document.getElementById('sheetOverlay').classList.remove('show');
+  document.getElementById('sheetNomes').classList.remove('show');
+  document.body.classList.remove('sheet-aberto');
+}
+
+document.getElementById('buscaNome').addEventListener('input', e => renderListaNomes(e.target.value));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharSheetNomes(); });
 
 // ── Estado ──
 let mes1=null, ano1=null, dias1=[];
@@ -358,9 +492,9 @@ async function carregarDadosMes1() {
       });
     });
 
-    // Marcar dias com 4+ nomes únicos como lotados
+    // Marcar dias que atingiram o limite (4 em geral, 2 às quartas) como lotados
     Object.entries(nomesPorDia).forEach(([dia, nomes]) => {
-      if (nomes.size >= MAX_POR_DIA) diasLotados[parseInt(dia)] = true;
+      if (nomes.size >= limiteDoDia(parseInt(dia))) diasLotados[parseInt(dia)] = true;
     });
   } catch(e) { console.error('Erro ao carregar dias lotados:', e); }
 }
@@ -393,7 +527,7 @@ function renderCal1() {
       el.classList.add('passado');
     } else if (diasLotados[d] && !dias1.includes(d)) {
       el.classList.add('lotado');
-      el.title = `Dia lotado — máx. ${MAX_POR_DIA} pessoas`;
+      el.title = `Dia lotado, máx. ${limiteDoDia(d)} pessoas`;
     }
     if (d===hoje.getDate() && mes1===hoje.getMonth() && ano1===hoje.getFullYear()) el.classList.add('hoje');
     if (dias1.includes(d)) { el.classList.remove('lotado'); el.classList.add('sel'); }
@@ -521,6 +655,7 @@ function reset1() {
   document.getElementById('bloco1').style.display='block';
   document.getElementById('sucesso1').classList.remove('show');
   document.getElementById('nome1').selectedIndex=0;
+  atualizarTriggerNome();
   document.querySelectorAll('#mesGrid1 .mes-btn').forEach(b=>b.classList.remove('ativo'));
   mes1=null; ano1=null; dias1=[]; diasLotados={};
   document.getElementById('calCard1').style.display='none';

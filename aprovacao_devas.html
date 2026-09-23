@@ -115,19 +115,64 @@
 
 
     /* TABELA MEMBROS */
-    .membros-table{width:100%;border-collapse:collapse;font-size:.82rem;}
-    .membros-table th{background:var(--blue);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1rem;text-align:left;}
-    .membros-table th:last-child{text-align:center;}
-    .membros-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
-    .membros-table tbody tr:hover{background:var(--blue-light);}
-    .membros-table td{padding:.55rem 1rem;vertical-align:middle;}
-    .membros-table td:last-child{text-align:center;}
-    .count-badge{display:inline-block;font-size:.72rem;font-weight:800;padding:.2rem .7rem;border-radius:20px;min-width:36px;text-align:center;}
-    .count-zero{background:#fee2e2;color:#991b1b;}
-    .count-low{background:var(--gold-light);color:var(--gold-dark);}
-    .count-ok{background:#e6f9f0;color:#1a7a4a;}
-    .count-high{background:#dcfce7;color:#166534;}
-    .membro-nome{font-weight:600;color:var(--dark);}
+    /* Estilo planilha: grade fina, cabeçalho cinza, números centralizados */
+    .membros-wrap{overflow:auto;max-height:70vh;padding:1rem;}
+    .membros-table{width:100%;border-collapse:collapse;font-size:.8rem;font-variant-numeric:tabular-nums;border:1px solid #c9d2da;}
+    .membros-table th,.membros-table td{border:1px solid #d9e0e6;padding:.45rem .7rem;white-space:nowrap;}
+    .membros-table thead th{position:sticky;top:0;z-index:2;background:#eef2f5;color:var(--mid);font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-align:center;border-bottom:2px solid #b8c4ce;}
+    .membros-table thead th.col-nome{text-align:left;}
+    .membros-table thead th.mes-atual{background:var(--blue-light);color:var(--blue);}
+    .membros-table tbody tr:nth-child(even){background:#fafbfc;}
+    .membros-table tbody tr:hover{background:#fff8e1;}
+    .membros-table td.col-idx{width:36px;text-align:center;color:var(--muted);font-size:.7rem;background:#f4f6f8;}
+    .membros-table td.col-nome{font-weight:600;color:var(--dark);}
+    .membros-table td.num{text-align:center;width:72px;font-weight:600;color:var(--dark);}
+    .membros-table td.num.zero{color:#c0392b;opacity:.55;font-weight:500;}
+    .membros-table td.num.mes-atual{background:rgba(27,79,138,.05);}
+    .membros-table td.num.total{font-weight:800;color:var(--blue);background:#f4f6f8;}
+    .membros-table tfoot td{background:#eef2f5;font-weight:800;color:var(--dark);border-top:2px solid #b8c4ce;position:sticky;bottom:0;}
+    .membros-table tfoot td.num{color:var(--blue);}
+    @media(max-width:600px){
+      .membros-wrap{padding:.5rem;}
+      .membros-table{font-size:.74rem;}
+      .membros-table th,.membros-table td{padding:.4rem .4rem;}
+      .membros-table td.num{width:auto;min-width:40px;}
+      .membros-table td.col-idx{width:24px;}
+      .membros-table td.col-nome{white-space:normal;min-width:90px;}
+      .membros-table thead th{font-size:.6rem;letter-spacing:.03em;}
+    }
+    /* ABAS */
+    .tabs{display:flex;gap:.4rem;background:#fff;padding:.35rem;border-radius:30px;box-shadow:var(--shadow);margin-bottom:1.5rem;max-width:420px;}
+    .tab-btn{flex:1;padding:.7rem 1rem;border:none;border-radius:24px;background:transparent;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;color:var(--mid);cursor:pointer;transition:all .2s;}
+    .tab-btn.ativo{background:var(--blue);color:#fff;box-shadow:0 2px 10px rgba(27,79,138,.3);}
+
+    /* PRESENÇA */
+    .pres-resumo{display:flex;flex-wrap:wrap;gap:.4rem;padding:1rem 1.2rem .4rem;}
+    .pres-chip{font-size:.7rem;font-weight:700;padding:.3rem .7rem;border-radius:20px;background:var(--bg);color:var(--mid);}
+    .pres-chip.P{background:#e6f9f0;color:#1a7a4a;}
+    .pres-chip.F{background:#fee2e2;color:#991b1b;}
+    .pres-chip.FJ{background:var(--gold-light);color:var(--gold-dark);}
+    .pres-legenda{font-size:.68rem;color:var(--muted);padding:.2rem 1.2rem .8rem;border-bottom:1px solid var(--border);}
+    .pres-legenda b{display:inline-block;min-width:22px;text-align:center;border-radius:4px;padding:0 .2rem;}
+    .lg-P{background:#e6f9f0;color:#1a7a4a;} .lg-F{background:#fee2e2;color:#991b1b;} .lg-FJ{background:var(--gold-light);color:var(--gold-dark);}
+    .pres-row{display:flex;align-items:center;gap:.5rem;padding:.5rem 1.2rem;border-bottom:1px solid #eef2f5;min-height:56px;}
+    .pres-row:nth-child(even){background:#fafbfc;}
+    .pres-nome{flex:1;font-size:.88rem;font-weight:600;color:var(--dark);}
+    .pres-opcoes{display:flex;gap:.35rem;}
+    .pres-btn{width:46px;height:40px;border-radius:10px;border:1.5px solid #d9e0e6;background:#fff;font-family:'Montserrat',sans-serif;font-size:.8rem;font-weight:800;color:var(--muted);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+    .pres-btn:active{transform:scale(.94);}
+    .pres-btn.sel.P{background:#1a7a4a;border-color:#1a7a4a;color:#fff;}
+    .pres-btn.sel.F{background:var(--red);border-color:var(--red);color:#fff;}
+    .pres-btn.sel.FJ{background:var(--gold);border-color:var(--gold);color:#fff;}
+    .pres-acoes{position:sticky;bottom:0;background:#fff;padding:1rem 1.2rem;border-top:1px solid var(--border);box-shadow:0 -4px 16px rgba(0,0,0,.05);}
+    .pres-acoes .btn-pdf{width:100%;justify-content:center;}
+    .pres-acoes .btn-pdf:disabled{opacity:.6;cursor:not-allowed;}
+    .membros-table td.pres{text-align:center;width:64px;font-weight:800;}
+    .membros-table td.pres.P{color:#1a7a4a;background:#effaf4;}
+    .membros-table td.pres.F{color:#991b1b;background:#fdf1f1;}
+    .membros-table td.pres.FJ{color:var(--gold-dark);background:#fdf8ea;}
+
+    .membros-legenda{font-size:.68rem;color:var(--muted);padding:0 1rem 1rem;}
 
         /* ADICIONAR ESCALA */
     .add-body{padding:.8rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
@@ -215,6 +260,46 @@
   </header>
 
   <main class="main">
+    <div class="tabs">
+      <button class="tab-btn ativo" data-aba="escalas" onclick="trocarAba('escalas')">📅 Escalas</button>
+      <button class="tab-btn" data-aba="presenca" onclick="trocarAba('presenca')">✅ Presença</button>
+    </div>
+
+    <!-- ══ ABA PRESENÇA ══ -->
+    <div id="tabPresenca" style="display:none">
+      <div class="page-title">
+        <div class="page-label">Reunião mensal</div>
+        <h1 id="presTitulo">Presença na Reunião</h1>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr blue">✅ Marcar Presença<span id="presMesHdr" style="display:none"></span></div>
+        <div class="pres-resumo" id="presResumo"></div>
+        <div class="pres-legenda"><b class="lg-P">P</b> Presente &nbsp; <b class="lg-F">F</b> Falta &nbsp; <b class="lg-FJ">FJ</b> Falta justificada</div>
+        <div id="presLista"><div class="loading-wrap"><div class="loading-spinner"></div>Carregando...</div></div>
+        <div class="pres-acoes">
+          <button class="btn-pdf" id="btnSalvarPres" onclick="salvarPresenca()">💾 Salvar Presença</button>
+          <div class="add-toast" id="presToast"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr teal">📊 Frequência nas Reuniões</div>
+        <div class="card-body" style="padding:0">
+          <div class="membros-wrap">
+            <table class="membros-table">
+              <thead id="freqHead"></thead>
+              <tbody id="freqBody"></tbody>
+              <tfoot id="freqFoot"></tfoot>
+            </table>
+          </div>
+          <div class="membros-legenda">Últimos 3 meses. Em branco: reunião ainda não registrada. A frequência considera P e F; a falta justificada não conta contra.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ABA ESCALAS ══ -->
+    <div id="tabEscalas">
     <div class="page-title">
       <div class="page-label">Painel do Coordenador</div>
       <h1>Escalas Entrega de Energias</h1>
@@ -295,18 +380,14 @@
     <div class="card" id="membrosCard" style="display:none">
       <div class="card-hdr teal">👥 Participação dos Membros</div>
       <div class="card-body" style="padding:0">
-        <div style="overflow-x:auto">
+        <div class="membros-wrap">
           <table class="membros-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nome</th>
-                <th>Escalas no mês</th>
-              </tr>
-            </thead>
+            <thead id="membrosHead"></thead>
             <tbody id="membrosBody"></tbody>
+            <tfoot id="membrosFoot"></tfoot>
           </table>
         </div>
+        <div class="membros-legenda">Quantidade de escalas nos últimos 3 meses. Cantoras não entram na contagem.</div>
       </div>
     </div>
 
@@ -319,12 +400,13 @@
     <div id="emptyWrap" style="display:none">
       <div class="empty">📭 Nenhuma escala encontrada para o período selecionado.</div>
     </div>
+    </div><!-- /tabEscalas -->
   </main>
 </div>
 
 <script>
 const SHEET_ID   = '1SvQneghPmhE8iqikjPcmR7cj68tvr3VS6mTfQad9KgU';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyK6xeSc4TWfrLqWb9CNjfpWFzpN-QU49HsJtR43F7Rxkp9oEv9OC0mhpB4Sj7-zbgf/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweDpDWVUavXyM72o2FI25U932Wx8l5ZWOhmVeQ5RNVXhC8fANzAHlWpiFyX9-y6ie7/exec';
 // Senhas de acesso válidas — devas2026 (geral) · 130501# (Michele)
 const SENHAS_ADMIN = ['devas2026', '130501#'];
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -401,7 +483,7 @@ async function carregarDados() {
     document.getElementById('loadingWrap').style.display = 'none';
     renderStats(filtrados);
     renderCalendario(filtrados);
-    renderMembros(filtrados);
+    renderMembros(dadosCarregados); // usa todos os dados: a tabela cobre 3 meses
     document.getElementById("addEscalaCard").style.display="block";
     addDiasSel=[];
     initAddEscala();
@@ -956,11 +1038,11 @@ const MEMBROS = [
   'Davi Diniz','Débora Sabino','Ednardo','Elisangela',
   'Erisvaldo','Fábio','Felipe Correia','Felipe Rômulo',
   'Fernando Cavalcanti','George Andrade',
-  'Gessyca','Helena Ramos','Helena Xavier','Homero',' Ivo Melo',
+  'Gessyca','Helena Ramos','Helena Xavier','Homero','Ivo Melo',
   'Jéssica H.','Judite Barros','Karol Costa',
   'Lincoln','Luan Vieira','Luiziane','Mara',
   'Michele Borges','Milene Lima','Nila de Queiroz',
-  'Nívia','Rafael Viana','Ravena Melo','Regilane',
+  'Nívea','Rafael Viana','Ravena Melo','Regilane',
   'Roseli','Rozi','Stephane','Tabatha Arruda', 'Valber'
 ];
 
@@ -980,39 +1062,85 @@ function matchMembro(nomeMembro, nomePlanilha) {
   }
 }
 
+// Retorna os 3 meses da tabela: 2 anteriores + o mês de referência.
+// Referência = mês do filtro; se o filtro estiver em "Todos os meses", usa o mês atual.
+function mesesDaTabela() {
+  const hoje = new Date();
+  let mi  = mesFiltrado ? MESES.indexOf(mesFiltrado) : hoje.getMonth();
+  let ano = mesFiltrado ? parseInt(anoFiltrado, 10) : hoje.getFullYear();
+  const lista = [];
+  for (let k = 2; k >= 0; k--) {
+    const d = new Date(ano, mi - k, 1); // Date resolve a virada de ano
+    lista.push({ mi: d.getMonth(), ano: d.getFullYear() });
+  }
+  return lista;
+}
+
 function renderMembros(dados) {
   const tbody = document.getElementById('membrosBody');
   if (!tbody) return;
 
-  // Contar escalas por membro (excluindo cantoras)
+  const meses = mesesDaTabela();
+  const chave = (mi, ano) => `${mi}-${ano}`;
+
+  // contagem[membro][chaveMes] = nº de escalas (cantoras não contam)
   const contagem = {};
-  MEMBROS.forEach(m => contagem[m] = 0);
+  MEMBROS.forEach(m => {
+    contagem[m] = {};
+    meses.forEach(x => contagem[m][chave(x.mi, x.ano)] = 0);
+  });
 
   dados.forEach(d => {
-    if (d.cantora === 'Sim') return; // cantoras não contam aqui
+    if (normalizarTexto(d.cantora) === 'sim') return;
+    const mi = obterIndiceMes(d.mes);
+    const anoM = (String(d.mes).match(/\d{4}/) || [])[0];
+    if (mi < 0 || !anoM) return;
+    const k = chave(mi, parseInt(anoM, 10));
+    if (!(k in contagem[MEMBROS[0]])) return; // fora dos 3 meses
     const dias = extrairDias(d.dias_num, d.dias);
     if (dias.length === 0) return;
-    // Ver qual membro corresponde
     MEMBROS.forEach(m => {
-      if (matchMembro(m, d.nome)) {
-        contagem[m] += dias.length;
-      }
+      if (matchMembro(m, d.nome)) contagem[m][k] += dias.length;
     });
   });
 
-  // Ordem alfabética
+  // Cabeçalho
+  const hoje = new Date();
+  const ehAtual = x => x.mi === hoje.getMonth() && x.ano === hoje.getFullYear();
+  document.getElementById('membrosHead').innerHTML = `<tr>
+    <th>#</th>
+    <th class="col-nome">Nome</th>
+    ${meses.map(x => `<th class="${ehAtual(x) ? 'mes-atual' : ''}">${MESES[x.mi].substring(0,3)}/${String(x.ano).slice(2)}</th>`).join('')}
+    <th>Total</th>
+  </tr>`;
+
+  // Linhas (ordem alfabética)
   const ordenados = [...MEMBROS].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  const totaisMes = meses.map(() => 0);
 
   tbody.innerHTML = ordenados.map((m, i) => {
-    const n = contagem[m];
-    const cls = n === 0 ? 'count-zero' : n <= 2 ? 'count-low' : n <= 4 ? 'count-ok' : 'count-high';
-    const label = n === 0 ? '—' : String(n);
+    let total = 0;
+    const celulas = meses.map((x, j) => {
+      const n = contagem[m][chave(x.mi, x.ano)];
+      total += n; totaisMes[j] += n;
+      return `<td class="num${n === 0 ? ' zero' : ''}${ehAtual(x) ? ' mes-atual' : ''}">${n}</td>`;
+    }).join('');
     return `<tr>
-      <td style="color:var(--muted);font-size:.72rem;width:32px;">${i+1}</td>
-      <td class="membro-nome">${m}</td>
-      <td><span class="count-badge ${cls}">${label}</span></td>
+      <td class="col-idx">${i+1}</td>
+      <td class="col-nome">${m}</td>
+      ${celulas}
+      <td class="num total${total === 0 ? ' zero' : ''}">${total}</td>
     </tr>`;
   }).join('');
+
+  // Rodapé com totais
+  const totalGeral = totaisMes.reduce((a, b) => a + b, 0);
+  document.getElementById('membrosFoot').innerHTML = `<tr>
+    <td class="col-idx"></td>
+    <td>Total</td>
+    ${totaisMes.map(n => `<td class="num">${n}</td>`).join('')}
+    <td class="num">${totalGeral}</td>
+  </tr>`;
 
   document.getElementById('membrosCard').style.display = 'block';
 }
@@ -1023,7 +1151,7 @@ const MEMBROS_ADD = [
   'Davi Diniz','Débora Sabino','Ednardo','Elisangela',
   'Erisvaldo','Fábio','Felipe Correia','Felipe Rômulo',
   'Fernando Cavalcanti','George Andrade',
-  'Gessyca','Helena Ramos','Helena Xavier','Homero',' Ivo Melo',
+  'Gessyca','Helena Ramos','Helena Xavier','Homero','Ivo Melo',
   'Jéssica H.','Judite Barros','Karol Costa',
   'Lincoln','Luan Vieira','Luiziane','Mara',
   'Michele Borges','Milene Lima','Nila de Queiroz',
@@ -1186,6 +1314,168 @@ function showAddToast(tipo, msg) {
   t.textContent = msg; t.className = `add-toast ${tipo}`;
   setTimeout(() => t.className='add-toast', 4000);
 }
+// ══ PRESENÇA NA REUNIÃO ══
+// A reunião é mensal e a presença só é marcada no mês atual.
+const PRES_OPCOES = ['P', 'F', 'FJ'];
+let presencaAtual = {};  // nome -> 'P' | 'F' | 'FJ' (mês atual, em edição)
+let presencaDados = [];  // linhas da aba presenca_reuniao: {mes, nome, status}
+
+function chaveMes(mi, ano) { return `${MESES[mi].toLowerCase()} ${ano}`; }
+function chaveMesAtual()   { const h = new Date(); return chaveMes(h.getMonth(), h.getFullYear()); }
+function membrosOrdenados(){ return [...MEMBROS].sort((a, b) => a.localeCompare(b, 'pt-BR')); }
+
+function trocarAba(aba) {
+  document.getElementById('tabEscalas').style.display  = aba === 'escalas'  ? 'block' : 'none';
+  document.getElementById('tabPresenca').style.display = aba === 'presenca' ? 'block' : 'none';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('ativo', b.dataset.aba === aba));
+  if (aba === 'presenca') carregarPresenca();
+}
+
+async function carregarPresenca() {
+  const h = new Date();
+  document.getElementById('presMesHdr').textContent = `${MESES[h.getMonth()]} ${h.getFullYear()}`;
+  document.getElementById('presTitulo').textContent = `Presença · ${MESES[h.getMonth()]} ${h.getFullYear()}`;
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=presenca_reuniao&t=${Date.now()}`;
+    const text = await (await fetch(url)).text();
+    presencaDados = splitCSVRows(text).slice(1).map(l => {
+      const c = splitCSV(l);
+      return { mes: normalizarTexto(clean(c[1] || '')), nome: clean(c[2] || ''), status: clean(c[3] || '').toUpperCase() };
+    }).filter(r => r.nome && PRES_OPCOES.includes(r.status)); // ignora qualquer linha que não seja de presença
+  } catch (e) {
+    console.error('Erro ao carregar presença:', e);
+    presencaDados = [];
+  }
+  // Preenche a marcação do mês atual com o que já foi salvo
+  presencaAtual = {};
+  const k = normalizarTexto(chaveMesAtual());
+  presencaDados.filter(r => r.mes === k).forEach(r => {
+    const m = MEMBROS.find(x => normalizarTexto(x) === normalizarTexto(r.nome));
+    if (m) presencaAtual[m] = r.status;
+  });
+  renderListaPresenca();
+  renderFrequencia();
+}
+
+function renderListaPresenca() {
+  const lista = document.getElementById('presLista');
+  lista.innerHTML = membrosOrdenados().map(m => `
+    <div class="pres-row">
+      <span class="pres-nome">${m}</span>
+      <div class="pres-opcoes">
+        ${PRES_OPCOES.map(op => `<button type="button" class="pres-btn ${op}${presencaAtual[m] === op ? ' sel' : ''}" data-nome="${m}" data-op="${op}">${op}</button>`).join('')}
+      </div>
+    </div>`).join('');
+  renderResumoPresenca();
+}
+
+// Toque num botão marca a opção; tocar de novo na mesma opção desmarca
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.pres-btn');
+  if (!btn) return;
+  const { nome, op } = btn.dataset;
+  presencaAtual[nome] = presencaAtual[nome] === op ? undefined : op;
+  if (!presencaAtual[nome]) delete presencaAtual[nome];
+  btn.parentElement.querySelectorAll('.pres-btn').forEach(b => b.classList.toggle('sel', b.dataset.op === presencaAtual[nome]));
+  renderResumoPresenca();
+});
+
+function renderResumoPresenca() {
+  const cont = { P: 0, F: 0, FJ: 0 };
+  Object.values(presencaAtual).forEach(s => cont[s]++);
+  const sem = MEMBROS.length - cont.P - cont.F - cont.FJ;
+  document.getElementById('presResumo').innerHTML =
+    `<span class="pres-chip P">${cont.P} presentes</span>` +
+    `<span class="pres-chip F">${cont.F} faltas</span>` +
+    `<span class="pres-chip FJ">${cont.FJ} justificadas</span>` +
+    `<span class="pres-chip">${sem} sem marcação</span>`;
+}
+
+async function salvarPresenca() {
+  const registros = membrosOrdenados().filter(m => presencaAtual[m]).map(m => ({ nome: m, status: presencaAtual[m] }));
+  if (!registros.length) { showPresToast('err', '⚠️ Marque pelo menos uma pessoa.'); return; }
+  const btn = document.getElementById('btnSalvarPres');
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  const mes = chaveMesAtual();
+
+  await new Promise(resolve => {
+    const iframeName = 'pres_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.name = iframeName; iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    const form = document.createElement('form');
+    form.method = 'POST'; form.action = SCRIPT_URL; form.target = iframeName; form.style.display = 'none';
+    [['aba', 'presenca_reuniao'], ['mes', mes], ['timestamp', new Date().toLocaleString('pt-BR')], ['registros', JSON.stringify(registros)]]
+      .forEach(([k, v]) => { const inp = document.createElement('input'); inp.type = 'hidden'; inp.name = k; inp.value = v; form.appendChild(inp); });
+    document.body.appendChild(form);
+    let done = false, submetido = false;
+    const finalizar = () => {
+      if (done) return; done = true;
+      try { document.body.removeChild(form); } catch (e) {}
+      try { document.body.removeChild(iframe); } catch (e) {}
+      resolve();
+    };
+    iframe.addEventListener('load', () => { if (submetido) setTimeout(finalizar, 800); });
+    submetido = true;
+    form.submit();
+    setTimeout(finalizar, 9000);
+  });
+
+  // Atualiza os dados locais (a planilha pode demorar alguns segundos para refletir)
+  const k = normalizarTexto(mes);
+  presencaDados = presencaDados.filter(r => r.mes !== k)
+    .concat(registros.map(r => ({ mes: k, nome: r.nome, status: r.status })));
+  renderFrequencia();
+
+  const sem = MEMBROS.length - registros.length;
+  showPresToast('ok', `✅ Presença salva! ${registros.length} marcados${sem ? `, ${sem} sem marcação` : ''}.`);
+  btn.disabled = false; btn.textContent = '💾 Salvar Presença';
+}
+
+function showPresToast(tipo, msg) {
+  const t = document.getElementById('presToast');
+  t.textContent = msg; t.className = `add-toast ${tipo}`;
+  setTimeout(() => t.className = 'add-toast', 5000);
+}
+
+function renderFrequencia() {
+  const h = new Date();
+  const meses = [];
+  for (let k = 2; k >= 0; k--) {
+    const d = new Date(h.getFullYear(), h.getMonth() - k, 1);
+    meses.push({ mi: d.getMonth(), ano: d.getFullYear(), k: normalizarTexto(chaveMes(d.getMonth(), d.getFullYear())) });
+  }
+  // mapa[mes][nomeNormalizado] = status
+  const mapa = {};
+  presencaDados.forEach(r => { (mapa[r.mes] = mapa[r.mes] || {})[normalizarTexto(r.nome)] = r.status; });
+  const ehAtual = x => x.mi === h.getMonth() && x.ano === h.getFullYear();
+
+  document.getElementById('freqHead').innerHTML = `<tr>
+    <th>#</th><th class="col-nome">Nome</th>
+    ${meses.map(x => `<th class="${ehAtual(x) ? 'mes-atual' : ''}">${MESES[x.mi].substring(0,3)}/${String(x.ano).slice(2)}</th>`).join('')}
+    <th>Freq.</th>
+  </tr>`;
+
+  const presentesMes = meses.map(() => 0);
+  document.getElementById('freqBody').innerHTML = membrosOrdenados().map((m, i) => {
+    let p = 0, f = 0;
+    const cels = meses.map((x, j) => {
+      const s = mapa[x.k]?.[normalizarTexto(m)] || '';
+      if (s === 'P') { p++; presentesMes[j]++; }
+      if (s === 'F') f++;
+      return `<td class="pres ${s}">${s}</td>`;
+    }).join('');
+    const freq = (p + f) ? Math.round(p / (p + f) * 100) + '%' : '';
+    return `<tr><td class="col-idx">${i+1}</td><td class="col-nome">${m}</td>${cels}<td class="num total">${freq}</td></tr>`;
+  }).join('');
+
+  document.getElementById('freqFoot').innerHTML = `<tr>
+    <td class="col-idx"></td><td>Presentes</td>
+    ${meses.map((x, j) => `<td class="num">${mapa[x.k] ? presentesMes[j] : ''}</td>`).join('')}
+    <td></td>
+  </tr>`;
+}
+
 function primeirosNomes(nome) {
   const partes = nome.trim().split(/\s+/);
   return partes.slice(0, 2).join(' ');
