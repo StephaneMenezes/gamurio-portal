@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#14213D"/>
+  <title>Painel Administrativo – Gamúrio do Amanhecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root{
+      --noite:#14213D; --azul:#1B4F8A;
+      --real:#2F6BB0;       /* consagração realizada */
+      --nao:#D9774E;        /* consagração não completada */
+      --vazio:#D7DEE8;      /* dia sem registro */
+      --ouro:#C9A04A; --ouro-suave:#F6EBD3;
+      --nevoa:#EEF2F7; --linha:#E1E7EF;
+      --texto:#1E2A3B; --texto-2:#5B6B80; --texto-3:#8D9AAB;
+      --erro:#B4452F; --raio:18px;
+      --safe-b:env(safe-area-inset-bottom,0px);
+      /* Para trocar a foto do topo, mude só este caminho */
+      --foto-topo:url('./image/bg_sharp.png');
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{-webkit-text-size-adjust:100%;}
+    body{font-family:'Figtree',system-ui,sans-serif;background:var(--nevoa);color:var(--texto);-webkit-font-smoothing:antialiased;min-height:100dvh;}
+    button,input,select{font:inherit;color:inherit;}
+    :focus-visible{outline:2px solid var(--azul);outline-offset:2px;}
+
+    /* ── Topo ── */
+    .ceu{
+      position:relative;color:#fff;
+      padding:calc(env(safe-area-inset-top,0px) + 22px) 20px 26px;
+      background:
+        linear-gradient(180deg, rgba(20,33,61,.58) 0%, rgba(20,33,61,.66) 50%, rgba(27,79,138,.9) 100%),
+        var(--foto-topo) center 35%/cover no-repeat,
+        linear-gradient(180deg, var(--noite), var(--azul));
+    }
+    .ceu-linha{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .marca{display:flex;align-items:center;gap:10px;}
+    .marca img{width:44px;height:44px;object-fit:contain;}
+    .marca span{font-size:13px;font-weight:500;color:rgba(255,255,255,.88);}
+    .sair{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;}
+    .titulo{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:32px;line-height:1.08;margin-top:22px;text-shadow:0 1px 12px rgba(0,0,0,.25);}
+    .subtitulo{font-size:14.5px;color:rgba(255,255,255,.8);margin-top:6px;}
+
+    /* Abas (novas abas entram em ABAS no script) */
+    .abas{display:flex;gap:6px;margin-top:20px;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding-inline:20px;}
+    .abas::-webkit-scrollbar{display:none;}
+    .aba{flex-shrink:0;border:none;cursor:pointer;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:600;
+      background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);}
+    .aba[aria-selected="true"]{background:#fff;color:var(--noite);}
+
+    main{max-width:560px;margin:0 auto;padding:18px 16px calc(40px + var(--safe-b));}
+
+    /* Barra de período */
+    .periodo{position:sticky;top:0;z-index:5;background:var(--nevoa);padding:10px 0 12px;margin:-10px 0 8px;}
+    .segmento{display:grid;grid-template-columns:1fr 1fr;background:#E2E8F0;border-radius:12px;padding:3px;}
+    .segmento button{border:none;background:none;border-radius:10px;padding:9px;font-size:14px;font-weight:600;color:var(--texto-2);cursor:pointer;}
+    .segmento button[aria-pressed="true"]{background:#fff;color:var(--noite);box-shadow:0 1px 3px rgba(20,33,61,.12);}
+    .navega{display:flex;align-items:center;justify-content:space-between;margin-top:10px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 1px 2px rgba(20,33,61,.04);}
+    .navega button{width:42px;height:42px;border-radius:10px;border:none;background:var(--nevoa);color:var(--azul);font-size:20px;cursor:pointer;}
+    .navega button:disabled{opacity:.35;cursor:default;}
+    .navega-rotulo{text-align:center;}
+    .navega-rotulo b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:600;color:var(--noite);line-height:1.1;}
+    .navega-rotulo small{font-size:12.5px;color:var(--texto-3);}
+
+    /* Blocos */
+    .bloco{margin-top:22px;}
+    .bloco-titulo{font-size:16px;font-weight:700;color:var(--texto);padding:0 4px 4px;}
+    .bloco-ajuda{font-size:13.5px;color:var(--texto-3);padding:0 4px 10px;}
+    .cartao{background:#fff;border-radius:var(--raio);box-shadow:0 1px 2px rgba(20,33,61,.04),0 6px 20px rgba(20,33,61,.05);overflow:hidden;}
+    .cartao-corpo{padding:16px;}
+
+    /* KPIs */
+    .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .kpi{background:#fff;border-radius:16px;padding:14px 14px 13px;box-shadow:0 1px 2px rgba(20,33,61,.04),0 6px 20px rgba(20,33,61,.05);}
+    .kpi-num{font-size:28px;font-weight:700;color:var(--noite);line-height:1.05;font-variant-numeric:tabular-nums;}
+    .kpi-num small{font-size:15px;font-weight:600;color:var(--texto-3);}
+    .kpi-rot{font-size:13px;color:var(--texto-2);margin-top:4px;line-height:1.3;}
+    .kpi.destaque{grid-column:1 / -1;display:flex;align-items:center;gap:16px;}
+    .kpi.destaque .kpi-num{font-size:40px;}
+    .barra-prog{flex:1;}
+    .barra-prog .trilho{height:10px;border-radius:5px;background:#FBE7DE;overflow:hidden;display:flex;gap:2px;}
+    .barra-prog .trilho span{display:block;height:100%;background:var(--real);border-radius:5px 0 0 5px;}
+    .barra-prog .legenda{display:flex;flex-wrap:wrap;column-gap:10px;justify-content:space-between;font-size:12.5px;color:var(--texto-2);margin-top:6px;}
+
+    /* Tabela estilo escala dos devas */
+    .acoes{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid var(--linha);align-items:center;justify-content:space-between;}
+    .acoes p{font-size:13.5px;color:var(--texto-2);}
+    .btn-pdf{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:12px;background:var(--noite);color:#fff;font-size:14px;font-weight:600;padding:10px 14px;cursor:pointer;white-space:nowrap;}
+    .btn-pdf svg{width:16px;height:16px;}
+    .btn-pdf:disabled{opacity:.6;}
+    .tabela{width:100%;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums;}
+    .tabela th{font-size:12px;font-weight:600;color:var(--texto-3);text-align:center;padding:10px 6px 8px;}
+    .tabela th:first-child{text-align:left;padding-left:16px;}
+    .tabela td{padding:4px 6px;text-align:center;font-size:15px;}
+    .tabela td:first-child{padding-left:12px;text-align:left;}
+    .tabela tbody tr:nth-child(even) td{background:#F7F9FC;}
+    .dia{display:inline-flex;align-items:center;gap:10px;}
+    .dia-badge{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:52px;height:40px;flex-shrink:0;border-radius:9px;background:var(--azul);color:#fff;line-height:1;}
+    .dia-badge b{font-size:13.5px;letter-spacing:-.01em;}
+    .dia-badge i{font-style:normal;font-size:10px;opacity:.8;margin-top:3px;}
+    .dia.fds .dia-badge{background:var(--noite);}
+    .dia-cmd{font-size:12.5px;color:var(--texto-3);max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .v-real{color:var(--real);font-weight:700;}
+    .v-nao{color:#B5552C;font-weight:700;}
+    .sem{color:var(--texto-3);font-size:13px;}
+    .tabela tfoot td{border-top:1.5px solid var(--linha);font-weight:700;padding:12px 6px;background:#fff;}
+    .tabela tfoot td:first-child{padding-left:16px;}
+    .linha-click{cursor:pointer;}
+
+    /* Gráficos */
+    .viz{position:relative;}
+    .viz svg{display:block;width:100%;height:auto;overflow:visible;}
+    .viz .eixo{font-size:10px;fill:var(--texto-3);font-family:'Figtree',system-ui,sans-serif;}
+    .viz .grade{stroke:#E8EDF3;stroke-width:1;}
+    .viz .rot{font-size:11px;fill:var(--texto-2);font-family:'Figtree',system-ui,sans-serif;}
+    .viz .rot-forte{font-size:11.5px;fill:var(--texto);font-weight:700;font-family:'Figtree',system-ui,sans-serif;}
+    .viz [data-tip]{cursor:pointer;}
+    .viz .alvo{fill:transparent;}
+    .viz .ativo{opacity:1 !important;}
+    .viz.foco .marca-dado{opacity:.45;}
+    .legenda-viz{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--texto-2);margin-bottom:10px;}
+    .legenda-viz span{display:inline-flex;align-items:center;gap:6px;}
+    .legenda-viz i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+    .leitura{font-size:13.5px;color:var(--texto-2);margin-top:10px;line-height:1.45;}
+    .leitura b{color:var(--texto);}
+    .dica{position:absolute;z-index:30;pointer-events:none;background:var(--noite);color:#fff;font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:10px;box-shadow:0 6px 18px rgba(20,33,61,.25);max-width:220px;opacity:0;transform:translateY(4px);transition:opacity .12s, transform .12s;}
+    .dica.on{opacity:1;transform:none;}
+    .dica b{font-weight:700;}
+
+    .donut-linha{display:flex;align-items:center;gap:16px;}
+    .donut-linha .viz{width:46%;flex-shrink:0;}
+    .donut-leg{flex:1;display:flex;flex-direction:column;gap:12px;}
+    .donut-leg div{font-size:13px;color:var(--texto-2);}
+    .donut-leg b{display:block;font-size:22px;color:var(--texto);font-variant-numeric:tabular-nums;}
+    .donut-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;}
+
+    /* Estados */
+    .estado{text-align:center;padding:40px 20px;color:var(--texto-2);font-size:14.5px;line-height:1.5;}
+    .estado b{display:block;color:var(--texto);font-size:16px;margin-bottom:4px;}
+    .giro{width:28px;height:28px;margin:0 auto 12px;border:3px solid #D5DEE9;border-top-color:var(--azul);border-radius:50%;animation:giro .8s linear infinite;}
+    @keyframes giro{to{transform:rotate(360deg);}}
+
+    /* Detalhe do dia (folha que sobe) */
+    .folha-fundo{position:fixed;inset:0;background:rgba(20,33,61,.35);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s;}
+    .folha-fundo.on{opacity:1;pointer-events:auto;}
+    .folha{position:fixed;left:0;right:0;bottom:0;z-index:41;visibility:hidden;background:#fff;border-radius:22px 22px 0 0;padding:10px 20px calc(24px + var(--safe-b));transform:translateY(100%);transition:transform .25s ease;max-width:560px;margin:0 auto;}
+    .folha.on{transform:none;visibility:visible;}
+    .folha-pega{width:40px;height:4px;border-radius:2px;background:#D5DEE9;margin:0 auto 14px;}
+    .folha h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:600;color:var(--noite);}
+    .folha .linha{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--linha);font-size:15px;}
+    .folha .linha span:first-child{color:var(--texto-3);font-size:14px;}
+    .folha .linha span:last-child{text-align:right;}
+
+    /* Login */
+        .login{min-height:100dvh;}
+    .login .ceu{padding-bottom:64px;}
+    .login-cartao{position:relative;display:block;margin:-34px auto 0;background:#fff;border-radius:var(--raio);padding:22px 18px;box-shadow:0 6px 24px rgba(20,33,61,.08);max-width:520px;width:calc(100% - 32px);}
+    .login-cartao label{font-size:14px;font-weight:600;color:var(--texto);display:block;margin-bottom:8px;}
+    .login-cartao input{width:100%;height:52px;border:1.5px solid var(--linha);border-radius:14px;padding:0 14px;font-size:16px;background:var(--nevoa);outline:none;}
+    .login-cartao input:focus{border-color:var(--azul);background:#fff;}
+    .login-cartao button{width:100%;height:52px;margin-top:14px;border:none;border-radius:14px;background:var(--noite);color:#fff;font-size:16px;font-weight:600;cursor:pointer;}
+    .login-erro{display:none;color:var(--erro);font-size:13.5px;margin-top:10px;}
+    .login-erro.on{display:block;}
+    [hidden]{display:none !important;}
+
+    @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div class="login" id="telaLogin">
+  <header class="ceu">
+    <div class="marca"><span>Gamúrio do Amanhecer</span></div>
+    <h1 class="titulo">Painel da Presidência</h1>
+    <p class="subtitulo">Acesso restrito</p>
+  </header>
+  <form class="login-cartao" id="formLogin">
+    <label for="senha">Senha de acesso</label>
+    <input type="password" id="senha" autocomplete="current-password" enterkeyhint="go">
+    <button type="submit">Entrar</button>
+    <p class="login-erro" id="loginErro">Senha incorreta. Confira e tente de novo.</p>
+  </form>
+</div>
+
+<!-- ── PAINEL ── -->
+<div id="telaPainel" hidden>
+  <header class="ceu">
+    <div class="ceu-linha">
+      <div class="marca"><img src="" alt="" onerror="this.remove()"><span>Gamúrio do Amanhecer</span></div>
+      <button class="sair" id="btnSair" type="button">Sair</button>
+    </div>
+    <h1 class="titulo">Painel da Presidência</h1>
+    <p class="subtitulo" id="subtituloAba"></p>
+    <nav class="abas" id="abas" role="tablist"></nav>
+  </header>
+
+  <main>
+    <div class="periodo">
+      <div class="segmento" role="group" aria-label="Período">
+        <button type="button" id="segMes" aria-pressed="true">Mês</button>
+        <button type="button" id="segAno" aria-pressed="false">Ano</button>
+      </div>
+      <div class="navega">
+        <button type="button" id="navAnt" aria-label="Período anterior">‹</button>
+        <div class="navega-rotulo"><b id="navTitulo"></b><small id="navSub"></small></div>
+        <button type="button" id="navProx" aria-label="Próximo período">›</button>
+      </div>
+    </div>
+
+    <div id="conteudo"></div>
+  </main>
+</div>
+
+<div class="folha-fundo" id="folhaFundo"></div>
+<div class="folha" id="folha" role="dialog" aria-modal="true" aria-labelledby="folhaTitulo">
+  <div class="folha-pega"></div>
+  <h3 id="folhaTitulo"></h3>
+  <div id="folhaCorpo"></div>
+</div>
+
+<div class="dica" id="dica" role="status"></div>
+
+<script>
+/* ═════════ CONFIGURAÇÃO ═════════ */
+const SHEET_ID = '1D83L-zAW-QMrQp1pGKl2abImOEDWBJLhzQa2nYGz364';
+// Troque a senha aqui. Pode ter mais de uma: ['senha1', 'senha2']
+const SENHAS = ['gamurio2026'];
+const LOGO_PDF = 'image/logo_gamurio.png'; // logo do rodapé do PDF (o mesmo do relatório dos devas)
+
+// Abas do painel: para criar outra, adicione um item aqui e uma função de render
+const ABAS = [
+  { id:'estrela', nome:'Estrela Candente', subtitulo:'Relatório das consagrações', aba_planilha:'estrela_candente' },
+];
+
+/* ═════════ UTILITÁRIOS ═════════ */
+const $ = id => document.getElementById(id);
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MES_CURTO = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const SEM = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const SEM_CURTO = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const SEM_PDF = ['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'];
+const COR = { real:'#2F6BB0', nao:'#D9774E', vazio:'#D7DEE8', noite:'#14213D' };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const hoje = new Date();
+const chave = (a, m, d) => `${a}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+/* ═════════ LOGIN ═════════ */
+const LOGIN_KEY = 'presidencia_logado';
+$('formLogin').addEventListener('submit', e => {
+  e.preventDefault();
+  if (SENHAS.includes($('senha').value.trim())) {
+    try { localStorage.setItem(LOGIN_KEY, '1'); } catch(_){}
+    abrirPainel();
+  } else {
+    $('loginErro').classList.add('on');
+  }
+});
+$('btnSair').addEventListener('click', () => {
+  try { localStorage.removeItem(LOGIN_KEY); } catch(_){}
+  $('telaPainel').hidden = true; $('telaLogin').hidden = false; $('senha').value = '';
+});
+
+/* ═════════ ESTADO ═════════ */
+const estado = { aba: ABAS[0].id, modo:'mes', ano: hoje.getFullYear(), mes: hoje.getMonth(), registros: null };
+
+function abrirPainel(){
+  $('telaLogin').hidden = true; $('telaPainel').hidden = false;
+  montarAbas(); carregar();
+}
+
+function montarAbas(){
+  $('abas').innerHTML = ABAS.map(a => `<button class="aba" role="tab" type="button" data-aba="${a.id}" aria-selected="${a.id===estado.aba}">${esc(a.nome)}</button>`).join('');
+  $('abas').querySelectorAll('.aba').forEach(b => b.addEventListener('click', () => {
+    estado.aba = b.dataset.aba; estado.registros = null; montarAbas(); carregar();
+  }));
+  $('subtituloAba').textContent = ABAS.find(a => a.id === estado.aba).subtitulo;
+}
+
+/* ═════════ DADOS (planilha publicada como CSV) ═════════ */
+function parseCSV(txt){
+  const linhas = []; let campo = '', linha = [], aspas = false;
+  for (let i = 0; i < txt.length; i++){
+    const c = txt[i];
+    if (aspas){
+      if (c === '"' && txt[i+1] === '"'){ campo += '"'; i++; }
+      else if (c === '"') aspas = false;
+      else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === ','){ linha.push(campo); campo = ''; }
+    else if (c === '\n' || c === '\r'){
+      if (c === '\r' && txt[i+1] === '\n') i++;
+      linha.push(campo); linhas.push(linha); linha = []; campo = '';
+    } else campo += c;
+  }
+  if (campo || linha.length){ linha.push(campo); linhas.push(linha); }
+  return linhas.filter(l => l.some(v => v.trim() !== ''));
+}
+function normalizaData(v){
+  v = String(v || '').trim();
+  let m = v.match(/^(\d{4})-(\d{2})-(\d{2})/); if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+  m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/); if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+  return null;
+}
+
+async function carregar(){
+  $('conteudo').innerHTML = `<div class="estado"><div class="giro"></div>Carregando os registros…</div>`;
+  atualizarNavegacao();
+  const aba = ABAS.find(a => a.id === estado.aba);
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(aba.aba_planilha)}&t=${Date.now()}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const linhas = parseCSV(await resp.text());
+    const cab = linhas.shift().map(h => h.trim().toLowerCase());
+    const idx = n => cab.indexOf(n);
+    const mapa = {};
+    linhas.forEach(l => {
+      const data = normalizaData(l[idx('data')]);
+      if (!data) return;
+      const real = Math.max(0, Math.min(3, parseInt(l[idx('consagracoes_realizadas')], 10) || 0));
+      mapa[data] = {
+        data,
+        janatas: [1,2,3,4].map(i => (l[idx('janata_'+i)] || '').trim()).filter(Boolean),
+        comandante: (l[idx('comandante')] || '').trim(),
+        pares: parseInt(l[idx('pares')], 10) || 0,
+        real, nao: 3 - real,
+      };
+    });
+    estado.registros = mapa;
+    render();
+  } catch(err){
+    console.error(err);
+    $('conteudo').innerHTML = `<div class="estado"><b>Não foi possível ler a planilha.</b>Confira se ela está compartilhada como "Qualquer pessoa com o link: leitor" e toque para tentar de novo.<br><br><button class="btn-pdf" type="button" onclick="carregar()">Tentar de novo</button></div>`;
+  }
+}
+
+/* ═════════ NAVEGAÇÃO DE PERÍODO ═════════ */
+$('segMes').addEventListener('click', () => { estado.modo = 'mes'; render(); });
+$('segAno').addEventListener('click', () => { estado.modo = 'ano'; render(); });
+$('navAnt').addEventListener('click', () => mover(-1));
+$('navProx').addEventListener('click', () => mover(1));
+function mover(n){
+  if (estado.modo === 'mes'){
+    let m = estado.mes + n, a = estado.ano;
+    if (m < 0){ m = 11; a--; } if (m > 11){ m = 0; a++; }
+    if (a > hoje.getFullYear() || (a === hoje.getFullYear() && m > hoje.getMonth())) return;
+    estado.mes = m; estado.ano = a;
+  } else {
+    if (estado.ano + n > hoje.getFullYear()) return;
+    estado.ano += n;
+  }
+  render();
+}
+function atualizarNavegacao(){
+  $('segMes').setAttribute('aria-pressed', estado.modo === 'mes');
+  $('segAno').setAttribute('aria-pressed', estado.modo === 'ano');
+  const atual = estado.modo === 'mes'
+    ? (estado.ano === hoje.getFullYear() && estado.mes === hoje.getMonth())
+    : estado.ano === hoje.getFullYear();
+  $('navProx').disabled = atual;
+  if (estado.modo === 'mes'){
+    $('navTitulo').textContent = `${MESES[estado.mes]} ${estado.ano}`;
+    $('navSub').textContent = atual ? 'Mês atual' : 'Mês anterior';
+  } else {
+    $('navTitulo').textContent = String(estado.ano);
+    $('navSub').textContent = 'Todos os meses';
+  }
+}
+
+function render(){
+  atualizarNavegacao();
+  if (!estado.registros) return;
+  esconderDica();
+  if (estado.modo === 'mes') renderMes(); else renderAno();
+}
+
+/* ═════════ CÁLCULOS ═════════ */
+function resumoMes(ano, mes){
+  const ultimoDia = new Date(ano, mes+1, 0).getDate();
+  const ateDia = (ano === hoje.getFullYear() && mes === hoje.getMonth()) ? hoje.getDate() : ultimoDia;
+  const dias = [];
+  for (let d = 1; d <= ateDia; d++){
+    const k = chave(ano, mes, d);
+    dias.push({ d, sem: new Date(ano, mes, d).getDay(), reg: estado.registros[k] || null });
+  }
+  const regs = dias.filter(x => x.reg).map(x => x.reg);
+  const real = regs.reduce((s, r) => s + r.real, 0);
+  const nao = regs.reduce((s, r) => s + r.nao, 0);
+  const pares = regs.reduce((s, r) => s + r.pares, 0);
+  const dist = [0,0,0,0]; regs.forEach(r => dist[r.real]++);
+  return { ano, mes, dias, ultimoDia, ateDia, regs, real, nao, pares, dist,
+    registrados: regs.length, semRegistro: dias.length - regs.length,
+    mediaPares: regs.length ? pares / regs.length : 0 };
+}
+
+/* ═════════ VISÃO DO MÊS ═════════ */
+function renderMes(){
+  const r = resumoMes(estado.ano, estado.mes);
+  if (!r.registrados){
+    $('conteudo').innerHTML = `<div class="estado"><b>Nenhum registro em ${MESES[r.mes]}.</b>Quando os responsáveis enviarem o relatório diário, os dados aparecem aqui.</div>`;
+    return;
+  }
+  const total = r.real + r.nao;
+  $('conteudo').innerHTML = `
+    <section class="bloco" style="margin-top:6px">
+      <div class="kpis">
+        <div class="kpi destaque">
+          <div><div class="kpi-num">${pct(r.real,total)}<small>%</small></div><div class="kpi-rot">realizadas</div></div>
+          <div class="barra-prog">
+            <div class="trilho" role="img" aria-label="${r.real} realizadas de ${total}"><span style="width:${pct(r.real,total)}%"></span></div>
+            <div class="legenda"><span>${r.real} realizadas</span><span>${r.nao} não completadas</span></div>
+          </div>
+        </div>
+        <div class="kpi"><div class="kpi-num">${r.registrados}<small>/${r.dias.length}</small></div><div class="kpi-rot">dias registrados${r.semRegistro ? ` · ${r.semRegistro} sem registro` : ''}</div></div>
+        <div class="kpi"><div class="kpi-num">${r.dist[3]}</div><div class="kpi-rot">dias com as 3 consagrações</div></div>
+        <div class="kpi"><div class="kpi-num">${r.mediaPares.toFixed(1).replace('.',',')}</div><div class="kpi-rot">pares por dia, em média</div></div>
+        <div class="kpi"><div class="kpi-num">${r.dist[0]}</div><div class="kpi-rot">dias sem nenhuma consagração</div></div>
+      </div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Resumo do mês</h2>
+      <div class="cartao">
+        <div class="acoes">
+          <p>Toque num dia para ver a equipe.</p>
+          <button class="btn-pdf" type="button" id="btnPdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>Gerar PDF</button>
+        </div>
+        ${tabelaMes(r)}
+      </div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Por consagração</h2>
+      <p class="bloco-ajuda">Das ${total} consagrações dos dias registrados.</p>
+      <div class="cartao"><div class="cartao-corpo">
+        <div class="donut-linha">
+          <div class="viz">${donut(r.real, r.nao)}</div>
+          <div class="donut-leg">
+            <div><i style="background:${COR.real}"></i>Realizadas<b>${r.real} · ${pct(r.real,total)}%</b></div>
+            <div><i style="background:${COR.nao}"></i>Não completadas<b>${r.nao} · ${pct(r.nao,total)}%</b></div>
+          </div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Quantidade por dia</h2>
+      <p class="bloco-ajuda">Quantos dias tiveram 3, 2, 1 ou nenhuma consagração completada.</p>
+      <div class="cartao"><div class="cartao-corpo"><div class="viz">${distribuicao(r)}</div></div></div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Dia a dia</h2>
+      <p class="bloco-ajuda">Cada barra é um dia, com as 3 consagrações empilhadas.</p>
+      <div class="cartao"><div class="cartao-corpo">
+        <div class="legenda-viz"><span><i style="background:${COR.real}"></i>Realizadas</span><span><i style="background:${COR.nao}"></i>Não completadas</span><span><i style="background:${COR.vazio}"></i>Sem registro</span></div>
+        <div class="viz">${diaADia(r)}</div>
+      </div></div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Pares por dia</h2>
+      <div class="cartao"><div class="cartao-corpo"><div class="viz">${paresPorDia(r)}</div>
+        <p class="leitura">${leituraPares(r)}</p>
+      </div></div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Por dia da semana</h2>
+      <p class="bloco-ajuda">Média de consagrações realizadas em cada dia da semana.</p>
+      <div class="cartao"><div class="cartao-corpo"><div class="viz">${porSemana(r)}</div>
+        <p class="leitura">${leituraSemana(r)}</p>
+      </div></div>
+    </section>`;
+
+  $('btnPdf').addEventListener('click', () => gerarPDF(r));
+  document.querySelectorAll('.linha-click').forEach(tr => tr.addEventListener('click', () => abrirDia(tr.dataset.k)));
+  ligarDicas();
+}
+
+function tabelaMes(r){
+  const mesNum = String(r.mes+1).padStart(2,'0');
+  const linhas = r.dias.map(x => {
+    const fds = x.sem === 0 || x.sem === 6;
+    const badge = `<span class="dia ${fds?'fds':''}"><span class="dia-badge"><b>${String(x.d).padStart(2,'0')}/${mesNum}</b><i>${SEM_CURTO[x.sem]}</i></span>${x.reg && x.reg.comandante ? `<span class="dia-cmd">${esc(x.reg.comandante)}</span>` : ''}</span>`;
+    if (!x.reg) return `<tr><td>${badge}</td><td colspan="3" class="sem">sem registro</td></tr>`;
+    return `<tr class="linha-click" data-k="${x.reg.data}"><td>${badge}</td><td class="v-real">${x.reg.real}</td><td class="v-nao">${x.reg.nao}</td><td>${x.reg.pares}</td></tr>`;
+  }).join('');
+  return `<table class="tabela">
+    <thead><tr><th>Dia</th><th>Realizadas</th><th>Não compl.</th><th>Pares</th></tr></thead>
+    <tbody>${linhas}</tbody>
+    <tfoot><tr><td>Total</td><td class="v-real">${r.real}</td><td class="v-nao">${r.nao}</td><td>${r.pares}</td></tr></tfoot>
+  </table>`;
+}
+
+/* ── Gráficos (SVG desenhado à mão, toque mostra detalhes) ── */
+function arco(cx, cy, rExt, rInt, a0, a1){
+  const p = (r, a) => [cx + r * Math.sin(a), cy - r * Math.cos(a)];
+  const grande = a1 - a0 > Math.PI ? 1 : 0;
+  const [x1,y1] = p(rExt,a0), [x2,y2] = p(rExt,a1), [x3,y3] = p(rInt,a1), [x4,y4] = p(rInt,a0);
+  return `M${x1},${y1} A${rExt},${rExt} 0 ${grande} 1 ${x2},${y2} L${x3},${y3} A${rInt},${rInt} 0 ${grande} 0 ${x4},${y4} Z`;
+}
+function donut(real, nao){
+  const total = real + nao, cx = 80, cy = 80, R = 74, ri = 50;
+  const gap = total && real && nao ? 0.035 : 0;
+  const aReal = total ? real / total * Math.PI * 2 : 0;
+  let s = `<svg viewBox="0 0 160 160" role="img" aria-label="${real} realizadas, ${nao} não completadas">`;
+  if (real === total) s += `<circle cx="${cx}" cy="${cy}" r="${(R+ri)/2}" fill="none" stroke="${COR.real}" stroke-width="${R-ri}"/>`;
+  else if (nao === total) s += `<circle cx="${cx}" cy="${cy}" r="${(R+ri)/2}" fill="none" stroke="${COR.nao}" stroke-width="${R-ri}"/>`;
+  else {
+    s += `<path class="marca-dado" d="${arco(cx,cy,R,ri,gap,aReal-gap)}" fill="${COR.real}" data-tip="<b>${real} realizadas</b><br>${pct(real,total)}% do mês"/>`;
+    s += `<path class="marca-dado" d="${arco(cx,cy,R,ri,aReal+gap,Math.PI*2-gap)}" fill="${COR.nao}" data-tip="<b>${nao} não completadas</b><br>${pct(nao,total)}% do mês"/>`;
+  }
+  s += `<text x="${cx}" y="${cy+2}" text-anchor="middle" style="font:700 26px Figtree,system-ui,sans-serif;fill:#14213D">${pct(real,total)}%</text>`;
+  s += `<text x="${cx}" y="${cy+20}" text-anchor="middle" class="rot">realizadas</text></svg>`;
+  return s;
+}
+
+function distribuicao(r){
+  const itens = [[3,'Três'],[2,'Duas'],[1,'Uma'],[0,'Nenhuma']];
+  const W = 340, linhaH = 40, x0 = 72, larg = W - x0 - 78;
+  const max = Math.max(1, ...r.dist);
+  let s = `<svg viewBox="0 0 ${W} ${itens.length*linhaH}" role="img" aria-label="Dias por quantidade de consagrações">`;
+  itens.forEach(([n, nome], i) => {
+    const y = i * linhaH, v = r.dist[n], w = Math.max(v ? 4 : 0, v / max * larg);
+    const cor = n === 0 ? COR.nao : COR.real;
+    const tip = `<b>${nome === 'Nenhuma' ? 'Nenhuma consagração' : nome + (n===1?' consagração':' consagrações')}</b><br>${v} ${v===1?'dia':'dias'} · ${pct(v, r.registrados)}% dos dias`;
+    s += `<g data-tip="${tip}"><rect class="alvo" x="0" y="${y}" width="${W}" height="${linhaH}"/>`;
+    s += `<text x="0" y="${y+linhaH/2+4}" class="rot">${nome}</text>`;
+    s += `<rect x="${x0}" y="${y+12}" width="${larg}" height="16" rx="4" fill="#F1F4F8"/>`;
+    if (v) s += `<rect class="marca-dado" x="${x0}" y="${y+12}" width="${w}" height="16" rx="4" fill="${cor}"/>`;
+    s += `<text x="${x0+larg+10}" y="${y+linhaH/2+4}" class="rot-forte">${v}</text><text x="${x0+larg+30}" y="${y+linhaH/2+4}" class="rot">${pct(v, r.registrados)}%</text></g>`;
+  });
+  return s + '</svg>';
+}
+
+function diaADia(r){
+  const W = 340, H = 150, top = 8, base = 120, esq = 18, n = r.ultimoDia;
+  const passo = (W - esq) / n, bw = Math.max(4, passo - 2), unid = (base - top) / 3;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Consagrações por dia">`;
+  for (let k = 0; k <= 3; k++){
+    const y = base - k * unid;
+    s += `<line class="grade" x1="${esq}" x2="${W}" y1="${y}" y2="${y}"/><text class="eixo" x="0" y="${y+3}">${k}</text>`;
+  }
+  r.dias.forEach(x => {
+    const xb = esq + (x.d - 1) * passo + (passo - bw) / 2;
+    const rot = `${String(x.d).padStart(2,'0')}/${String(r.mes+1).padStart(2,'0')} · ${SEM[x.sem]}`;
+    if (!x.reg){
+      s += `<g data-tip="<b>${rot}</b><br>Sem registro"><rect class="alvo" x="${xb-1}" y="${top}" width="${bw+2}" height="${base-top}"/>
+        <rect class="marca-dado" x="${xb}" y="${base - 3*unid}" width="${bw}" height="${3*unid}" rx="3" fill="none" stroke="${COR.vazio}" stroke-dasharray="3 3"/></g>`;
+      return;
+    }
+    const hR = x.reg.real * unid, hN = x.reg.nao * unid;
+    s += `<g data-tip="<b>${rot}</b><br>${x.reg.real} realizada${x.reg.real===1?'':'s'} · ${x.reg.nao} não completada${x.reg.nao===1?'':'s'}<br>${x.reg.pares} pares"><rect class="alvo" x="${xb-1}" y="${top}" width="${bw+2}" height="${base-top}"/>`;
+    if (hR) s += `<rect class="marca-dado" x="${xb}" y="${base-hR}" width="${bw}" height="${hR}" rx="2" fill="${COR.real}"/>`;
+    if (hN) s += `<rect class="marca-dado" x="${xb}" y="${base-hR-hN}" width="${bw}" height="${Math.max(0,hN-2)}" rx="2" fill="${COR.nao}"/>`;
+    s += `</g>`;
+  });
+  for (let d = 1; d <= n; d += (d === 1 ? 4 : 5)){
+    s += `<text class="eixo" x="${esq + (d-0.5)*passo}" y="${base+16}" text-anchor="middle">${d}</text>`;
+  }
+  s += `<text class="eixo" x="${esq + (n-0.5)*passo}" y="${base+16}" text-anchor="middle">${n}</text>`;
+  return s + `<text class="eixo" x="${W}" y="${H-2}" text-anchor="end">dia do mês</text></svg>`;
+}
+
+function paresPorDia(r){
+  const W = 340, H = 150, top = 14, base = 120, esq = 26, n = r.ultimoDia;
+  const max = Math.max(10, ...r.regs.map(x => x.pares));
+  const teto = Math.ceil(max / 10) * 10, passo = (W - esq) / n, bw = Math.max(4, passo - 2);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Pares por dia">`;
+  [0, teto/2, teto].forEach(v => {
+    const y = base - v / teto * (base - top);
+    s += `<line class="grade" x1="${esq}" x2="${W}" y1="${y}" y2="${y}"/><text class="eixo" x="0" y="${y+3}">${v}</text>`;
+  });
+  const media = r.mediaPares, ym = base - media / teto * (base - top);
+  r.dias.forEach(x => {
+    if (!x.reg) return;
+    const xb = esq + (x.d - 1) * passo + (passo - bw) / 2, h = x.reg.pares / teto * (base - top);
+    s += `<g data-tip="<b>${String(x.d).padStart(2,'0')}/${String(r.mes+1).padStart(2,'0')} · ${SEM[x.sem]}</b><br>${x.reg.pares} pares"><rect class="alvo" x="${xb-1}" y="${top}" width="${bw+2}" height="${base-top}"/>
+      <rect class="marca-dado" x="${xb}" y="${base-h}" width="${bw}" height="${Math.max(h, 1.5)}" rx="2" fill="${COR.noite}" opacity=".78"/></g>`;
+  });
+  s += `<line x1="${esq}" x2="${W}" y1="${ym}" y2="${ym}" stroke="${COR.nao}" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  s += `<text x="${W}" y="${ym-5}" text-anchor="end" class="rot-forte" style="paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round">média ${media.toFixed(1).replace('.',',')}</text>`;
+  for (let d = 1; d <= n; d += (d === 1 ? 4 : 5)) s += `<text class="eixo" x="${esq + (d-0.5)*passo}" y="${base+16}" text-anchor="middle">${d}</text>`;
+  return s + `<text class="eixo" x="${esq + (n-0.5)*passo}" y="${base+16}" text-anchor="middle">${n}</text></svg>`;
+}
+function leituraPares(r){
+  if (!r.regs.length) return '';
+  const maior = r.regs.reduce((a, b) => b.pares > a.pares ? b : a);
+  const d = new Date(maior.data + 'T12:00');
+  return `Maior presença em <b>${d.getDate()} de ${MESES[d.getMonth()].toLowerCase()}</b> (${SEM[d.getDay()].toLowerCase()}), com <b>${maior.pares} pares</b>. Total no mês: ${r.pares} pares.`;
+}
+
+function mediasSemana(r){
+  const soma = [0,0,0,0,0,0,0], qtd = [0,0,0,0,0,0,0];
+  r.dias.forEach(x => { if (x.reg){ soma[x.sem] += x.reg.real; qtd[x.sem]++; } });
+  return soma.map((s, i) => ({ i, media: qtd[i] ? s / qtd[i] : null, qtd: qtd[i] }));
+}
+function porSemana(r){
+  const W = 340, H = 150, top = 18, base = 118, esq = 18, ordem = [1,2,3,4,5,6,0];
+  const passo = (W - esq) / 7, bw = Math.min(30, passo - 12), unid = (base - top) / 3;
+  const ms = mediasSemana(r);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Média por dia da semana">`;
+  for (let k = 0; k <= 3; k++){ const y = base - k*unid; s += `<line class="grade" x1="${esq}" x2="${W}" y1="${y}" y2="${y}"/><text class="eixo" x="0" y="${y+3}">${k}</text>`; }
+  ordem.forEach((dia, j) => {
+    const m = ms[dia], xc = esq + j * passo + passo / 2;
+    s += `<text class="eixo" x="${xc}" y="${base+16}" text-anchor="middle">${SEM_CURTO[dia]}</text>`;
+    if (m.media === null){ s += `<text class="eixo" x="${xc}" y="${base-4}" text-anchor="middle">–</text>`; return; }
+    const h = m.media * unid, v = m.media.toFixed(1).replace('.',',');
+    s += `<g data-tip="<b>${SEM[dia]}</b><br>média de ${v} realizadas<br>${m.qtd} ${m.qtd===1?'dia registrado':'dias registrados'}"><rect class="alvo" x="${xc-passo/2}" y="${top-14}" width="${passo}" height="${base-top+14}"/>
+      <rect class="marca-dado" x="${xc-bw/2}" y="${base-h}" width="${bw}" height="${Math.max(h,1.5)}" rx="4" fill="${COR.real}"/>
+      <text x="${xc}" y="${base-h-5}" text-anchor="middle" class="rot-forte">${v}</text></g>`;
+  });
+  return s + '</svg>';
+}
+function leituraSemana(r){
+  const ms = mediasSemana(r).filter(m => m.media !== null);
+  if (ms.length < 2) return '';
+  const melhor = ms.reduce((a, b) => b.media > a.media ? b : a);
+  const pior = ms.reduce((a, b) => b.media < a.media ? b : a);
+  if (melhor.media === pior.media) return 'A média foi igual em todos os dias da semana.';
+  return `<b>${SEM[melhor.i]}</b> teve a melhor média (${melhor.media.toFixed(1).replace('.',',')}) e <b>${SEM[pior.i].toLowerCase()}</b> a menor (${pior.media.toFixed(1).replace('.',',')}).`;
+}
+
+/* ═════════ VISÃO DO ANO ═════════ */
+function renderAno(){
+  const ultimoMes = estado.ano === hoje.getFullYear() ? hoje.getMonth() : 11;
+  const meses = [];
+  for (let m = 0; m <= ultimoMes; m++) meses.push(resumoMes(estado.ano, m));
+  const comDados = meses.filter(x => x.registrados);
+  if (!comDados.length){
+    $('conteudo').innerHTML = `<div class="estado"><b>Nenhum registro em ${estado.ano}.</b>Escolha outro ano nas setas acima.</div>`;
+    return;
+  }
+  const real = comDados.reduce((s,x) => s + x.real, 0), nao = comDados.reduce((s,x) => s + x.nao, 0);
+  const regs = comDados.reduce((s,x) => s + x.registrados, 0), pares = comDados.reduce((s,x) => s + x.pares, 0);
+  const elegiveis = comDados.filter(x => x.registrados >= 7);
+  const melhor = (elegiveis.length ? elegiveis : comDados).reduce((a,b) => pct(b.real, b.real+b.nao) > pct(a.real, a.real+a.nao) ? b : a);
+
+  $('conteudo').innerHTML = `
+    <section class="bloco" style="margin-top:6px">
+      <div class="kpis">
+        <div class="kpi destaque">
+          <div><div class="kpi-num">${pct(real, real+nao)}<small>%</small></div><div class="kpi-rot">realizadas no ano</div></div>
+          <div class="barra-prog">
+            <div class="trilho" role="img" aria-label="${real} realizadas de ${real+nao}"><span style="width:${pct(real, real+nao)}%"></span></div>
+            <div class="legenda"><span>${real} realizadas</span><span>${nao} não completadas</span></div>
+          </div>
+        </div>
+        <div class="kpi"><div class="kpi-num">${regs}</div><div class="kpi-rot">dias registrados</div></div>
+        <div class="kpi"><div class="kpi-num">${(regs ? pares/regs : 0).toFixed(1).replace('.',',')}</div><div class="kpi-rot">pares por dia, em média</div></div>
+      </div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Mês a mês</h2>
+      <p class="bloco-ajuda">Consagrações realizadas e não completadas em cada mês. Toque num mês para abrir.</p>
+      <div class="cartao"><div class="cartao-corpo">
+        <div class="legenda-viz"><span><i style="background:${COR.real}"></i>Realizadas</span><span><i style="background:${COR.nao}"></i>Não completadas</span></div>
+        <div class="viz">${graficoAno(meses)}</div>
+        <p class="leitura">Melhor mês: <b>${MESES[melhor.mes]}</b>, com ${pct(melhor.real, melhor.real+melhor.nao)}% das consagrações realizadas.</p>
+      </div></div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Taxa de realização</h2>
+      <p class="bloco-ajuda">Percentual de consagrações realizadas em cada mês.</p>
+      <div class="cartao"><div class="cartao-corpo"><div class="viz">${linhaTaxa(meses)}</div></div></div>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Resumo do ano</h2>
+      <div class="cartao">${tabelaAno(meses, real, nao, regs, pares)}</div>
+    </section>`;
+
+  document.querySelectorAll('[data-mes]').forEach(el => el.addEventListener('click', () => {
+    estado.mes = +el.dataset.mes; estado.modo = 'mes'; render(); window.scrollTo({top:0, behavior:'smooth'});
+  }));
+  ligarDicas();
+}
+
+function graficoAno(meses){
+  const W = 340, H = 170, top = 10, base = 136, esq = 24;
+  const max = Math.max(9, ...meses.map(x => x.real + x.nao));
+  const teto = Math.ceil(max / 30) * 30, passo = (W - esq) / 12, bw = Math.min(18, passo - 8);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Consagrações por mês">`;
+  [0, teto/3, teto*2/3, teto].forEach(v => { const y = base - v/teto*(base-top); s += `<line class="grade" x1="${esq}" x2="${W}" y1="${y}" y2="${y}"/><text class="eixo" x="0" y="${y+3}">${Math.round(v)}</text>`; });
+  for (let m = 0; m < 12; m++){
+    const xc = esq + m * passo + passo / 2;
+    s += `<text class="eixo" x="${xc}" y="${base+16}" text-anchor="middle">${MES_CURTO[m]}</text>`;
+    const x = meses[m];
+    if (!x || !x.registrados) continue;
+    const hR = x.real / teto * (base - top), hN = x.nao / teto * (base - top);
+    s += `<g data-mes="${m}" data-tip="<b>${MESES[m]}</b><br>${x.real} realizadas · ${x.nao} não completadas<br>${pct(x.real, x.real+x.nao)}% · ${x.registrados} dias registrados"><rect class="alvo" x="${xc-passo/2}" y="${top}" width="${passo}" height="${base-top}"/>`;
+    if (hR) s += `<rect class="marca-dado" x="${xc-bw/2}" y="${base-hR}" width="${bw}" height="${hR}" rx="3" fill="${COR.real}"/>`;
+    if (hN) s += `<rect class="marca-dado" x="${xc-bw/2}" y="${base-hR-hN}" width="${bw}" height="${Math.max(0,hN-2)}" rx="3" fill="${COR.nao}"/>`;
+    s += `</g>`;
+  }
+  return s + '</svg>';
+}
+
+function linhaTaxa(meses){
+  const W = 340, H = 140, top = 16, base = 112, esq = 30, passo = (W - esq) / 12;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Taxa de realização por mês">`;
+  [0, 50, 100].forEach(v => { const y = base - v/100*(base-top); s += `<line class="grade" x1="${esq}" x2="${W}" y1="${y}" y2="${y}"/><text class="eixo" x="0" y="${y+3}">${v}%</text>`; });
+  const pts = [];
+  for (let m = 0; m < 12; m++){
+    const xc = esq + m * passo + passo / 2;
+    s += `<text class="eixo" x="${xc}" y="${base+16}" text-anchor="middle">${MES_CURTO[m]}</text>`;
+    const x = meses[m];
+    if (x && x.registrados) pts.push({ m, xc, v: pct(x.real, x.real + x.nao), y: base - pct(x.real, x.real + x.nao) / 100 * (base - top) });
+  }
+  if (pts.length > 1) s += `<polyline points="${pts.map(p => `${p.xc},${p.y}`).join(' ')}" fill="none" stroke="${COR.real}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  pts.forEach((p, i) => {
+    s += `<g data-mes="${p.m}" data-tip="<b>${MESES[p.m]}</b><br>${p.v}% realizadas"><rect class="alvo" x="${p.xc-passo/2}" y="${top-10}" width="${passo}" height="${base-top+10}"/>
+      <circle class="marca-dado" cx="${p.xc}" cy="${p.y}" r="4.5" fill="${COR.real}" stroke="#fff" stroke-width="2"/>`;
+    if (i === pts.length - 1) s += `<text x="${p.xc}" y="${p.y-9}" text-anchor="middle" class="rot-forte">${p.v}%</text>`;
+    s += `</g>`;
+  });
+  return s + '</svg>';
+}
+
+function tabelaAno(meses, real, nao, regs, pares){
+  const primeiro = meses.findIndex(x => x.registrados);
+  const linhas = meses.slice(Math.max(0, primeiro)).map(x => {
+    if (!x.registrados) return `<tr><td><span class="dia"><span class="dia-badge"><b>${MES_CURTO[x.mes]}</b></span></span></td><td colspan="4" class="sem">sem registros</td></tr>`;
+    return `<tr class="linha-click" data-mes="${x.mes}"><td><span class="dia"><span class="dia-badge"><b>${MES_CURTO[x.mes]}</b><i>${x.registrados} dias</i></span></span></td>
+      <td class="v-real">${x.real}</td><td class="v-nao">${x.nao}</td><td>${pct(x.real, x.real+x.nao)}%</td><td>${x.mediaPares.toFixed(1).replace('.',',')}</td></tr>`;
+  }).join('');
+  return `<table class="tabela">
+    <thead><tr><th>Mês</th><th>Realiz.</th><th>Não compl.</th><th>Taxa</th><th>Pares/dia</th></tr></thead>
+    <tbody>${linhas}</tbody>
+    <tfoot><tr><td>Total</td><td class="v-real">${real}</td><td class="v-nao">${nao}</td><td>${pct(real, real+nao)}%</td><td>${(regs ? pares/regs : 0).toFixed(1).replace('.',',')}</td></tr></tfoot>
+  </table>`;
+}
+
+/* ═════════ DICAS (toque/hover nos gráficos) ═════════ */
+let dicaAlvo = null;
+function ligarDicas(){
+  document.querySelectorAll('.viz').forEach(v => {
+    v.querySelectorAll('[data-tip]').forEach(el => {
+      const mostrar = ev => {
+        dicaAlvo = el;
+        v.classList.add('foco');
+        v.querySelectorAll('.ativo').forEach(a => a.classList.remove('ativo'));
+        el.querySelectorAll('.marca-dado').forEach(a => a.classList.add('ativo'));
+        if (el.classList.contains('marca-dado')) el.classList.add('ativo');
+        const d = $('dica'); d.innerHTML = el.dataset.tip; d.classList.add('on');
+        const b = el.getBoundingClientRect(), dw = d.offsetWidth, dh = d.offsetHeight;
+        let x = b.left + b.width / 2 - dw / 2 + window.scrollX;
+        x = Math.max(8 + window.scrollX, Math.min(x, window.scrollX + document.documentElement.clientWidth - dw - 8));
+        let y = b.top + window.scrollY - dh - 8;
+        if (b.top - dh - 8 < 0) y = b.bottom + window.scrollY + 8;
+        d.style.left = x + 'px'; d.style.top = y + 'px';
+        if (ev) ev.stopPropagation();
+      };
+      el.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') mostrar(e); });
+      el.addEventListener('click', mostrar);
+    });
+    v.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') esconderDica(); });
+  });
+}
+function esconderDica(){
+  $('dica').classList.remove('on');
+  document.querySelectorAll('.viz.foco').forEach(v => v.classList.remove('foco'));
+  document.querySelectorAll('.ativo').forEach(a => a.classList.remove('ativo'));
+  dicaAlvo = null;
+}
+document.addEventListener('click', e => { if (!e.target.closest('[data-tip]')) esconderDica(); });
+window.addEventListener('scroll', () => { if (dicaAlvo) esconderDica(); }, { passive:true });
+
+/* ═════════ DETALHE DO DIA ═════════ */
+function abrirDia(k){
+  const reg = estado.registros[k]; if (!reg) return;
+  const d = new Date(k + 'T12:00');
+  $('folhaTitulo').textContent = `${d.getDate()} de ${MESES[d.getMonth()].toLowerCase()}, ${SEM[d.getDay()].toLowerCase()}`;
+  $('folhaCorpo').innerHTML = [
+    ['Janatãs', reg.janatas.map(esc).join('<br>') || '–'],
+    ['Comandante', esc(reg.comandante) || '–'],
+    ['Pares', reg.pares],
+    ['Consagrações', reg.real === 0 ? 'Nenhuma completada' : `${reg.real} de 3 realizadas`],
+  ].map(([a, b]) => `<div class="linha"><span>${a}</span><span>${b}</span></div>`).join('');
+  $('folha').classList.add('on'); $('folhaFundo').classList.add('on');
+}
+function fecharFolha(){ $('folha').classList.remove('on'); $('folhaFundo').classList.remove('on'); }
+$('folhaFundo').addEventListener('click', fecharFolha);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharFolha(); });
+
+/* ═════════ PDF (mesmo padrão do relatório dos devas) ═════════ */
+async function carregarImagem(src){
+  try {
+    const img = new Image(); img.src = src;
+    await new Promise((ok, erro) => { img.onload = ok; img.onerror = erro; });
+    const cv = document.createElement('canvas');
+    cv.width = img.naturalWidth; cv.height = img.naturalHeight;
+    cv.getContext('2d').drawImage(img, 0, 0);
+    return { data: cv.toDataURL('image/png'), w: img.naturalWidth, h: img.naturalHeight };
+  } catch(_){ return null; }
+}
+
+async function gerarPDF(r){
+  if (!window.jspdf){ alert('Não foi possível carregar o gerador de PDF. Confira a internet e tente de novo.'); return; }
+  const btn = $('btnPdf'); btn.disabled = true;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  const W = 210, H = 297, M = 14;
+  const AZUL = [27,79,138], NOITE = [20,33,61], REAL = [47,107,176], NAO = [217,119,78], CINZA = [100,110,125];
+  const logo = await carregarImagem(LOGO_PDF);
+  const titulo = `RELATÓRIO ESTRELA CANDENTE ${MESES[r.mes].toUpperCase()}/${r.ano}`;
+
+  function cabecalho(sub){
+    doc.setFillColor(...AZUL); doc.rect(0, 0, W, 26, 'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(15);
+    doc.text(titulo, W/2, 12, { align:'center' });
+    doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    doc.text(sub, W/2, 19.5, { align:'center' });
+  }
+  function rodape(pag){
+    const fy = H - 24;
+    doc.setDrawColor(...AZUL); doc.setLineWidth(0.4); doc.line(M, fy, W - M, fy);
+    if (logo){ const lh = 15, lw = lh * logo.w / logo.h; doc.addImage(logo.data, 'PNG', W/2 - lw/2, fy + 2, lw, lh); }
+    else {
+      doc.setTextColor(...AZUL); doc.setFont('helvetica','bold'); doc.setFontSize(8);
+      doc.text('GAMÚRIO DO AMANHECER', W/2, fy + 8, { align:'center' });
+      doc.setTextColor(...CINZA); doc.setFont('helvetica','normal'); doc.setFontSize(7);
+      doc.text('FORTALEZA – CE', W/2, fy + 12, { align:'center' });
+    }
+    doc.setTextColor(...CINZA); doc.setFont('helvetica','normal'); doc.setFontSize(7);
+    const ger = new Date();
+    doc.text(`Gerado em ${String(ger.getDate()).padStart(2,'0')}/${String(ger.getMonth()+1).padStart(2,'0')}/${ger.getFullYear()}`, M, fy + 10);
+    doc.text(`Página ${pag} de 2`, W - M, fy + 10, { align:'right' });
+  }
+
+  /* Página 1: tabela dia a dia */
+  cabecalho('Consagrações realizadas e não completadas por dia');
+  const col = [M, 104, 157], larg = [90, 53, 39];
+  const nLinhas = r.ultimoDia + 2, disp = H - 26 - 30 - 8;
+  const lh = Math.min(7.6, disp / nLinhas);
+  let y = 32;
+  doc.setFillColor(...NOITE); doc.rect(M, y, W - 2*M, lh, 'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+  doc.text('DIA', M + 4, y + lh*0.66);
+  doc.text('REALIZADAS', col[1] + larg[1]/2, y + lh*0.66, { align:'center' });
+  doc.text('NÃO COMPLETADAS', col[2] + larg[2]/2, y + lh*0.66, { align:'center' });
+  y += lh;
+  for (let d = 1; d <= r.ultimoDia; d++){
+    const dt = new Date(r.ano, r.mes, d), reg = estado.registros[chave(r.ano, r.mes, d)];
+    const futuro = d > r.ateDia;
+    if (d % 2 === 0){ doc.setFillColor(234,241,250); doc.rect(M, y, W - 2*M, lh, 'F'); }
+    doc.setFillColor(...AZUL); doc.rect(M, y + 0.4, 34, lh - 0.8, 'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(8.5);
+    doc.text(`${String(d).padStart(2,'0')}-${SEM_PDF[dt.getDay()]}`, M + 3, y + lh*0.66);
+    doc.setFontSize(10);
+    if (reg){
+      doc.setTextColor(...REAL); doc.text(String(reg.real).padStart(2,'0'), col[1] + larg[1]/2, y + lh*0.68, { align:'center' });
+      doc.setTextColor(181,85,44); doc.text(String(reg.nao).padStart(2,'0'), col[2] + larg[2]/2, y + lh*0.68, { align:'center' });
+    } else {
+      doc.setTextColor(150,160,175); doc.setFont('helvetica','normal'); doc.setFontSize(8.5);
+      doc.text(futuro ? '' : 'sem registro', (col[1] + col[2] + larg[2]) / 2, y + lh*0.66, { align:'center' });
+    }
+    y += lh;
+  }
+  doc.setDrawColor(...AZUL); doc.setLineWidth(0.5); doc.line(M, y, W - M, y);
+  doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(...NOITE);
+  doc.text('TOTAL', M + 4, y + lh*0.72);
+  doc.setTextColor(...REAL); doc.text(String(r.real), col[1] + larg[1]/2, y + lh*0.72, { align:'center' });
+  doc.setTextColor(181,85,44); doc.text(String(r.nao), col[2] + larg[2]/2, y + lh*0.72, { align:'center' });
+  rodape(1);
+
+  /* Página 2: gráficos */
+  doc.addPage();
+  cabecalho('Resumo em gráficos');
+  const total = r.real + r.nao;
+
+  // Por consagração (rosca)
+  doc.setTextColor(...NOITE); doc.setFont('helvetica','bold'); doc.setFontSize(12);
+  doc.text('POR CONSAGRAÇÃO', M, 40);
+  const cx = 62, cy = 82, R = 30, ri = 19;
+  const fatia = (a0, a1, cor) => {
+    // um polígono só (centro + arco), sem emendas entre pedaços
+    const passos = Math.max(2, Math.ceil((a1 - a0) / 0.02));
+    const pts = [[cx, cy]];
+    for (let i = 0; i <= passos; i++){ const t = a0 + (a1 - a0) * i / passos; pts.push([cx + R*Math.sin(t), cy - R*Math.cos(t)]); }
+    const deltas = pts.slice(1).map((p, i) => [p[0] - pts[i][0], p[1] - pts[i][1]]);
+    doc.setFillColor(...cor);
+    doc.lines(deltas, cx, cy, [1,1], 'F', true);
+  };
+  const aR = total ? r.real / total * Math.PI * 2 : 0;
+  if (r.real) fatia(0, aR, REAL);
+  if (r.nao) fatia(aR, Math.PI * 2, NAO);
+  doc.setFillColor(255,255,255); doc.circle(cx, cy, ri, 'F');
+  if (r.real && r.nao){ // separação branca entre as fatias
+    doc.setDrawColor(255,255,255); doc.setLineWidth(1.2);
+    doc.line(cx, cy - ri, cx, cy - R - 0.5);
+    doc.line(cx + ri*Math.sin(aR), cy - ri*Math.cos(aR), cx + (R+0.5)*Math.sin(aR), cy - (R+0.5)*Math.cos(aR));
+  }
+  doc.setTextColor(...NOITE); doc.setFont('helvetica','bold'); doc.setFontSize(18);
+  doc.text(`${pct(r.real,total)}%`, cx, cy + 2, { align:'center' });
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...CINZA);
+  doc.text('realizadas', cx, cy + 7, { align:'center' });
+  const leg = (yy, cor, rot, val) => {
+    doc.setFillColor(...cor); doc.roundedRect(112, yy - 4, 5, 5, 1, 1, 'F');
+    doc.setTextColor(...CINZA); doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.text(rot, 120, yy);
+    doc.setTextColor(...NOITE); doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.text(val, 120, yy + 7);
+  };
+  leg(70, REAL, 'Realizadas', `${r.real}  ·  ${pct(r.real,total)}%`);
+  leg(92, NAO, 'Não realizadas', `${r.nao}  ·  ${pct(r.nao,total)}%`);
+
+  // Quantidade por dia (barras)
+  doc.setTextColor(...NOITE); doc.setFont('helvetica','bold'); doc.setFontSize(12);
+  doc.text('QUANTIDADE/DIA', M, 132);
+  const itens = [[3,'Três realizadas'],[2,'Duas realizadas'],[1,'Uma realizada'],[0,'Nenhuma realizada']];
+  const maxD = Math.max(1, ...r.dist), bx = 62, bl = 100;
+  itens.forEach(([n, rot], i) => {
+    const yy = 142 + i * 15, v = r.dist[n];
+    doc.setTextColor(...CINZA); doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.text(rot, M, yy + 5);
+    doc.setFillColor(241,244,248); doc.roundedRect(bx, yy, bl, 7, 1.5, 1.5, 'F');
+    if (v){ doc.setFillColor(...(n === 0 ? NAO : REAL)); doc.roundedRect(bx, yy, Math.max(3, v / maxD * bl), 7, 1.5, 1.5, 'F'); }
+    doc.setTextColor(...NOITE); doc.setFont('helvetica','bold'); doc.setFontSize(10.5);
+    doc.text(`${v} ${v===1?'dia':'dias'}`, bx + bl + 5, yy + 5.2);
+    doc.setTextColor(...CINZA); doc.setFont('helvetica','normal');
+    doc.text(`${pct(v, r.registrados)}%`, bx + bl + 25, yy + 5.2);
+  });
+
+  // Números do mês
+  doc.setTextColor(...NOITE); doc.setFont('helvetica','bold'); doc.setFontSize(12);
+  doc.text('NÚMEROS DO MÊS', M, 218);
+  const nums = [
+    [`${r.registrados}/${r.dias.length}`, 'dias registrados'],
+    [String(r.dist[3]), 'dias com as 3'],
+    [r.mediaPares.toFixed(1).replace('.',','), 'pares por dia'],
+    [String(r.pares), 'pares no mês'],
+  ];
+  const cw = (W - 2*M - 9) / 4;
+  nums.forEach(([v, rot], i) => {
+    const x = M + i * (cw + 3);
+    doc.setFillColor(234,241,250); doc.roundedRect(x, 224, cw, 26, 2.5, 2.5, 'F');
+    doc.setTextColor(...NOITE); doc.setFont('helvetica','bold'); doc.setFontSize(17);
+    doc.text(v, x + cw/2, 236, { align:'center' });
+    doc.setTextColor(...CINZA); doc.setFont('helvetica','normal'); doc.setFontSize(8.5);
+    doc.text(rot, x + cw/2, 243.5, { align:'center' });
+  });
+  rodape(2);
+
+  doc.save(`relatorio_estrela_candente_${MESES[r.mes].toLowerCase()}_${r.ano}.pdf`);
+  btn.disabled = false;
+}
+
+/* ═════════ INÍCIO ═════════ */
+let logado = false;
+try { logado = localStorage.getItem(LOGIN_KEY) === '1'; } catch(_){}
+if (logado) abrirPainel();
+</script>
+</body>
+</html>

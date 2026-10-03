@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#14213D"/>
+  <title>Relatório Estrela Candente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --noite:#14213D;      /* céu antes do amanhecer */
+      --azul:#1B4F8A;       /* azul do templo */
+      --ouro:#C9A04A;       /* ouro da estrela */
+      --ouro-suave:#F6EBD3;
+      --aurora:#F3D9CF;     /* primeira luz */
+      --nevoa:#EEF2F7;      /* fundo */
+      --linha:#E1E7EF;
+      --texto:#1E2A3B;
+      --texto-2:#5B6B80;
+      --texto-3:#8D9AAB;
+      --erro:#B4452F;
+      --raio:18px;
+      --safe-b:env(safe-area-inset-bottom, 0px);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{-webkit-text-size-adjust:100%;}
+    body{
+      font-family:'Figtree',system-ui,sans-serif;
+      background:var(--nevoa);
+      color:var(--texto);
+      -webkit-font-smoothing:antialiased;
+      min-height:100dvh;
+    }
+    button,input{font:inherit;color:inherit;}
+    :focus-visible{outline:2px solid var(--azul);outline-offset:2px;}
+
+    /* ───────── Topo ─────────
+       Para trocar a foto de fundo, mude só o caminho em --foto-topo */
+    :root{ --foto-topo: url('./image/bg_sharp.png'); }
+    .ceu{
+      position:relative;
+      color:#fff;
+      padding:calc(env(safe-area-inset-top,0px) + 26px) 24px 40px;
+      border-radius:0 0 28px 28px;
+      background:
+        linear-gradient(180deg, rgba(20,33,61,.55) 0%, rgba(20,33,61,.62) 45%, rgba(27,79,138,.88) 100%),
+        var(--foto-topo) center 35%/cover no-repeat,
+        linear-gradient(180deg, var(--noite), var(--azul));
+      overflow:hidden;
+    }
+    .marca{display:flex;align-items:center;gap:10px;opacity:.95;}
+    .marca img{width:56px;height:56px;object-fit:contain;}
+    .marca span{font-size:13px;font-weight:500;letter-spacing:.01em;color:rgba(255,255,255,.88);}
+    .titulo{
+      font-family:'Cormorant Garamond',Georgia,serif;
+      font-weight:600;font-size:33px;line-height:1.08;letter-spacing:-.005em;
+      margin-top:34px;text-shadow:0 1px 12px rgba(0,0,0,.25);
+    }
+    .subtitulo{font-size:15px;color:rgba(255,255,255,.8);margin-top:8px;}
+
+    /* Data */
+    .data-linha{display:flex;align-items:center;gap:12px;min-height:60px;padding:0 14px 0 18px;position:relative;cursor:pointer;}
+    .data-linha:focus-within{background:#FAFBFD;}
+    .data-linha svg{width:20px;height:20px;color:var(--azul);flex-shrink:0;}
+    .data-texto{flex:1;font-size:17px;font-weight:600;color:var(--noite);font-variant-numeric:tabular-nums;}
+    .data-texto small{font-size:13px;font-weight:500;color:var(--azul);margin-left:6px;}
+    /* campo nativo transparente por cima da linha toda: o toque cai direto nele */
+    .data-linha input[type=date]{
+      position:absolute;inset:0;width:100%;height:100%;
+      opacity:0;z-index:2;cursor:pointer;
+      font-size:16px;border:none;background:transparent;
+      -webkit-appearance:none;appearance:none;
+    }
+    .data-linha input[type=date]::-webkit-calendar-picker-indicator{
+      position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;cursor:pointer;opacity:0;
+    }
+    .tag{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+    .tag-hoje{background:#E4F4EC;color:#1F6E48;}
+    .tag-outro{background:var(--ouro-suave);color:#8A6A22;}
+    .data-rodape{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px 18px;border-top:1px solid var(--linha);
+      font-size:14px;color:var(--texto-2);
+    }
+    .btn-hoje{background:none;border:none;color:var(--azul);font-size:14px;font-weight:600;cursor:pointer;padding:4px 0;display:none;white-space:nowrap;}
+    .aviso-retro{
+      display:none;margin-top:10px;padding:12px 14px;border-radius:14px;
+      background:var(--ouro-suave);color:#7A5D1C;font-size:13.5px;line-height:1.45;
+    }
+    .aviso-retro.on{display:block;}
+
+    /* ───────── Corpo ───────── */
+    main{
+      position:relative;
+      margin-top:26px;
+      padding:0 16px calc(120px + var(--safe-b));
+      max-width:520px;margin-left:auto;margin-right:auto;
+    }
+    .bloco{margin-bottom:22px;}
+    .bloco-titulo{
+      font-size:15px;font-weight:600;color:var(--texto);
+      padding:0 6px 8px;
+    }
+    .bloco-ajuda{font-size:13.5px;color:var(--texto-3);padding:0 6px 10px;margin-top:-4px;}
+
+    .grupo{
+      background:#fff;
+      border-radius:var(--raio);
+      box-shadow:0 1px 2px rgba(20,33,61,.04), 0 6px 20px rgba(20,33,61,.05);
+      overflow:hidden;
+    }
+    .linha-campo{display:flex;align-items:center;min-height:56px;padding:0 18px;position:relative;}
+    .linha-campo + .linha-campo::before{
+      content:'';position:absolute;top:0;left:18px;right:0;height:1px;background:var(--linha);
+    }
+    .linha-campo input{
+      flex:1;border:none;background:none;outline:none;
+      font-size:16px; /* 16px evita zoom no iPhone */
+      padding:16px 0;color:var(--texto);
+    }
+    .linha-campo input::placeholder{color:var(--texto-3);}
+    .linha-campo:focus-within{background:#FAFBFD;}
+    .linha-campo .rotulo{
+      font-size:13px;color:var(--texto-3);width:78px;flex-shrink:0;
+    }
+
+    .erro{display:none;font-size:13px;color:var(--erro);padding:8px 6px 0;}
+    .erro.on{display:block;}
+    .grupo.invalido{box-shadow:0 0 0 1.5px var(--erro), 0 6px 20px rgba(20,33,61,.05);}
+
+    /* Pares */
+    .pares{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 14px 18px;}
+    .pares-txt{font-size:16px;color:var(--texto);}
+    .pares-txt small{display:block;font-size:13px;color:var(--texto-3);margin-top:2px;}
+    .pares-num{
+      width:96px;height:52px;flex-shrink:0;
+      border:1.5px solid var(--linha);border-radius:14px;background:var(--nevoa);
+      text-align:center;font-size:22px;font-weight:700;color:var(--noite);
+      font-variant-numeric:tabular-nums;outline:none;
+      -moz-appearance:textfield;appearance:textfield;
+      transition:border-color .15s, background-color .15s;
+    }
+    .pares-num::-webkit-outer-spin-button,.pares-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+    .pares-num::placeholder{color:#C3CCD8;font-weight:600;}
+    .pares-num:focus{border-color:var(--azul);background:#fff;}
+
+    /* Consagrações */
+    .cons{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;}
+    .cons-opt{
+      position:relative;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+      min-height:92px;border-radius:14px;
+      border:1.5px solid var(--linha);background:#fff;
+      cursor:pointer;touch-action:manipulation;
+      transition:border-color .18s, background-color .18s;
+    }
+    .cons-opt input{position:absolute;opacity:0;pointer-events:none;}
+    .estrelas{display:flex;gap:3px;height:14px;align-items:center;}
+    .estrelas svg{width:13px;height:13px;}
+    .estrelas .on{fill:var(--ouro);}
+    .estrelas .off{fill:none;stroke:#C9D2DE;stroke-width:1.6;}
+    .cons-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;font-weight:600;line-height:1;color:var(--noite);}
+    .cons-txt{font-size:12.5px;color:var(--texto-2);}
+    .cons-opt:has(input:checked){border-color:var(--azul);background:#F3F7FC;}
+    .cons-opt:has(input:checked) .cons-txt{color:var(--azul);font-weight:600;}
+    .cons-opt.zero:has(input:checked){border-color:#C9917F;background:#FBF3F0;}
+    .cons-opt.zero:has(input:checked) .cons-txt{color:#8A4A37;}
+    .cons-opt:has(input:focus-visible){outline:2px solid var(--azul);outline-offset:2px;}
+    .cons-legenda{font-size:13.5px;color:var(--texto-2);padding:0 18px 14px;min-height:20px;}
+
+    /* Botão fixo */
+    .rodape{
+      position:fixed;left:0;right:0;bottom:0;z-index:10;
+      padding:12px 16px calc(12px + var(--safe-b));
+      background:linear-gradient(180deg, rgba(238,242,247,0) 0%, rgba(238,242,247,.94) 30%, var(--nevoa) 100%);
+    }
+    .btn{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      width:100%;max-width:488px;margin:0 auto;height:56px;border-radius:16px;border:none;
+      background:var(--noite);color:#fff;font-size:16.5px;font-weight:600;
+      box-shadow:0 8px 24px rgba(20,33,61,.22);
+      cursor:pointer;touch-action:manipulation;
+    }
+    .btn:active{transform:scale(.99);}
+    .btn:disabled{opacity:.75;cursor:wait;}
+    .giro{width:18px;height:18px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:giro .8s linear infinite;display:none;}
+    .btn.enviando .giro{display:block;}
+    @keyframes giro{to{transform:rotate(360deg);}}
+
+    /* ───────── Confirmação ───────── */
+    .feito{
+      position:fixed;inset:0;z-index:20;
+      background:var(--nevoa);
+      display:none;flex-direction:column;
+      overflow-y:auto;
+    }
+    .feito.on{display:flex;}
+    .feito-topo{
+      text-align:center;color:#fff;
+      padding:calc(env(safe-area-inset-top,0px) + 56px) 24px 72px;
+      background:linear-gradient(180deg, var(--noite) 0%, var(--azul) 70%, #6D7FA8 100%);
+    }
+    .selo{
+      width:72px;height:72px;margin:0 auto 18px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);
+    }
+    .selo svg{width:34px;height:34px;}
+    .selo svg path{stroke-dasharray:40;stroke-dashoffset:40;}
+    .feito.on .selo svg path{animation:traco .6s .15s ease-out forwards;}
+    @keyframes traco{to{stroke-dashoffset:0;}}
+    .feito-topo h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:34px;line-height:1.1;}
+    .feito-topo p{font-size:15px;color:rgba(255,255,255,.8);margin-top:8px;}
+    .feito-corpo{padding:0 16px calc(32px + var(--safe-b));margin-top:-40px;max-width:520px;width:100%;margin-left:auto;margin-right:auto;}
+    .resumo .linha-campo{min-height:52px;justify-content:space-between;gap:16px;}
+    .resumo .k{font-size:14px;color:var(--texto-3);flex-shrink:0;}
+    .resumo .v{font-size:15px;color:var(--texto);text-align:right;padding:14px 0;}
+    .btn-sec{
+      display:block;width:100%;height:52px;margin-top:18px;border-radius:16px;
+      background:#fff;border:1.5px solid var(--linha);color:var(--azul);font-size:16px;font-weight:600;cursor:pointer;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important;transition:none !important;}
+      .selo svg path{stroke-dashoffset:0;}
+    }
+    @media (min-width:600px){
+      .ceu{padding-left:calc(50% - 236px);padding-right:calc(50% - 236px);}
+    }
+  </style>
+</head>
+<body>
+
+<header class="ceu">
+  <div class="marca">
+    <span>Gamúrio do Amanhecer</span>
+  </div>
+  <h1 class="titulo">Relatório da Estrela Candente</h1>
+  <p class="subtitulo">Registro diário das consagrações</p>
+</header>
+
+<main>
+  <form id="formRel" novalidate>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Data da entrega</h2>
+      <div class="grupo">
+        <div class="data-linha">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
+          <span class="data-texto" id="dataTexto"></span>
+          <span class="tag tag-hoje" id="dataTag">Hoje</span>
+          <input type="date" id="data" aria-label="Data da entrega. Toque para alterar">
+        </div>
+        <div class="data-rodape">
+          <span id="dataExtenso"></span>
+          <button type="button" class="btn-hoje" id="btnHoje">Voltar para hoje</button>
+        </div>
+      </div>
+      <p class="aviso-retro" id="avisoRetro">Você está registrando um dia anterior. Se esse dia já foi enviado, o registro será atualizado.</p>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Janatãs</h2>
+      <p class="bloco-ajuda">Preencha quantos estiveram presentes.</p>
+      <div class="grupo" id="grupoJan">
+        <div class="linha-campo"><input type="text" id="janata1" placeholder="Nome do janatã" autocomplete="off" autocapitalize="words" enterkeyhint="next" aria-label="Janatã 1"></div>
+        <div class="linha-campo"><input type="text" id="janata2" placeholder="Nome do janatã" autocomplete="off" autocapitalize="words" enterkeyhint="next" aria-label="Janatã 2"></div>
+        <div class="linha-campo"><input type="text" id="janata3" placeholder="Nome do janatã" autocomplete="off" autocapitalize="words" enterkeyhint="next" aria-label="Janatã 3"></div>
+        <div class="linha-campo"><input type="text" id="janata4" placeholder="Nome do janatã" autocomplete="off" autocapitalize="words" enterkeyhint="next" aria-label="Janatã 4"></div>
+      </div>
+      <p class="erro" id="errJan">Informe pelo menos um janatã.</p>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Comandante</h2>
+      <div class="grupo" id="grupoCmd">
+        <div class="linha-campo"><input type="text" id="comandante" placeholder="Nome do comandante" autocomplete="off" autocapitalize="words" enterkeyhint="done" aria-label="Comandante"></div>
+      </div>
+      <p class="erro" id="errCmd">Informe o comandante.</p>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Pares</h2>
+      <div class="grupo" id="grupoPares">
+        <label class="pares" for="pares">
+          <span class="pares-txt">Quantidade de Pares<small></small></span>
+          <input type="number" id="pares" class="pares-num" inputmode="numeric" pattern="[0-9]*" min="0" max="108" placeholder="0" enterkeyhint="done">
+        </label>
+      </div>
+      <p class="erro" id="errPares">Informe quantos pares tiveram (de 0 a 108).</p>
+    </section>
+
+    <section class="bloco">
+      <h2 class="bloco-titulo">Consagrações completadas</h2>
+      <div class="grupo" id="grupoCons">
+        <div class="cons" role="radiogroup" aria-label="Consagrações completadas">
+          <label class="cons-opt">
+            <input type="radio" name="cons" value="3">
+            <span class="estrelas" aria-hidden="true"></span>
+            <span class="cons-num">3</span><span class="cons-txt">Todas</span>
+          </label>
+          <label class="cons-opt">
+            <input type="radio" name="cons" value="2">
+            <span class="estrelas" aria-hidden="true"></span>
+            <span class="cons-num">2</span><span class="cons-txt">Duas</span>
+          </label>
+          <label class="cons-opt">
+            <input type="radio" name="cons" value="1">
+            <span class="estrelas" aria-hidden="true"></span>
+            <span class="cons-num">1</span><span class="cons-txt">Uma</span>
+          </label>
+          <label class="cons-opt zero">
+            <input type="radio" name="cons" value="0">
+            <span class="estrelas" aria-hidden="true"></span>
+            <span class="cons-num">0</span><span class="cons-txt">Nenhuma</span>
+          </label>
+        </div>
+        <p class="cons-legenda" id="consLegenda">Das 3 consagrações do dia, quantas foram completadas?</p>
+      </div>
+      <p class="erro" id="errCons">Escolha quantas consagrações foram completadas.</p>
+    </section>
+
+  </form>
+</main>
+
+<div class="rodape">
+  <button type="button" class="btn" id="btnEnviar"><span class="giro" aria-hidden="true"></span><span id="btnTxt">Enviar relatório</span></button>
+</div>
+
+<!-- Confirmação -->
+<section class="feito" id="feito" aria-live="polite">
+  <div class="feito-topo">
+    <div class="selo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2>Relatório enviado</h2>
+    <p>Salve Deus! O registro foi gravado.</p>
+  </div>
+  <div class="feito-corpo">
+    <div class="grupo resumo" id="resumo"></div>
+    <button type="button" class="btn-sec" id="btnNovo">Registrar outro dia</button>
+  </div>
+</section>
+
+<script>
+// Cole aqui a URL do Apps Script publicado (Implantar > Nova implantação > App da Web)
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-VBUqyCddY2hLtKZNR4SRfGlM7dBJK1nk_daKRd2lLb1G9sio2NiL51_nrsUrnypF/exec';
+
+const DIAS_SEM = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+const DIAS_CURTO = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const LEGENDAS = {
+  3:'As 3 consagrações foram completadas.',
+  2:'2 de 3 consagrações completadas.',
+  1:'1 de 3 consagrações completadas.',
+  0:'Nenhuma consagração foi completada.'
+};
+
+const $ = id => document.getElementById(id);
+
+/* ── Data ── */
+function hojeISO(){
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function parseISO(s){ const [a,m,d] = s.split('-').map(Number); return new Date(a, m-1, d); }
+function ontemISO(){ const d = new Date(); d.setDate(d.getDate()-1);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+
+function pintarData(){
+  const v = $('data').value || hojeISO();
+  const dt = parseISO(v);
+  const ehHoje = v === hojeISO();
+  $('dataTexto').innerHTML = `${String(dt.getDate()).padStart(2,'0')}/${String(dt.getMonth()+1).padStart(2,'0')}/${dt.getFullYear()}<small>Alterar</small>`;
+  const tag = $('dataTag');
+  tag.textContent = ehHoje ? 'Hoje' : (v === ontemISO() ? 'Ontem' : 'Outro dia');
+  tag.className = 'tag ' + (ehHoje ? 'tag-hoje' : 'tag-outro');
+  $('dataExtenso').textContent = `${DIAS_SEM[dt.getDay()]}, ${dt.getDate()} de ${MESES[dt.getMonth()]} de ${dt.getFullYear()}`;
+  $('btnHoje').style.display = ehHoje ? 'none' : 'inline-block';
+  $('avisoRetro').classList.toggle('on', !ehHoje);
+}
+$('data').addEventListener('change', () => {
+  if (!$('data').value || $('data').value > hojeISO()) $('data').value = hojeISO();
+  pintarData();
+});
+$('btnHoje').addEventListener('click', () => { $('data').value = hojeISO(); pintarData(); });
+// Tocar em qualquer parte da linha abre o calendário nativo
+// O próprio campo (transparente, cobrindo a linha) abre o calendário nativo no toque
+$('data').addEventListener('input', () => { if ($('data').value) pintarData(); });
+
+/* ── Pares ── */
+function lerPares(){
+  const v = $('pares').value.trim();
+  if (!/^\d+$/.test(v)) return null;
+  const n = parseInt(v, 10);
+  return n <= 108 ? n : null;
+}
+$('pares').addEventListener('input', () => {
+  // só dígitos, no máximo 3
+  const limpo = $('pares').value.replace(/\D/g, '').slice(0, 3);
+  if ($('pares').value !== limpo) $('pares').value = limpo;
+  $('grupoPares').classList.remove('invalido'); $('errPares').classList.remove('on');
+});
+$('pares').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); $('pares').blur(); } });
+
+/* ── Consagrações: estrelinhas ── */
+const ESTRELA = '<svg viewBox="0 0 24 24"><path class="C" d="M12 2.8l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3.1-5.4 3.1 1.2-6L3.3 9.1l6.1-.7z"/></svg>';
+document.querySelectorAll('.cons-opt').forEach(op => {
+  const n = +op.querySelector('input').value;
+  op.querySelector('.estrelas').innerHTML = [0,1,2].map(i => ESTRELA.replace('C', i < n ? 'on' : 'off')).join('');
+  op.querySelector('input').addEventListener('change', () => {
+    $('consLegenda').textContent = LEGENDAS[n];
+    $('grupoCons').classList.remove('invalido'); $('errCons').classList.remove('on');
+  });
+});
+function consagracoes(){ const r = document.querySelector('input[name=cons]:checked'); return r ? +r.value : null; }
+
+/* ── Navegação pelo teclado do celular ── */
+['janata1','janata2','janata3','janata4','comandante'].forEach((id, i, arr) => {
+  $(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter'){ e.preventDefault(); const prox = arr[i+1]; prox ? $(prox).focus() : $(id).blur(); }
+  });
+  $(id).addEventListener('input', () => {
+    if (id.startsWith('janata')) { $('grupoJan').classList.remove('invalido'); $('errJan').classList.remove('on'); }
+    else { $('grupoCmd').classList.remove('invalido'); $('errCmd').classList.remove('on'); }
+  });
+});
+
+/* ── Validação ── */
+const val = id => $(id).value.trim();
+function validar(){
+  const regras = [
+    ['grupoJan','errJan', ![1,2,3,4].some(i => val('janata'+i))],
+    ['grupoCmd','errCmd', !val('comandante')],
+    ['grupoPares','errPares', lerPares() === null],
+    ['grupoCons','errCons', consagracoes() === null],
+  ];
+  let primeiro = null;
+  regras.forEach(([g, e, falhou]) => {
+    $(g).classList.toggle('invalido', falhou);
+    $(e).classList.toggle('on', falhou);
+    if (falhou && !primeiro) primeiro = $(g);
+  });
+  if (primeiro){
+    primeiro.closest('.bloco').scrollIntoView({ behavior:'smooth', block:'center' });
+    if (navigator.vibrate) navigator.vibrate(30);
+    return false;
+  }
+  return true;
+}
+
+/* ── Envio (mesmo método das escalas: form escondido num iframe) ── */
+function enviarPost(payload){
+  return new Promise(resolve => {
+    const nome = 'frame_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.name = nome;
+    iframe.style.cssText = 'position:absolute;width:1px;height:1px;left:-9999px;top:-9999px;';
+    document.body.appendChild(iframe);
+    const form = document.createElement('form');
+    form.method = 'POST'; form.action = SCRIPT_URL; form.target = nome; form.style.display = 'none';
+    Object.entries(payload).forEach(([k, v]) => {
+      const i = document.createElement('input');
+      i.type = 'hidden'; i.name = k; i.value = String(v);
+      form.appendChild(i);
+    });
+    document.body.appendChild(form);
+    setTimeout(() => {
+      form.submit();
+      setTimeout(() => {
+        try { document.body.removeChild(form); } catch(_){}
+        try { document.body.removeChild(iframe); } catch(_){}
+        resolve();
+      }, 3500);
+    }, 150);
+  });
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+$('btnEnviar').addEventListener('click', async () => {
+  if (!validar()) return;
+  const data = $('data').value || hojeISO();
+  const dt = parseISO(data);
+  const cons = consagracoes();
+  const payload = {
+    data,
+    dia_semana: DIAS_CURTO[dt.getDay()],
+    janata_1: val('janata1'), janata_2: val('janata2'),
+    janata_3: val('janata3'), janata_4: val('janata4'),
+    comandante: val('comandante'),
+    pares: lerPares(),
+    consagracoes: cons
+  };
+
+  const btn = $('btnEnviar');
+  btn.disabled = true; btn.classList.add('enviando'); $('btnTxt').textContent = 'Enviando';
+  await enviarPost(payload);
+  btn.disabled = false; btn.classList.remove('enviando'); $('btnTxt').textContent = 'Enviar relatório';
+
+  const janatas = [payload.janata_1,payload.janata_2,payload.janata_3,payload.janata_4].filter(Boolean);
+  const linhas = [
+    ['Data', `${dt.getDate()} de ${MESES[dt.getMonth()]}, ${DIAS_CURTO[dt.getDay()].toLowerCase()}`],
+    ['Janatãs', janatas.map(esc).join('<br>')],
+    ['Comandante', esc(payload.comandante)],
+    ['Pares', payload.pares],
+    ['Consagrações', cons === 0 ? 'Nenhuma' : `${cons} de 3`],
+  ];
+  $('resumo').innerHTML = linhas.map(([k,v]) => `<div class="linha-campo"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
+  $('feito').classList.add('on');
+  $('feito').scrollTop = 0;
+});
+
+$('btnNovo').addEventListener('click', () => {
+  $('formRel').reset();
+  $('consLegenda').textContent = 'Das 3 consagrações do dia, quantas foram completadas?';
+  document.querySelectorAll('.invalido').forEach(g => g.classList.remove('invalido'));
+  document.querySelectorAll('.erro').forEach(e => e.classList.remove('on'));
+  $('data').value = hojeISO(); pintarData();
+  $('feito').classList.remove('on');
+  window.scrollTo(0, 0);
+});
+
+/* ── Início ── */
+$('data').value = hojeISO();
+$('data').max = hojeISO(); // não deixa marcar dia futuro
+pintarData();
+</script>
+</body>
+</html>
